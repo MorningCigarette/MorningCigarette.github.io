@@ -7,7 +7,7 @@ categories:
     - EFCore
 ---
 
-## 1. 使用实例池
+## 使用实例池
 
 EFCore2.0 为DbContext引入新的注册方式：透明地注册了 DbContext实例池，使用这种方式可以避免始终创建新的实例，EF Core 将重置其状态并将其存储在内部池中；当下次请求新的实例时，将返回该共用实例，而不是设置新的实例
 
@@ -33,7 +33,7 @@ builder.Services.AddDbContextPool<HandshakesWebDBContext>(options => options.Use
 
 > 注意事项：虽然在大部分情况下这种做法对性能的提升可能并不是非常明显，但是这是一种好的实践方式，避免资源浪费的同时对性能带来一定的提升。
 
-## 2. 使用拆分查询
+## 使用拆分查询
 
 了解什么是 [笛尔卡乘积](https://www.wikiwand.com/en/Cartesian_product) ?
 
@@ -170,11 +170,11 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
 
 正确的做法即使用Include或者Load显示加载数据。
 
-## 3.  使用批处理语句
+## 使用批处理语句
 
 批处理语句是EFCore7 版本中更新的重要功能，解决了以往版本需要借助第三方库来实现数据的批量更新，删除操作，而且在性能上带来了更大的提升
 
-### 3.1 批量删除
+### 批量删除
 
 之前版本的做法（不借助第三方库）
 
@@ -198,7 +198,7 @@ context.Blogs.Where(b => b.Rating < 3).ExecuteDelete();
 context.Database.ExecuteSqlRaw("DELETE FROM [Blogs] WHERE [Rating] < 3");
 ```
 
-### 3.2 批量更新
+### 批量更新
 
 用法与Delete 基本相同
 
@@ -210,7 +210,7 @@ context.Blogs
 
 > 注意事项：目前仅支持关系型数据库，而且需要由于是及时发送上下文请求，所以如果要支持事务，需要使用显示事务来与其他代码组合
 
-## 4\. 使用非跟踪查询
+## 使用非跟踪查询
 
 这个比较简单，在你不需要对查询结果进行任何更新操作的场景下，尽量使用非跟踪查询
 
@@ -243,7 +243,7 @@ Console.WriteLine($"AsNoTracking() time took : {elapsedTime5} ms");
 //AsNoTracking() time took : 229.86 ms
 ```
 
-## 5\. 仅投影需要的字段
+## 仅投影需要的字段
 
 严格意义上来讲这是一个意识问题，大多数情况下，为了节省代码量，可以直接使用DataSet 定义的对象来直接进行查询，或者使用Include加载关联表数据，但是在遇到大量数据查询或大量的表连接查询的时候，精准的属性投影对性能就会起到很大的影响
 
@@ -283,7 +283,7 @@ var query = from b in context.Blogs
 
 > 这种做法对多表联查和大数据量的查询很有用 ,但需要注意的是这种做法并不适合需要更新数据的场景，因为 EF 的更改跟踪仅适用于实体实例。
 
-## 6\. 尽量使用异步方法
+## 尽量使用异步方法
 
 EFCore 基本上对所有同步操作方法都提供了对应的异步方法，尽量使用他们避免阻塞，减少对线程的需要和必须发生的线程上下文切换的次数，从而提升性能。
 
@@ -308,7 +308,7 @@ var groupedHighlyRatedBlogs = await context.Blogs
 
 > 避免混合使用同步和异步方法，当你的程序请求量较大的时候，很可能导致连接池耗尽，从而引起的性能问题。
 
-## 7\. 使用Find查找单个目标数据
+## 使用Find查找单个目标数据
 
 设计为在已知主键时高效查找单个实体。 Find 首先检查实体是否已被跟踪，如果是，则立即返回该实体。 只有当未在本地跟踪实体时，才执行数据库查询，而First/FirstOrDefault会立即查询数据库。
 
@@ -327,7 +327,7 @@ Console.WriteLine($"Find() second time took : {elapsedTime5} ms");
 
 > 注意，只能通过键查询的时候可以用。
 
-## 8\. 使用Any判断数据内容
+## 使用Any判断数据内容
 
 在检查某些数据是否存在的时候，优先使用Any，这样在匹配到第一条数据后，查询就会停止，First因为需要返回数据，增加了数据传输和对象实例化的开销，Count则需要扫描表
 
@@ -346,7 +346,7 @@ Console.WriteLine($"FirstOrDefault() time took: {elapsedTime3} ms");
 //FirstOrDefault() time took: 258.28 ms
 ```
 
-## 9.使用流式处理
+## 使用流式处理
 
 首先了解什么是缓冲和流式处理
 
@@ -382,7 +382,7 @@ var doubleFilteredBlogs = context.Posts
 
 在某些特殊的情况下，例如一些复杂的sql查询，无法直接使用linq语法来实现的，EFCore也支持直接使用SQL语句进行查询或数据更新操作
 
-### 10.1. 基本查询(实体)
+### 基本查询(实体)
 
 场景：最终返回的结果与Dataset中定义的实体一致
 
@@ -400,7 +400,7 @@ var blogs = context.Blogs
     .ToList();
 ```
 
-### 10.2. 标量查询(非实体)
+### 标量查询(非实体)
 
 场景：最终返回的结果为自定义结构，而非数据库实体
 
@@ -423,7 +423,7 @@ public class CustomBlog{
 }
 ```
 
-### 10.3. 执行非查询SQL
+### 执行非查询SQL
 
 场景：提交更新，删除等操作，不关注返回结果
 
@@ -436,7 +436,7 @@ context.Database.ExecuteSql($"UPDATE [Blogs] SET [Url] = NULL WHERE Id =1");
 context.Database.ExecuteSql($"DELETE FROM [Blogs] WHERE Id =1");
 ```
 
-### 10.3. SQL参数
+### SQL参数
 
 ```csharp
 //使用FromSql
@@ -458,7 +458,7 @@ var blogs = context.Blogs
     .ToList();
 ```
 
-# 其他关联性优化
+## 其他关联性优化
 
 除了针对EFCore本身的一些优化技巧之外，还有一些技巧可以帮助我们提升数据查询的效率,我们可以利用vs的调试工具帮助我们监听内存使用,CPU占用率等指标，查找瓶颈，总结主要从以下几个方面进行优化
 
@@ -470,7 +470,7 @@ var blogs = context.Blogs
 6.  采用分库分表，读写分离，使用ES进行检索（架构级优化）
 7.  利用多线程并发提升效率（不到万不得已，慎用）
 
-# 总结
+## 总结
 
 EFCore的优化主要是从几个方面来进行：  
 1.减少数据库的交互，通过连接复用，上下文缓存等  

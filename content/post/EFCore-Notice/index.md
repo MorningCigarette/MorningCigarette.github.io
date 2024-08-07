@@ -19,7 +19,7 @@ A connection was successfully established with the server, but then an error occ
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("server=172.17.207.9;Database=JigTransportation; user=sa; Password=sa@2021;MultipleActiveResultSets = True;TrustServerCertificate=true");
+        optionsBuilder.UseSqlServer("server=***;Database=***; user=***; Password=***;MultipleActiveResultSets = True;TrustServerCertificate=true");
         base.OnConfiguring(optionsBuilder);
     }
 

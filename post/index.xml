@@ -1,0 +1,1790 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on RongRuo`s Sutra Library</title><link>https://MorningCigarette.github.io/post/</link><description>Recent content in Posts on RongRuo`s Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Hello World</title><link>https://MorningCigarette.github.io/p/hello-world/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/hello-world/</guid><description>&lt;img src="https://MorningCigarette.github.io/p/hello-world/cover.jpg" alt="Featured image of post Hello World" />&lt;p>Welcome to Hugo theme Stack. This is your first post. Edit or delete it, then start writing!&lt;/p>
+&lt;p>For more information about this theme, check the documentation: &lt;a class="link" href="https://stack.jimmycai.com/" target="_blank" rel="noopener"
+>https://stack.jimmycai.com/&lt;/a>&lt;/p>
+&lt;p>Want a site like this? Check out &lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack-starter" target="_blank" rel="noopener"
+>hugo-theme-stack-stater&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>EFcore</title><link>https://MorningCigarette.github.io/p/efcore/</link><pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/efcore/</guid><description>&lt;h2 id="安装">安装
+&lt;/h2>&lt;ul>
+&lt;li>EF.Sqlsever（sqlserver数据库提供程序）&lt;/li>
+&lt;li>EF Tools&amp;ndash;&amp;gt;EF Design(安装到启动项)&lt;/li>
+&lt;/ul>
+&lt;h2 id="跟踪查询">跟踪查询
+&lt;/h2>&lt;p>默认情况下，跟踪返回实体类型的查询。 跟踪查询意味着对实体实例所做的任何更改都由 SaveChanges持久化。 在以下示例中，检测到对博客分级的更改，并在 期间 SaveChanges保存到数据库中：
+&lt;strong>Blogs上一定要指定主键&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blog&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SingleOrDefault&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">BlogId&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">blog&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Rating&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SaveChanges&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在跟踪查询中返回结果时，EF Core 会检查实体是否已在上下文中。 如果 EF Core 找到现有实体，则返回相同的实例，这可能使用更少的内存，并且比无跟踪查询更快。 EF Core 不会使用数据库值覆盖条目中实体属性的当前值和原始值。 如果在上下文中找不到实体，EF Core 会创建一个新的实体实例并将其附加到上下文。 查询结果不会包含任何已添加到上下文但尚未保存到数据库中的实体。&lt;/p>
+&lt;h2 id="非跟踪查询">非跟踪查询
+&lt;/h2>&lt;p>在只读方案中使用结果时，非跟踪查询十分有用。 通常可以更快速地执行非跟踪查询，因为无需设置更改跟踪信息。 如果不需要更新从数据库检索到的实体，则应使用无跟踪查询。 单个查询可以设置为不跟踪。 无跟踪查询还会根据数据库中的内容提供结果，而不考虑任何本地更改或添加的实体。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">AsNoTracking&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="字段部分更新">字段部分更新
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">thiscarcom&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">await&lt;/span> &lt;span class="n">db&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">CarCommons&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">AsNoTracking&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">.&lt;/span>&lt;span class="n">FirstOrDefaultAsync&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">f&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">CarName&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">thiscarbase&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">CarName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">db&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">CarCommons&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Attach&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">thiscarcom&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">db&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Entry&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">thiscarcom&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Property&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">p&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">TaskStatus&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">IsModified&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">db&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SaveChanges&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">db.Attach(item);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).State = EntityState.Modified;//将所有字段设置为要更新状态
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).Property(p =&amp;gt; p.TaskStatus).IsModified = false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).Property(p =&amp;gt; p.RobotStatus).IsModified = false;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).Property(p =&amp;gt; p.ArmStatus).IsModified = false;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).Property(p =&amp;gt; p.CurrentTraName).IsModified = false;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).Property(p =&amp;gt; p.CanLedTask).IsModified = false;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.Entry(item).Property(p =&amp;gt; p.Current_map).IsModified = false;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">db.SaveChanges();
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Efcore Update-Database显示证书链是由不受信任</title><link>https://MorningCigarette.github.io/p/efcore-notice/</link><pubDate>Wed, 07 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/efcore-notice/</guid><description>&lt;p>    在学习EF Core的时候使用Update-Database时候报错显示证书链是由不受信任的颁发机构颁发的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">A connection was successfully established with the server, but then an error occurred during the login process. (provider: SSL Provider, error: 0 - 证书链是由不受信任的颁发机构颁发的。)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>解决方法：&lt;/strong>&lt;/p>
+&lt;p>直接在数据库连接字符串最后面”增加证书信任的配置。&lt;/p>
+&lt;pre>&lt;code>protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+optionsBuilder.UseSqlServer(&amp;quot;server=***;Database=***; user=***; Password=***;MultipleActiveResultSets = True;TrustServerCertificate=true&amp;quot;);
+base.OnConfiguring(optionsBuilder);
+}
+&lt;/code>&lt;/pre>
+&lt;p>最终成功执行：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">PM&amp;gt; Update-database
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Build started...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Build succeeded.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Done.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>EF Core性能优化技巧</title><link>https://MorningCigarette.github.io/p/ef-core-performance-optimization-tips/</link><pubDate>Tue, 06 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/ef-core-performance-optimization-tips/</guid><description>&lt;h2 id="使用实例池">使用实例池
+&lt;/h2>&lt;p>EFCore2.0 为DbContext引入新的注册方式：透明地注册了 DbContext实例池，使用这种方式可以避免始终创建新的实例，EF Core 将重置其状态并将其存储在内部池中；当下次请求新的实例时，将返回该共用实例，而不是设置新的实例&lt;/p>
+&lt;p>使用示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddDbContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">HandshakesWebDBContext&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">options&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">options&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseSqlServer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">connectionConfiguration&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WebDBConnection&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>替换为：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">builder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddDbContextPool&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">HandshakesWebDBContext&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">options&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">options&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseSqlServer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">connectionConfiguration&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WebDBConnection&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">poolSize&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="m">80&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//注意设置最大连接数，一旦超过默认配置的连接池最大数量，会回退到按需创建实例的行为&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>基准测试(官方) &lt;a class="link" href="https://github.com/dotnet/EntityFramework.Docs/blob/main/samples/core/Benchmarks/ContextPooling.cs" target="_blank" rel="noopener"
+>测试代码&lt;/a>：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>方法&lt;/th>
+&lt;th>数量&lt;/th>
+&lt;th>平均值&lt;/th>
+&lt;th>错误&lt;/th>
+&lt;th>标准偏差&lt;/th>
+&lt;th>Gen 0&lt;/th>
+&lt;th>Gen 1&lt;/th>
+&lt;th>Gen 2&lt;/th>
+&lt;th>已分配&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>WithoutContextPooling&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>701.6 us&lt;/td>
+&lt;td>26.62 us&lt;/td>
+&lt;td>78.48 us&lt;/td>
+&lt;td>11.7188&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>50.38 KB&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>WithContextPooling&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>350.1 us&lt;/td>
+&lt;td>6.80 us&lt;/td>
+&lt;td>14.64 us&lt;/td>
+&lt;td>0.9766&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>-&lt;/td>
+&lt;td>4.63 KB&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>注意事项：虽然在大部分情况下这种做法对性能的提升可能并不是非常明显，但是这是一种好的实践方式，避免资源浪费的同时对性能带来一定的提升。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用拆分查询">使用拆分查询
+&lt;/h2>&lt;p>了解什么是 &lt;a class="link" href="https://www.wikiwand.com/en/Cartesian_product" target="_blank" rel="noopener"
+>笛尔卡乘积&lt;/a> ?&lt;/p>
+&lt;p>通俗地来讲指的是从两个集合(Set)中的元素组成新的配对集合 以麦当劳套餐来比喻,门店将汉堡线和饮品线上的每个产品集合组成一个新的套餐会有多少种套餐&lt;/p>
+&lt;p>在数据库中的表现形式正是联表查(join)操作 两个表在数据量不是很大的情况下查询来讲可能对性能影响模棱两可 但是对于一些因业务需求日益增加列的大宽表以及数据存量过大的表来讲就会产生查询过慢以及数据冗余的问题&lt;br>
+尤其适合一对多且子表数据量较大的场景。&lt;/p>
+&lt;p>看一段Linq代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="n">var&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Include&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Bs&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Include&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ThenInclude&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">D1s&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Include&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ThenIncude&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">C1s&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ThenInclude&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">D2s&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>监控查看生成的Sql语句：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">C1Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">LEFT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Bs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">LEFT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">LEFT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">LEFT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">C&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">LEFT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">C1Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>毫无疑问，这一段糟糕的sql语句，假设每张表的数据量都很大的情况下，这对查询无疑是一种很大的负担，如果条件再复杂一点，对整个语句的分析也是很糟糕的。&lt;a class="link" href="https://cloud.tencent.com/developer/article/2051064" target="_blank" rel="noopener"
+>关于阿里开发规范中定义超过3张表的join查询是被禁止的 (未查证)&lt;/a>，这个可能只是为了开发规范和管理，从技术角度出发，其实是没有这样的原则性问题的。&lt;/p>
+&lt;p>解决方案：使用SplitQuery，从字面意义就可以理解，即将这些join查询拆分成单个查询来执行&lt;/p>
+&lt;p>示例代码（推荐）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="n">var&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">data&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ctx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Include&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Bs&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Include&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ThenInclude&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">D1s&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Include&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ThenIncude&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">C1s&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ThenInclude&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">=&amp;gt;&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">D2s&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AsSplitQuery&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">//&lt;/span>&lt;span class="err">设置为拆分查询&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>当然也可以在全局进行配置 (但是一般不推荐这样做，最好根据每个查询的实际情况，使用上面推荐的方式)&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">builder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddDbContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">CRSGEntityDbContext&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">options&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">options&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseSqlServer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">builder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Configuration&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s">&amp;#34;ConnectionStrings:FiinGroupDB&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">o&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">o&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseQuerySplittingBehavior&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">QuerySplittingBehavior&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">SplitQuery&lt;/span>&lt;span class="p">)));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>生成的sql&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">OtherColumns&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">OtherColumns&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Bs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">INNER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">OtherColumns&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">INNER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">OtherColumns&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D1s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">INNER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">WHERE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">IN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">])&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">OtherColumns&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">INNER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">WHERE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">IN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">])&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">C1Id&lt;/span>&lt;span class="p">],&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">OtherColumns&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">D2s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d2&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">INNER&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">JOIN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">C1s&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">ON&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">d2&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">C1Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="k">WHERE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">c1&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">CId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">IN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">Cs&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">WHERE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">AId&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">IN&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">SELECT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">].[&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">FROM&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">As&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">AS&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">]))&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>可以看到查询被拆分成了独立的语句，逻辑更加清晰，对于数据库来说执行效率也会更好。&lt;/p>
+&lt;blockquote>
+&lt;p>注意事项：虽然拆分查询可以通过避免笛尔卡爆炸带来的性能问题，但是也需要根据实际的查询场景来决定是否使用，例如，需要对数据进行排序，分页，分组等操作的时候，为了保证查询结果的正确性，就需要考虑是否要使用拆分查询&lt;/p>
+&lt;/blockquote>
+&lt;p>关联话题：关于懒加载，其实懒加载的问题原因就等同于在循环中执行sql语句，示例代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//在没有显示加载的情况下，直接循环查询子对象&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">var&lt;/span> &lt;span class="n">blog&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Blogs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">var&lt;/span> &lt;span class="n">post&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="n">blog&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Posts&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WriteLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">$&amp;#34;Blog {blog.Url}, Post: {post.Title}&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>观察sql日志：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Executed DbCommand (1ms) [Parameters=[], CommandType=&amp;#39;Text&amp;#39;, CommandTimeout=&amp;#39;30&amp;#39;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> SELECT [b].[BlogId], [b].[Rating], [b].[Url]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> FROM [Blogs] AS [b]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Executed DbCommand (5ms) [Parameters=[@__p_0=&amp;#39;1&amp;#39;], CommandType=&amp;#39;Text&amp;#39;, CommandTimeout=&amp;#39;30&amp;#39;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> SELECT [p].[PostId], [p].[BlogId], [p].[Content], [p].[Title]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> FROM [Post] AS [p]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> WHERE [p].[BlogId] = @__p_0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Executed DbCommand (1ms) [Parameters=[@__p_0=&amp;#39;2&amp;#39;], CommandType=&amp;#39;Text&amp;#39;, CommandTimeout=&amp;#39;30&amp;#39;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> SELECT [p].[PostId], [p].[BlogId], [p].[Content], [p].[Title]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> FROM [Post] AS [p]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> WHERE [p].[BlogId] = @__p_0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Executed DbCommand (1ms) [Parameters=[@__p_0=&amp;#39;3&amp;#39;], CommandType=&amp;#39;Text&amp;#39;, CommandTimeout=&amp;#39;30&amp;#39;]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> SELECT [p].[PostId], [p].[BlogId], [p].[Content], [p].[Title]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> FROM [Post] AS [p]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> WHERE [p].[BlogId] = @__p_0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">... and so on
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>正确的做法即使用Include或者Load显示加载数据。&lt;/p>
+&lt;h2 id="使用批处理语句">使用批处理语句
+&lt;/h2>&lt;p>批处理语句是EFCore7 版本中更新的重要功能，解决了以往版本需要借助第三方库来实现数据的批量更新，删除操作，而且在性能上带来了更大的提升&lt;/p>
+&lt;h3 id="批量删除">批量删除
+&lt;/h3>&lt;p>之前版本的做法（不借助第三方库）&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">var&lt;/span> &lt;span class="n">blog&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Blogs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Rating&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="m">3&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Blogs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Remove&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">blog&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">SaveChanges&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>使用ExecuteDelete，无论是从语法上还是性能上，批处理操作都优于前者。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">context.Blogs.Where(b =&amp;gt; b.Rating &amp;lt; 3).ExecuteDelete();
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果是EFCore版本低于7.0，也可以使用直接执行sql语句 ExecuteSqlRaw 的方式来进行操作&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">context.Database.ExecuteSqlRaw(&amp;#34;DELETE FROM [Blogs] WHERE [Rating] &amp;lt; 3&amp;#34;);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="批量更新">批量更新
+&lt;/h3>&lt;p>用法与Delete 基本相同&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">context.Blogs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> .Where(b =&amp;gt; b.Rating &amp;lt; 3)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> .ExecuteUpdate(setters =&amp;gt; setters.SetProperty(b =&amp;gt; b.IsVisible, false));
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>注意事项：目前仅支持关系型数据库，而且需要由于是及时发送上下文请求，所以如果要支持事务，需要使用显示事务来与其他代码组合&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用非跟踪查询">使用非跟踪查询
+&lt;/h2>&lt;p>这个比较简单，在你不需要对查询结果进行任何更新操作的场景下，尽量使用非跟踪查询&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">AsNoTracking&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>或者&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ChangeTracker&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">QueryTrackingBehavior&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">QueryTrackingBehavior&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">NoTracking&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>测试代码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">//代码执行前已对数据库进行预热处理
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//执行5次
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">double elapsedTime4 = MeasureTime(() =&amp;gt; context.Blogs.FirstOrDefault(x =&amp;gt; x.Id == 1), 5);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">double elapsedTime5 = MeasureTime(() =&amp;gt; context.Blogs.AsNoTracking().FirstOrDefault(x =&amp;gt; x.Id == 1), 5);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;Tracked time took : {elapsedTime4} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;AsNoTracking() time took : {elapsedTime5} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Consoles:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Tracked time took : 318.26 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//AsNoTracking() time took : 229.86 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="仅投影需要的字段">仅投影需要的字段
+&lt;/h2>&lt;p>严格意义上来讲这是一个意识问题，大多数情况下，为了节省代码量，可以直接使用DataSet 定义的对象来直接进行查询，或者使用Include加载关联表数据，但是在遇到大量数据查询或大量的表连接查询的时候，精准的属性投影对性能就会起到很大的影响&lt;/p>
+&lt;p>示例代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ctx&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">As&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">StartWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">var&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">data&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Bs&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Console&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">WriteLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="s2">&amp;#34;Name :{item.Name},Id: {item.Id}&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上述代码中，我们仅需要查询主表及子表的id和name信息，但是却加载了所有的相关的主表和子表字段，这对性能是一种浪费&lt;/p>
+&lt;p>解决方案：通过Select投影需要查询的字段&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ctx&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">As&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Id&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>个人习惯性做法&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="err">，不依赖于数据库外键的设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">query&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">from&lt;/span> &lt;span class="n">b&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">join&lt;/span> &lt;span class="n">c&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Comments&lt;/span> &lt;span class="n">on&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">blogId&lt;/span> &lt;span class="n">equals&lt;/span> &lt;span class="n">c&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">blogId&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">join&lt;/span> &lt;span class="n">d&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Posts&lt;/span> &lt;span class="n">on&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">commentId&lt;/span> &lt;span class="n">equals&lt;/span> &lt;span class="n">c&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">commentId&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">select&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="n">A&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="n">blogId&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">blogId&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">postId&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">postId&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">postValue&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">postValue&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>这种做法对多表联查和大数据量的查询很有用 ,但需要注意的是这种做法并不适合需要更新数据的场景，因为 EF 的更改跟踪仅适用于实体实例。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="尽量使用异步方法">尽量使用异步方法
+&lt;/h2>&lt;p>EFCore 基本上对所有同步操作方法都提供了对应的异步方法，尽量使用他们避免阻塞，减少对线程的需要和必须发生的线程上下文切换的次数，从而提升性能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="n">ToListAsync&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">await&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">blogs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ToListAsync&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="n">FirstOrDefaultAsync&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">await&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">blogs&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">FirstOrDefaultAsync&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Id&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">point&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="n">SaveChangesAsync&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">await&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">SaveChangesAsync&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="n">AsAsyncEnumerable&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">groupedHighlyRatedBlogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">await&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">AsQueryable&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Rating&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">//&lt;/span> &lt;span class="n">server&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">evaluated&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">AsAsyncEnumerable&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">GroupBy&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Rating&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">//&lt;/span> &lt;span class="n">client&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">evaluated&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToListAsync&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>异步编程在efcore中在大多数情况被推荐使用，但是需要注意避免使用异步方法查询文本或二进制数据类型的内容，这样反而会引起性能问题(&lt;a class="link" href="https://github.com/dotnet/SqlClient" target="_blank" rel="noopener"
+>sqlclient&lt;/a>的问题)，issue报告: &lt;a class="link" href="https://github.com/dotnet/efcore/issues/21147" target="_blank" rel="noopener"
+>EF Core - Memory and performance issues with async methods&lt;/a> &lt;a class="link" href="https://github.com/dotnet/SqlClient/issues/593" target="_blank" rel="noopener"
+>Reading large data (binary, text) asynchronously is extremely slow&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>避免混合使用同步和异步方法，当你的程序请求量较大的时候，很可能导致连接池耗尽，从而引起的性能问题。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用find查找单个目标数据">使用Find查找单个目标数据
+&lt;/h2>&lt;p>设计为在已知主键时高效查找单个实体。 Find 首先检查实体是否已被跟踪，如果是，则立即返回该实体。 只有当未在本地跟踪实体时，才执行数据库查询，而First/FirstOrDefault会立即查询数据库。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">//代码执行前已对数据库进行预热处理
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">double elapsedTime4 = MeasureTime(() =&amp;gt; context.blogs.Find(1);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">double elapsedTime5 = MeasureTime(() =&amp;gt; context.blogs.Find(1);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;Find() first time took : {elapsedTime4} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;Find() second time took : {elapsedTime5} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Consoles:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Find() first time took : 268.41 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Find() second time took : 0.16 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>注意，只能通过键查询的时候可以用。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用any判断数据内容">使用Any判断数据内容
+&lt;/h2>&lt;p>在检查某些数据是否存在的时候，优先使用Any，这样在匹配到第一条数据后，查询就会停止，First因为需要返回数据，增加了数据传输和对象实例化的开销，Count则需要扫描表&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">double elapsedTime1 = MeasureTime(() =&amp;gt; context.Blogs.Any(it =&amp;gt; it.Id == 1));
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">double elapsedTime2 = MeasureTime(() =&amp;gt; context.Blogs.Count(it =&amp;gt; it.Id == 1), 1);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">double elapsedTime3 = MeasureTime(() =&amp;gt; context.Blogs.FirstOrDefault(it =&amp;gt; it.Id == 1), 1);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;Any() time took: {elapsedTime1} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;Count() time took: {elapsedTime2} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Console.WriteLine($&amp;#34;FirstOrDefault() time took: {elapsedTime3} ms&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Consoles:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Any() time took: 237.42 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//Count() time took: 239.69 ms
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//FirstOrDefault() time took: 258.28 ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="使用流式处理">使用流式处理
+&lt;/h2>&lt;p>首先了解什么是缓冲和流式处理&lt;/p>
+&lt;ul>
+&lt;li>缓冲：将需要的数据全部加载到内存中，用于后续的业务逻辑处理&lt;/li>
+&lt;li>流式处理：按需获取需要的数据并应用到后续的逻辑处理中&lt;/li>
+&lt;/ul>
+&lt;p>形象的理解，缓冲用水桶把水挑起来，然后倒进缸里，流式处理就是用一根水管把水抽到缸里&lt;/p>
+&lt;p>原则上，流式处理查询的内存要求是固定的：无论查询返回 1 行还是 1000 行，内存要求都相同。另一方面，返回的行数越多，缓冲查询需要的内存越多。 对于产生大型结果集的查询，这可能是一个重要的性能因素。 反之，如果你的查询结果量很小，那么使用缓冲的效果可能返回会更好。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="err">一次性将数据加载出来&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogsList&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Posts&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">p&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Title&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">StartsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;A&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogsArray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Posts&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">p&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Title&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">StartsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;A&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ToArray&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="err">使用流式处理，每次处理一行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">var&lt;/span> &lt;span class="n">blog&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Posts&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">p&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Title&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">StartsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;A&amp;#34;&lt;/span>&lt;span class="p">)))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">//&lt;/span>&lt;span class="k">do&lt;/span> &lt;span class="n">some&lt;/span> &lt;span class="n">things&lt;/span>&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SomeDotNetMethod&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">blog&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span> &lt;span class="err">也可以使用&lt;/span>&lt;span class="n">AsEnumerable实现&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">doubleFilteredBlogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Posts&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">p&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Title&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">StartsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;A&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">//&lt;/span> &lt;span class="err">执行数据库查询&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">AsEnumerable&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">SomeDotNetMethod&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span>&lt;span class="p">));&lt;/span> &lt;span class="o">//&lt;/span>&lt;span class="err">执行客户端操作&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>流式处理适合处理大量数据需要进行某些业务逻辑的加工或执行，但是数据库又无法支持响应的方法或函数，这个时候可以适用流式处理来进行操作。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="使用sql查询">使用SQL查询
+&lt;/h2>&lt;p>在某些特殊的情况下，例如一些复杂的sql查询，无法直接使用linq语法来实现的，EFCore也支持直接使用SQL语句进行查询或数据更新操作&lt;/p>
+&lt;h3 id="基本查询实体">基本查询(实体)
+&lt;/h3>&lt;p>场景：最终返回的结果与Dataset中定义的实体一致&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="err">使用&lt;/span>&lt;span class="n">FromSql&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="err">执行表查询&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">FromSql&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="s2">&amp;#34;SELECT * FROM dbo.Blogs&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">//&lt;/span>&lt;span class="err">执行存储过程查询返回实体&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">FromSql&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="s2">&amp;#34;EXECUTE dbo.GetMostPopularBlogs&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="标量查询非实体">标量查询(非实体)
+&lt;/h3>&lt;p>场景：最终返回的结果为自定义结构，而非数据库实体&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//使用SqlQuery&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//执行查询，返回单个字段&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">ids&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Database&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">SqlQuery&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="s">$&amp;#34;SELECT [BlogId] FROM [Blogs]&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//执行查询，返回自定义数据结构&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">comments&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Database&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">SqlQuery&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="s">$&amp;#34;SELECT b.[BlogId],c.[CommnetContent] FROM [Blogs] b JOIN [Comments] c on b.BlogId = c.BlogId&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="k">class&lt;/span> &lt;span class="nc">CustomBlog&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">BlogId&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">CommnetContent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="执行非查询sql">执行非查询SQL
+&lt;/h3>&lt;p>场景：提交更新，删除等操作，不关注返回结果&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">//使用ExecuteSql
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//执行更新
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">context.Database.ExecuteSql($&amp;#34;UPDATE [Blogs] SET [Url] = NULL WHERE Id =1&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//执行删除
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">context.Database.ExecuteSql($&amp;#34;DELETE FROM [Blogs] WHERE Id =1&amp;#34;);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="sql参数">SQL参数
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//使用FromSql&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//此代码无效，因为数据库不允许将列名（或架构的任何其他部分）参数化&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">propertyName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;User&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">propertyValue&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;johndoe&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">FromSql&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">$&amp;#34;SELECT * FROM [Blogs] WHERE {propertyName} = {propertyValue}&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//正确姿势：使用 FromSqlRaw&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">columnName&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;Url&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">columnValue&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">SqlParameter&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;columnValue&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;http://SomeURL&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">blogs&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Blogs&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">FromSqlRaw&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">$&amp;#34;SELECT * FROM [Blogs] WHERE {columnName} = @columnValue&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">columnValue&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="其他关联性优化">其他关联性优化
+&lt;/h2>&lt;p>除了针对EFCore本身的一些优化技巧之外，还有一些技巧可以帮助我们提升数据查询的效率,我们可以利用vs的调试工具帮助我们监听内存使用,CPU占用率等指标，查找瓶颈，总结主要从以下几个方面进行优化&lt;/p>
+&lt;ol>
+&lt;li>尽量避免循环内查询，分析实际的业务逻辑，尽可能的一次性从数据库加载所有需要的数据，再进行循环处理&lt;/li>
+&lt;li>分片处理条件数据,例如使用Chunk，使用流式处理大批量的数据集的运算&lt;/li>
+&lt;li>使用合理的数据结构，例如在不关注数据顺序的场景下使用Dictionary或HashSet代替List等&lt;/li>
+&lt;li>使用缓存减少热点数据的访问（按需设计）&lt;/li>
+&lt;li>使用数据表索引及物化视图（数据库）&lt;/li>
+&lt;li>采用分库分表，读写分离，使用ES进行检索（架构级优化）&lt;/li>
+&lt;li>利用多线程并发提升效率（不到万不得已，慎用）&lt;/li>
+&lt;/ol>
+&lt;h2 id="总结">总结
+&lt;/h2>&lt;p>EFCore的优化主要是从几个方面来进行：&lt;br>
+1.减少数据库的交互，通过连接复用，上下文缓存等&lt;br>
+2.减少内存的使用，例如使用流式处理，分页查询等&lt;br>
+3.降低查询复杂度，尽量在程序中处理复杂的逻辑&lt;/p>
+&lt;p>保持良好的编码习惯，使用正确的数据结构和处理逻辑，优化应该是渐进式的，先正确的满足需求，在遇到性能问题的时候借助代码或工具去分析瓶颈，再去进行针对性的优化，不要为了优化而牺牲需求和浪费工作量。&lt;/p>
+&lt;p>最后留给大家一段问题代码示例，感兴趣的童鞋可以尝试利用上述手段优化这段代码，看看效率提升有多少：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">configuration&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">ConfigurationBuilder&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">SetBasePath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">AppDomain&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">CurrentDomain&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">BaseDirectory&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">AddUserSecrets&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">Program&lt;/span>&lt;span class="p">&amp;gt;()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">AddJsonFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;appsettings.json&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">optional&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">reloadOnChange&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">Build&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">serviceProvider&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">ServiceCollection&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">AddDbContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">YouContext&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">options&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">options&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseSqlServer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s">&amp;#34;ConnectionStrings:YourContext&amp;#34;&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">EnableSensitiveDataLogging&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">UseLoggerFactory&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LoggerFactory&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Create&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">builder&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">builder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddConsole&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">AddFilter&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="n">category&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">level&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">category&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="n">DbLoggerCategory&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Database&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Command&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Name&lt;/span> &lt;span class="p">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">level&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="n">LogLevel&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Information&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">BuildServiceProvider&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">var&lt;/span> &lt;span class="n">scope&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">serviceProvider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">CreateScope&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">context&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">scope&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ServiceProvider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">YourContext&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Database&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">SetCommandTimeout&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="m">999&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">data&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">RELATIONSHIP&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">workflow_state&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="m">3&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">OrderBy&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">relationship_guid&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Take&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="m">100000&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">tempData&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">Temp&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="n">aId&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">entity_from_guid&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">bId&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">entity_to_guid&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">deg&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">0&lt;/span> &lt;span class="p">}).&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">foreach&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">var&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="n">tempData&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">item&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">deg&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">GetInterConnectResult&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">aId&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">item&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">bId&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">GetInterConnectResult&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Guid&lt;/span> &lt;span class="n">aId&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Guid&lt;/span> &lt;span class="n">bId&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">HashSet&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">Bo&lt;/span>&lt;span class="p">&amp;gt;&lt;/span> &lt;span class="n">boData&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">&amp;lt;=&lt;/span> &lt;span class="m">3&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">++)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">boData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Any&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">guid&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="n">bId&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">addIds&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">boData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">deg&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">-&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">guid&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Distinct&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">ToList&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">addRelationships&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Table1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Where&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">addIds&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Contains&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">aid&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">||&lt;/span> &lt;span class="n">addIds&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Contains&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">bid&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">addDegEntities&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">addRelationships&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="k">new&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">efguid&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">aid&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">etguid&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">bid&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}).&lt;/span>&lt;span class="n">Union&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">addRelationships&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="k">new&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">efguid&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">bid&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">etguid&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">aid&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">Bo&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="n">guid&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">etguid&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">deg&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ToHashSet&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">??&lt;/span> &lt;span class="k">new&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">boData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UnionWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">addDegEntities&lt;/span> &lt;span class="p">??&lt;/span> &lt;span class="k">new&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">boData&lt;/span>&lt;span class="p">?.&lt;/span>&lt;span class="n">OrderByDescending&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">deg&lt;/span>&lt;span class="p">)?.&lt;/span>&lt;span class="n">FirstOrDefault&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">it&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">it&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">guid&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Equals&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">bId&lt;/span>&lt;span class="p">))?.&lt;/span>&lt;span class="n">deg&lt;/span> &lt;span class="p">??&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>WPF引用程序中的依赖注入方法比较</title><link>https://MorningCigarette.github.io/p/wpf-injection/</link><pubDate>Tue, 06 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/wpf-injection/</guid><description>&lt;p>第一种方式（基于 Application 类的静态方法）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="kd">sealed&lt;/span> &lt;span class="kd">partial&lt;/span> &lt;span class="k">class&lt;/span> &lt;span class="nc">App&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">Application&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="n">App&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Services&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">ConfigureServices&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">InitializeComponent&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="n">App&lt;/span> &lt;span class="n">Current&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">App&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">Application&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Current&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="n">IServiceProvider&lt;/span> &lt;span class="n">Services&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="k">get&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">private&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="n">IServiceProvider&lt;/span> &lt;span class="n">ConfigureServices&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">services&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">ServiceCollection&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IFilesService&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FilesService&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">ISettingsService&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">SettingsService&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IClipboardService&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ClipboardService&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IShareService&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ShareService&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IEmailService&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">EmailService&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddDbContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">BoardGameContext&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">dbBuilder&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dbBuilder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseSqlite&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Data Source=Rentopoly.db&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">BuildServiceProvider&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>第二种方式（基于 .NET Generic Host）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;span class="lnt">56
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="kd">partial&lt;/span> &lt;span class="k">class&lt;/span> &lt;span class="nc">App&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">Application&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na"> [STAThread]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="k">void&lt;/span> &lt;span class="n">Main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">[]&lt;/span> &lt;span class="n">args&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">using&lt;/span> &lt;span class="nn">IHost&lt;/span> &lt;span class="n">host&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">CreateHostBuilder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">args&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Build&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">host&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Start&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">using&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">var&lt;/span> &lt;span class="n">scope&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">host&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IServiceScopeFactory&lt;/span>&lt;span class="p">&amp;gt;().&lt;/span>&lt;span class="n">CreateScope&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">using&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">BoardGameContext&lt;/span> &lt;span class="n">context&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">scope&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ServiceProvider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">BoardGameContext&lt;/span>&lt;span class="p">&amp;gt;())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">context&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Database&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Migrate&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">App&lt;/span> &lt;span class="n">app&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">InitializeComponent&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">MainWindow&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">host&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">MainWindow&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">MainWindow&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Visibility&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">Visibility&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Visible&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Run&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="n">IHostBuilder&lt;/span> &lt;span class="n">CreateHostBuilder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">[]&lt;/span> &lt;span class="n">args&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Host&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">CreateDefaultBuilder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">args&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ConfigureAppConfiguration&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="n">hostBuilderContext&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">configurationBuilder&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">configurationBuilder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddUserSecrets&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">typeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">App&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">Assembly&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">ConfigureServices&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="n">hostContext&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">services&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">MainWindow&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">AddRentalViewModel&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">ViewRentalsViewModel&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">CatalogViewModel&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">Func&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">Rental&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">RentalItemViewModel&lt;/span>&lt;span class="p">&amp;gt;&amp;gt;(&lt;/span>&lt;span class="n">serviceProvider&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Rental&lt;/span> &lt;span class="n">rental&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">RentalItemViewModel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">rental&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">serviceProvider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">BoardGameContext&lt;/span>&lt;span class="p">&amp;gt;(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">serviceProvider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IMessenger&lt;/span>&lt;span class="p">&amp;gt;());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">WeakReferenceMessenger&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">IMessenger&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">WeakReferenceMessenger&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">provider&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">provider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">WeakReferenceMessenger&lt;/span>&lt;span class="p">&amp;gt;());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddSingleton&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">_&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">Current&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Dispatcher&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddDbContext&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">BoardGameContext&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">dbBuilder&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">dbBuilder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">UseSqlite&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Data Source=Rentopoly.db&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">services&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddTransient&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">ISnackbarMessageQueue&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">provider&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Dispatcher&lt;/span> &lt;span class="n">dispatcher&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">provider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetRequiredService&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">Dispatcher&lt;/span>&lt;span class="p">&amp;gt;();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">SnackbarMessageQueue&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TimeSpan&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FromSeconds&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="m">2.0&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">dispatcher&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在比较这两种方式配置依赖注入和服务的方法时，我们可以从几个关键方面进行分析：&lt;/p>
+&lt;h3 id="设计模式和架构">设计模式和架构：
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>第一种方式&lt;/strong>（基于 Application 类的静态方法）:&lt;/p>
+&lt;ul>
+&lt;li>这种方法直接在 &lt;code>App&lt;/code> 类中初始化服务。它使用 &lt;code>ServiceCollection&lt;/code> 来注册服务，并创建一个 &lt;code>IServiceProvider&lt;/code> 实例来解析这些服务。&lt;/li>
+&lt;li>这种方式较为简单，适合小型应用或者应用的原型开发，但可能难以管理复杂的依赖关系或进行单元测试。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>第二种方式&lt;/strong>（基于 .NET Generic Host）:&lt;/p>
+&lt;ul>
+&lt;li>这种方法使用 &lt;code>.NET Core&lt;/code> 的 &lt;code>HostBuilder&lt;/code>，这是一种更现代的依赖注入和应用启动方法。它不仅支持依赖注入，还支持日志、配置和生命周期管理。&lt;/li>
+&lt;li>这种方式更适合构建大型应用，因为它提供了更强的灵活性和扩展性。通过使用 &lt;code>HostBuilder&lt;/code>，可以轻松地添加更多中间件和服务。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="服务配置和管理">服务配置和管理：
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>第一种方式&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>服务直接在应用启动时一次性配置和创建。&lt;/li>
+&lt;li>由于所有配置都在一个地方，对于简单的应用来说，这种方式可能更易于管理。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>第二种方式&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>服务的生命周期和作用域可以更精细地控制。例如，可以配置某些服务为单例，而其他服务为每次请求创建新的实例。&lt;/li>
+&lt;li>支持通过配置文件、环境变量等多种方式动态配置服务，这对于需要高度可配置性的大型应用非常重要。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="应用的启动和运行">应用的启动和运行：
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>第一种方式&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>应用的启动较为直接，只涉及到创建 &lt;code>App&lt;/code> 实例并初始化组件。&lt;/li>
+&lt;li>这种方式可能在应用启动速度上有优势，因为它不涉及复杂的构建和配置解析过程。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>第二种方式&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>应用通过 &lt;code>Main&lt;/code> 方法启动，这是 .NET Core 应用的典型启动方式。在这个过程中，应用会构建和配置宿主，然后启动宿主。&lt;/li>
+&lt;li>虽然这种方式在启动时可能稍慢，因为需要加载和配置宿主，但它提供了更多的灵活性，例如在启动过程中运行数据库迁移。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="数据库上下文管理">数据库上下文管理：
+&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>两种方式&lt;/strong>:
+&lt;ul>
+&lt;li>都使用了 &lt;code>AddDbContext&lt;/code> 来注册 &lt;code>BoardGameContext&lt;/code>。这表明无论选择哪种方式，数据库上下文的配置和使用都是类似的。&lt;/li>
+&lt;li>在第二种方式中，数据库迁移可以在应用启动时自动执行，这是一个额外的优势，因为它简化了数据库管理。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="总结">总结：
+&lt;/h3>&lt;p>选择哪种方式主要取决于应用的规模、复杂性以及团队对技术栈的熟悉程度。对于小型、简单的应用或快速原型开发，第一种方式可能更合适。而对于需要高度可扩展和可配置的大型应用，第二种方式则可能是更好的选择。&lt;/p></description></item><item><title>10 Advanced Techniques</title><link>https://MorningCigarette.github.io/p/10-advanced-techniques/</link><pubDate>Mon, 05 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/10-advanced-techniques/</guid><description>&lt;p>作为 C# 开发人员，学习更高级的技术可以帮助您编写更简洁、更高效和更具创新性的代码。在本文中，我们将探讨一些十个高级 C# 技巧，这些技巧是为想要突破 C# 极限的更有经验的开发人员量身定制的。这些技巧可以提高代码的性能、可读性和可维护性。1. 利用元组获取多个返回值传统上，要从方法返回多个值，开发人员必须使用参数并创建自定义类或结构。但是，C# 7 引入了元组，这使得这样做更容易、更易读。public (int sum, int product) Calculate(int a, int b) {     return (a + b, a * b); }此方法简化了对多个返回值的处理&lt;/p>
+&lt;p>作为 C# 开发人员，学习更高级的技术可以帮助您编写更简洁、更高效和更具创新性的代码。在本文中，我们将探讨一些十个高级 C# 技巧，这些技巧是为想要突破 C# 极限的更有经验的开发人员量身定制的。这些技巧可以提高代码的性能、可读性和可维护性。&lt;/p>
+&lt;h2 id="利用元组获取多个返回值">利用元组获取多个返回值
+&lt;/h2>&lt;p>传统上，要从方法返回多个值，开发人员必须使用参数并创建自定义类或结构。但是，C# 7 引入了元组，这使得这样做更容易、更易读。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public (int sum, int product) Calculate(int a, int b)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return (a + b, a * b);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此方法简化了对多个返回值的处理，并提高了代码的清晰度。&lt;/p>
+&lt;h2 id="模式匹配增强功能">模式匹配增强功能
+&lt;/h2>&lt;p>C# 7 及更高版本引入了强大的模式匹配功能，允许更富有表现力和简洁的类型检查和转换。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public void ProcessShape(object shape)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if (shape is Circle c)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Console.WriteLine($&amp;#34;Circle with radius: {c.Radius}&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> else if (shape is Square s)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Console.WriteLine($&amp;#34;Square with side: {s.Side}&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此技术减少了样板代码的数量，并使代码更易于阅读。&lt;/p>
+&lt;h2 id="使用本地函数进行封装">使用本地函数进行封装
+&lt;/h2>&lt;p>在 C# 7 中，引入了本地函数，这些函数允许您在另一个方法中定义方法。这些函数对于封装仅在特定方法中有意义的帮助程序方法特别有用。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public IEnumerable&amp;lt;int&amp;gt; Fibonacci(int n)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> int Fib(int term) =&amp;gt; term &amp;lt;= 2 ? 1 : Fib(term - 1) + Fib(term - 2);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return Enumerable.Range(1, n).Select(Fib);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>局部函数可以从封闭方法访问变量，这提供了一种实现复杂逻辑的简洁方法。&lt;/p>
+&lt;h2 id="简洁代码的表达式成员">简洁代码的表达式成员
+&lt;/h2>&lt;p>表达式成员有助于使代码更简洁，因为它们允许在一行代码上实现方法、属性和其他成员。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public class Person
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> public string Name { get; set; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> public override string ToString() =&amp;gt; $&amp;#34;Name: {Name}&amp;#34;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此功能在最新版本的 C# 中得到了扩展，使定义轻型类成员变得更加容易。&lt;/p>
+&lt;h2 id="不可变数据类型的只读结构">不可变数据类型的只读结构
+&lt;/h2>&lt;p>只读结构非常适合创建不可变数据类型。这意味着对象一旦创建，就无法更改。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public readonly struct Point
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> public double X { get; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> public double Y { get; }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> public Point(double x, double y) =&amp;gt; (X, Y) = (x, y);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此构造可用于表示小型、不可变的数据类型，例如坐标或复数。&lt;/p>
+&lt;h2 id="用于性能优化的-ref-返回和局部变量">用于性能优化的 Ref 返回和局部变量
+&lt;/h2>&lt;p>Ref 返回和局部变量允许方法返回对变量的引用，而不是值本身。这可以显著提高大型对象的性能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public ref int Find(int[] numbers, int target)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> for (int i = 0; i &amp;lt; numbers.Length; i++)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if (numbers[i] == target)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return ref numbers[i];
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> throw new IndexOutOfRangeException(&amp;#34;Not found&amp;#34;);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此功能在处理大型数据结构的性能敏感代码中特别有用。&lt;/p>
+&lt;h2 id="使用丢弃来忽略不需要的退货">使用丢弃来忽略不需要的退货
+&lt;/h2>&lt;p>丢弃是一项高级功能，允许开发人员跳过他们不感兴趣的参数或元组。这使得代码更具可读性且更易于维护。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">product&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Calculate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="o">//&lt;/span> &lt;span class="n">Only&lt;/span> &lt;span class="n">interested&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">the&lt;/span> &lt;span class="n">product&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样可以更轻松地处理返回多个值的方法，因为您只需要其中的几个值。&lt;/p>
+&lt;h2 id="用于简化-null-检查的-null-合并赋值">用于简化 Null 检查的 Null 合并赋值
+&lt;/h2>&lt;p>null 合并赋值运算符简化了将值赋值给变量的过程（当变量可能为 null 时）。??=&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">List&amp;lt;int&amp;gt; numbers = null;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">numbers ??= new List&amp;lt;int&amp;gt;();
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">numbers.Add(1);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此运算符可减少确保在使用对象之前创建对象所需的代码量。&lt;/p>
+&lt;h2 id="用于轻量级数据结构的-valuetuple">用于轻量级数据结构的 ValueTuple
+&lt;/h2>&lt;p>ValueTuple 是 Tuple 数据结构的轻量级替代方法，它提供了一种更节省内存的方法来管理值集合。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">var&lt;/span> &lt;span class="n">person&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;John&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Age&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">30&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Console&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">WriteLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="s2">&amp;#34;{person.Name} is {person.Age} years old.&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>ValueTuple 对于不需要类开销的临时数据结构特别有用。&lt;/p>
+&lt;h2 id="具有-iasyncenumerable-的异步流">具有 IAsyncEnumerable 的异步流
+&lt;/h2>&lt;p>C# 8 中引入的异步流允许对异步加载的集合实现异步迭代。这显著提高了处理流数据或受 I/O 限制的应用程序的性能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">public async IAsyncEnumerable&amp;lt;int&amp;gt; GetNumbersAsync()
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> for (int i = 0; i &amp;lt; 10; i++)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> await Task.Delay(100); // Simulate asynchronous work
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> yield return i;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这允许使用 来使用异步流，从而更容易编写高效且可读的异步代码。await foreach&lt;/p>
+&lt;p>C# 的演变引入了一些功能，可提高其代码的可读性、可维护性和性能。其中包括元组、模式匹配和异步流，这对于在 .NET 生态系统中创建更高效、更现代的 C# 应用程序至关重要。&lt;/p>
+&lt;p>通过有效利用这些工具，开发人员可以提高应用程序性能、改进其编码风格并提高软件质量。通过掌握这些功能，开发人员可以确保以符合项目需求的方式使用它们，从而释放其成功开发的全部潜力。&lt;/p></description></item><item><title>Markdown Syntax Guide</title><link>https://MorningCigarette.github.io/p/markdown-syntax-guide/</link><pubDate>Thu, 07 Sep 2023 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/markdown-syntax-guide/</guid><description>&lt;p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p>
+&lt;h2 id="headings">Headings
+&lt;/h2>&lt;p>The following HTML &lt;code>&amp;lt;h1&amp;gt;&lt;/code>—&lt;code>&amp;lt;h6&amp;gt;&lt;/code> elements represent six levels of section headings. &lt;code>&amp;lt;h1&amp;gt;&lt;/code> is the highest section level while &lt;code>&amp;lt;h6&amp;gt;&lt;/code> is the lowest.&lt;/p>
+&lt;h1 id="h1">H1
+&lt;/h1>&lt;h2 id="h2">H2
+&lt;/h2>&lt;h3 id="h3">H3
+&lt;/h3>&lt;h4 id="h4">H4
+&lt;/h4>&lt;h5 id="h5">H5
+&lt;/h5>&lt;h6 id="h6">H6
+&lt;/h6>&lt;h2 id="paragraph">Paragraph
+&lt;/h2>&lt;p>Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.&lt;/p>
+&lt;p>Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.&lt;/p>
+&lt;h2 id="blockquotes">Blockquotes
+&lt;/h2>&lt;p>The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a &lt;code>footer&lt;/code> or &lt;code>cite&lt;/code> element, and optionally with in-line changes such as annotations and abbreviations.&lt;/p>
+&lt;h3 id="blockquote-without-attribution">Blockquote without attribution
+&lt;/h3>&lt;blockquote>
+&lt;p>Tiam, ad mint andaepu dandae nostion secatur sequo quae.
+&lt;strong>Note&lt;/strong> that you can use &lt;em>Markdown syntax&lt;/em> within a blockquote.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="blockquote-with-attribution">Blockquote with attribution
+&lt;/h3>&lt;blockquote>
+&lt;p>Don&amp;rsquo;t communicate by sharing memory, share memory by communicating.&lt;br>
+— &lt;cite>Rob Pike&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/cite>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="tables">Tables
+&lt;/h2>&lt;p>Tables aren&amp;rsquo;t part of the core Markdown spec, but Hugo supports supports them out-of-the-box.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Name&lt;/th>
+&lt;th>Age&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Bob&lt;/td>
+&lt;td>27&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Alice&lt;/td>
+&lt;td>23&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="inline-markdown-within-tables">Inline Markdown within tables
+&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Italics&lt;/th>
+&lt;th>Bold&lt;/th>
+&lt;th>Code&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;em>italics&lt;/em>&lt;/td>
+&lt;td>&lt;strong>bold&lt;/strong>&lt;/td>
+&lt;td>&lt;code>code&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>A&lt;/th>
+&lt;th>B&lt;/th>
+&lt;th>C&lt;/th>
+&lt;th>D&lt;/th>
+&lt;th>E&lt;/th>
+&lt;th>F&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td>
+&lt;td>Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td>
+&lt;td>Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td>
+&lt;td>Proin sit amet velit nec enim imperdiet vehicula.&lt;/td>
+&lt;td>Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td>
+&lt;td>Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="code-blocks">Code Blocks
+&lt;/h2>&lt;h3 id="code-block-with-backticks">Code block with backticks
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&amp;lt;!doctype html&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">html&lt;/span> &lt;span class="na">lang&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;en&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">charset&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;utf-8&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Example HTML5 Document&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Test&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">html&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="code-block-indented-with-four-spaces">Code block indented with four spaces
+&lt;/h3>&lt;pre>&lt;code>&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
+&amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h3 id="diff-code-block">Diff code block
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-diff" data-lang="diff">&lt;span class="line">&lt;span class="cl">[dependencies.bevy]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git = &amp;#34;https://github.com/bevyengine/bevy&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rev = &amp;#34;11f52b8c72fc3a568e8bb4a4cd1f3eb025ac2e13&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- features = [&amp;#34;dynamic&amp;#34;]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+ features = [&amp;#34;jpeg&amp;#34;, &amp;#34;dynamic&amp;#34;]
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="one-line-code-block">One line code block
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>A paragraph&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="list-types">List Types
+&lt;/h2>&lt;h3 id="ordered-list">Ordered List
+&lt;/h3>&lt;ol>
+&lt;li>First item&lt;/li>
+&lt;li>Second item&lt;/li>
+&lt;li>Third item&lt;/li>
+&lt;/ol>
+&lt;h3 id="unordered-list">Unordered List
+&lt;/h3>&lt;ul>
+&lt;li>List item&lt;/li>
+&lt;li>Another item&lt;/li>
+&lt;li>And another item&lt;/li>
+&lt;/ul>
+&lt;h3 id="nested-list">Nested list
+&lt;/h3>&lt;ul>
+&lt;li>Fruit
+&lt;ul>
+&lt;li>Apple&lt;/li>
+&lt;li>Orange&lt;/li>
+&lt;li>Banana&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Dairy
+&lt;ul>
+&lt;li>Milk&lt;/li>
+&lt;li>Cheese&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="other-elements--abbr-sub-sup-kbd-mark">Other Elements — abbr, sub, sup, kbd, mark
+&lt;/h2>&lt;p>&lt;abbr title="Graphics Interchange Format">GIF&lt;/abbr> is a bitmap image format.&lt;/p>
+&lt;p>H&lt;sub>2&lt;/sub>O&lt;/p>
+&lt;p>X&lt;sup>n&lt;/sup> + Y&lt;sup>n&lt;/sup> = Z&lt;sup>n&lt;/sup>&lt;/p>
+&lt;p>Press &lt;kbd>CTRL&lt;/kbd> + &lt;kbd>ALT&lt;/kbd> + &lt;kbd>Delete&lt;/kbd> to end the session.&lt;/p>
+&lt;p>Most &lt;mark>salamanders&lt;/mark> are nocturnal, and hunt for insects, worms, and other small creatures.&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>The above quote is excerpted from Rob Pike&amp;rsquo;s &lt;a class="link" href="https://www.youtube.com/watch?v=PAAkCSZUG1c" target="_blank" rel="noopener"
+>talk&lt;/a> during Gopherfest, November 18, 2015.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Image gallery</title><link>https://MorningCigarette.github.io/p/image-gallery/</link><pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/image-gallery/</guid><description>&lt;img src="https://MorningCigarette.github.io/p/image-gallery/2.jpg" alt="Featured image of post Image gallery" />&lt;p>Hugo theme Stack supports the creation of interactive image galleries using Markdown. It&amp;rsquo;s powered by &lt;a class="link" href="https://photoswipe.com/" target="_blank" rel="noopener"
+>PhotoSwipe&lt;/a> and its syntax was inspired by &lt;a class="link" href="https://typlog.com/" target="_blank" rel="noopener"
+>Typlog&lt;/a>.&lt;/p>
+&lt;p>To use this feature, the image must be in the same directory as the Markdown file, as it uses Hugo&amp;rsquo;s page bundle feature to read the dimensions of the image. &lt;strong>External images are not supported.&lt;/strong>&lt;/p>
+&lt;h2 id="syntax">Syntax
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">![&lt;span class="nt">Image 1&lt;/span>](&lt;span class="na">1.jpg&lt;/span>) ![&lt;span class="nt">Image 2&lt;/span>](&lt;span class="na">2.jpg&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="result">Result
+&lt;/h2>&lt;p>&lt;img src="https://MorningCigarette.github.io/p/image-gallery/1.jpg"
+width="2000"
+height="1400"
+srcset="https://MorningCigarette.github.io/p/image-gallery/1_hu4574578169203714971.jpg 480w, https://MorningCigarette.github.io/p/image-gallery/1_hu9042511268598201431.jpg 1024w"
+loading="lazy"
+alt="Image 1"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="342px"
+> &lt;img src="https://MorningCigarette.github.io/p/image-gallery/2.jpg"
+width="1500"
+height="2250"
+srcset="https://MorningCigarette.github.io/p/image-gallery/2_hu10699635480308914167.jpg 480w, https://MorningCigarette.github.io/p/image-gallery/2_hu1741040415904021193.jpg 1024w"
+loading="lazy"
+alt="Image 2"
+class="gallery-image"
+data-flex-grow="66"
+data-flex-basis="160px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@mymind" target="_blank" rel="noopener"
+>mymind&lt;/a> and &lt;a class="link" href="https://unsplash.com/@lukechesser" target="_blank" rel="noopener"
+>Luke Chesser&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>Shortcodes</title><link>https://MorningCigarette.github.io/p/shortcodes/</link><pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/shortcodes/</guid><description>&lt;img src="https://MorningCigarette.github.io/p/shortcodes/cover.jpg" alt="Featured image of post Shortcodes" />&lt;p>For more details, check out the &lt;a class="link" href="https://stack.jimmycai.com/writing/shortcodes" target="_blank" rel="noopener"
+>documentation&lt;/a>.&lt;/p>
+&lt;h2 id="bilibili-video">Bilibili video
+&lt;/h2>
+&lt;div class="video-wrapper">
+&lt;iframe src="https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1d4411N7zD"
+scrolling="no"
+frameborder="no"
+framespacing="0"
+allowfullscreen="true"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="tencent-video">Tencent video
+&lt;/h2>
+&lt;div class="video-wrapper">
+&lt;iframe src="https://v.qq.com/txp/iframe/player.html?vid=g0014r3khdw&amp;auto=0"
+scrolling="no"
+frameborder="no"
+framespacing="0"
+allowfullscreen="true"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="youtube-video">YouTube video
+&lt;/h2>&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/0qwALOOvUik"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="generic-video-file">Generic video file
+&lt;/h2>&lt;div class="video-wrapper">
+&lt;video
+controls
+src="https://www.w3schools.com/tags/movie.mp4"
+>
+&lt;p>
+Your browser doesn't support HTML5 video. Here is a
+&lt;a href="https://www.w3schools.com/tags/movie.mp4">link to the video&lt;/a> instead.
+&lt;/p>
+&lt;/video>
+&lt;/div>
+&lt;h2 id="gist">Gist
+&lt;/h2>&lt;script src="https://gist.github.com/CaiJimmy/e2751a943de10b2a5b3a8a6c2120cb86.js">&lt;/script>
+&lt;h2 id="gitlab">GitLab
+&lt;/h2>&lt;script
+type="application/javascript"
+src="https://gitlab.com/-/snippets/2589724.js"
+>&lt;/script>
+&lt;h2 id="quote">Quote
+&lt;/h2>&lt;blockquote>
+&lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p>&lt;span class="cite">&lt;span>― &lt;/span>&lt;span>A famous person, &lt;/span>&lt;a href="https://en.wikipedia.org/wiki/Book">&lt;cite>The book they wrote&lt;/cite>&lt;/a>&lt;/span>&lt;/blockquote>
+&lt;hr>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@codioful" target="_blank" rel="noopener"
+>Codioful&lt;/a> on &lt;a class="link" href="https://unsplash.com/photos/WDSN62Qdxuk" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>Math Typesetting</title><link>https://MorningCigarette.github.io/p/math-typesetting/</link><pubDate>Thu, 24 Aug 2023 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/math-typesetting/</guid><description>&lt;p>Stack has built-in support for math typesetting using &lt;a class="link" href="https://katex.org/" target="_blank" rel="noopener"
+>KaTeX&lt;/a>.&lt;/p>
+&lt;p>&lt;strong>It&amp;rsquo;s not enabled by default side-wide,&lt;/strong> but you can enable it for individual posts by adding &lt;code>math: true&lt;/code> to the front matter. Or you can enable it side-wide by adding &lt;code>math = true&lt;/code> to the &lt;code>params.article&lt;/code> section in &lt;code>config.toml&lt;/code>.&lt;/p>
+&lt;h2 id="inline-math">Inline math
+&lt;/h2>&lt;p>This is an inline mathematical expression: $\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="block-math">Block math
+&lt;/h2>&lt;p>$$
+\varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+$$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi),e^{2 \pi i \xi x},d\xi
+$$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

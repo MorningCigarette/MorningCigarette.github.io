@@ -9,7 +9,7 @@ categories:
 ---
 如果你对相机只有很少了解，那么看这篇文章再好不过啦，我结合很多资料，力图用最通俗易懂的方式进行讲解。
 
-  
+
 相机拍摄时最重要的3个参数就是——**光圈、快门、ISO**  
 <br/>次重要的参数有——**焦距、景深、曝光**
 
@@ -18,25 +18,25 @@ categories:
 在介绍光圈、快门、ISO之前，必须先介绍曝光。  
 <br/><br/>**曝光准确的照片：**
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/8b5e677e2bfc4b04b59aadd3adada333.jpg)
+![](https://s2.loli.net/2024/08/20/XUNFqk6la4QcELS.jpg)
 
 &nbsp;
 
 **过曝的照片：**
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/c1ddca5aec394bfe8a5ea867816c6f4f.jpg)
+![](https://s2.loli.net/2024/08/20/ElDXdB356YkOtW1.jpg)
 
 &nbsp;
 
 **欠曝的照片：**
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/da655427cf124158a2629db5b78bcaeb.jpg)
+![](https://s2.loli.net/2024/08/20/zsOZtiSePl6x94o.jpg)
 
 &nbsp;
 
 我们把一张完美曝光的照片理解成**一桶刚刚装满的水**，不多也不少，并且水里面是有杂质的，那么如何把这桶水装满呢？（先不考虑装到里面的水干不干净）
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/5fcf67e020b3426598ed4e5573a594b4.jpg)
+![](https://s2.loli.net/2024/08/20/tGPVqr6XvZcWlM8.jpg)
 
 （看见没有，我往水里面加了一下杂色，代表杂质）
 
@@ -53,7 +53,7 @@ categories:
 从上面我们知道，**曝光量由光圈、快门、ISO三者共同决定**。  
 <br/><br/>光圈由F值表示，例如F1.4，F1.8，F3.5，F5.6，F16，**数字越小代表光圈越大**，例如F1.8>F5.6，光圈越大，代表水龙头开得越大，单位时间内流出的水也就越多（单位时间内进来的光也就越多）。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/0dce2f2b92c141b087ee341a3362e344.jpg)
+![](https://s2.loli.net/2024/08/20/sdWrOLcpiE5PDSx.jpg)
 
 &nbsp;
 
@@ -67,7 +67,7 @@ categories:
 <br/>具体到相机上，就是放了多长时间的光进来。在光圈和ISO一定的情况下，如果你只放了0.001秒的光进来，很明显这个总光量很少，如果你放了10秒钟的光进来，那么这个光的总量就很大。  
 <br/><br/>快门其实是相当于一个窗帘的东西，如果快门是30秒，说明窗帘打开了30秒后才拉上。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/4fb78eaed5064b35b759507e4b31a195.jpg)
+![](https://s2.loli.net/2024/08/20/KBQWiT237vguVNp.jpg)
 
 &nbsp;
 
@@ -87,7 +87,7 @@ categories:
 <br/>ISO越高，滤网的滤孔越大，进来的杂质就越多，当然同时出来的水（进来的光）也就越多。画面的噪点也就越多，画质越差。  
 <br/>ISO 的常见值是100， 200， 400， 800， 1600， 3200， 6400， 12800等等。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/eebff9a24a1c49728c651fc60c449a4c.jpg)
+![](https://s2.loli.net/2024/08/20/ti14hcToUe7uNE9.jpg)
 
 &nbsp;
 
@@ -97,14 +97,14 @@ categories:
 <br/><br/>三者之中，除了大光圈没有明显缺点外（工业领域中大光圈也有缺点，即景深太浅），慢的快门和高的ISO都有明显的缺点。  
 <br/><br/>**快门太慢**：拍的照片容易模糊，例如快门是0.5秒，就像这样。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/1a9a3af363f84f208e4b6c5169719b0a.jpg)
+![](https://s2.loli.net/2024/08/20/j7npqBhzcotlMO2.jpg)
 
 &nbsp;
 
 这是因为，被拍的人是动的，你的手也是抖的，在0.5秒的时间里面已经足够它俩抖来抖去了。相机记录的是这0.5秒内所有的光线信息，而并不是0.5秒的最后末尾的那一瞬间的光线信息。  
 <br/>如果你的快门足够快，例如1/500秒，那么，你的手抖动和被拍者的抖动在这么短的时间内可以认为基本没有移动多少，因此拍出来的照片是清晰的，就像这样：
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/156d969e48d34453a0815e821c410690.jpg)
+![](https://s2.loli.net/2024/08/20/GNjTJl5vPXcrRxC.jpg)
 
 至于高ISO产生高噪点的缺点在上文已经提及。
 
@@ -114,7 +114,7 @@ categories:
 <br/>必须要高速快门、低ISO，但是如果快门太快，ISO太低，那么曝光量就会不足，怎么办呢？只有用大光圈！！  
 <br/><br/>如果光圈开到最大也不行呢？那么这样还能实现清晰、画质高、噪点少、曝光合适的效果吗？不能！
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/e40e8497a19046ecb315c2eafd8ea32b.jpg)
+![](https://s2.loli.net/2024/08/20/7fV2RN9oIW4UMmq.jpg)
 
 &nbsp;
 
@@ -130,7 +130,7 @@ categories:
 <br/>事实上，增加ISO（感光度）一定会降低画质，但是把快门变慢却未必，我们说将快门变慢主要是可能会使照片模糊，因为被摄者和人的手都是都是移动（抖动）的。  
 那么如果把相机放在三脚架上，而且被拍的物体是不动的呢？那么这时候就不会产生抖动了。这就是三脚架存在的意义。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/c4b9d80fa04e48d19699b8da4d0aadd6.jpg)
+![](https://s2.loli.net/2024/08/20/nKVQsHx65oOI38y.jpg)
 
 &nbsp;
 
@@ -144,7 +144,7 @@ categories:
 <br/>通常说焦距，我们会涉及两个概念：广角和长焦。  
 <br/>广角一般是等效焦距在35mm及以下的焦距，等效焦距小于等于24mm的就是超广角；
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/65202263eadc4c00a69d06cf70ae4645.jpg)
+![](https://s2.loli.net/2024/08/20/epzKCdw6LZvMoEy.jpg)
 
 &nbsp;
 
@@ -152,7 +152,7 @@ categories:
 
 而长焦一般指85mm以上的焦距，如果在300mm以上则称为超长焦。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/e2656ee867c041c497943928d86f6e35.jpg)
+![](https://s2.loli.net/2024/08/20/fiWR7dX6MVE9YP1.jpg)
 
 &nbsp;
 
@@ -162,19 +162,19 @@ categories:
 **长焦的视野窄，但是可以拉近物体。**  
 <br/><br/>下图是焦距和视角（视野宽还是窄）的对应关系图：
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/8ddf4ddc4d5844a58e39a8186ae29a7e.jpg)
+![](https://s2.loli.net/2024/08/20/WaXvMRpYQk6drLN.jpg)
 
 &nbsp;
 
 例如广角镜头可以拍这样的照片：（宽广辽阔的壮观）
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/35425c5dfb85421089267a8b767c652c.jpg)
+![](https://s2.loli.net/2024/08/20/8uXoCpcRH5leTLO.jpg)
 
 &nbsp;
 
 长焦镜头可以拍这样的照片：（适合**局部特写**，百米之外如在眼前，长焦视觉上可以压缩空间）
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/1696d50726ab4a35a4e83a8e3b6de3fd.jpg)
+![](https://s2.loli.net/2024/08/20/duPYpbl5sINqcTH.jpg)
 
 &nbsp;
 
@@ -187,7 +187,7 @@ categories:
 <br/><br/>有一句很重要的话：**等效焦距越长，抖动产生的影响就会越大，影像就会越模糊。**  
 <br/><br/><br/>原因分析如下：
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/3c759371417f4b9b8ab449689d2faf48.jpg)
+![](https://s2.loli.net/2024/08/20/83lkDWnCEMKochL.jpg)
 
 以某等效焦距为25mm — 750mm的普通数码相机为例：  
 <br/><br/>当你使用25mm焦距的时候，手持拍摄时快门应不慢于1/25秒，当使用750mm的焦距时，手持拍摄时的快门应不低于1/750秒。当然，如果用三脚架的话，就没有快门的限制了。
@@ -198,7 +198,7 @@ categories:
 防抖镜头是很贵的。  
 <br/><br/>看这两个镜头，基本区别就是一个防抖一个不防抖，结果防抖的贵了近4000块钱。
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/e648b4bd5d7f49b4bf4fd45f893a4e16.jpg)
+![](https://s2.loli.net/2024/08/20/IUQPXtzDxgoAdby.jpg)
 
 &nbsp;
 
@@ -209,20 +209,20 @@ categories:
 
 &nbsp;
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/69d2b94f0f41453b9d4d0c4e8add0100.jpg)
+![](https://s2.loli.net/2024/08/20/eA9sEtGxF3oqLdV.jpg)
 
 &nbsp;
 
 景深通常和“虚化”这个词联系在一起，**景深浅即虚化强，景深深即虚化弱。**  
 <br/><br/>浅景深的照片：（蜜蜂和花朵主体清晰，后面的绿叶几乎完全虚掉了）
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/9e3a4006ee524f04b2503e0f8da10a10.jpg)
+![](https://s2.loli.net/2024/08/20/95Xnc8PdGrsQyfp.jpg)
 
 &nbsp;
 
 深景深的照片：（无论是主体石狮子还是后面的太和殿都很清晰）
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/47a82e5eb7f44e1c8cb75a91f88b6a58.jpg)
+![](https://s2.loli.net/2024/08/20/qek2AjKorlPFg1t.jpg)
 
 &nbsp;
 
@@ -238,6 +238,6 @@ categories:
 
 再补充一张经典的图吧：光圈、快门、ISO、景深
 
-![](file:///C:/Users/llc/.config/joplin-desktop/resources/6d4e30021c84485a826adbd63e1ff384.jpg)
+![](https://s2.loli.net/2024/08/20/12YAlgjaq5XdWFu.jpg)
 
 &nbsp;

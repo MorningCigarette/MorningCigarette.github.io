@@ -12,13 +12,13 @@ categories:
 
 本文尽量使用图形工具介绍如何向开源项目提交 Pull Request，一次亲身经历提交 PR
 
-### fork 项目**
+### fork 项目
 
 ![](https://s2.loli.net/2024/08/20/yUnX7F4sY9OuxZP.webp)
 
 image
 
-### 克隆本地**
+### 克隆本地
 
 ![](https://s2.loli.net/2024/08/20/rlQEXRqTsn3LWfK.webp)
 
@@ -28,7 +28,7 @@ image
 git clone https://github.com/liangtongzhuo/taro-ui.git
 ```
 
-### 根据文档创建分支**
+### 根据文档创建分支
 
 拖进 SourceTree，基于 dev 创建分支
 
@@ -38,7 +38,7 @@ git clone https://github.com/liangtongzhuo/taro-ui.git
 
 image
 
-### 提交的自己仓库**
+### 提交的自己仓库
 
 ```csharp
 git add . && git commit -m"fix(dos):修正文字 " && git push

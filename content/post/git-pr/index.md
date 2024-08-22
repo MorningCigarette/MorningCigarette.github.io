@@ -45,7 +45,7 @@ git add . && git commit -m"fix(dos):修正文字 " && git push
 
 ```
 
-### 提交 Pull Request**
+### 提交 Pull Request
 
 第四步提交成功后，进入原来的仓库，点击 compare
 
@@ -69,4 +69,4 @@ image
 
   
 
-![](https://s2.loli.net/2024/08/20/Yv2X4VGLxWCPtAm.webp)
+![](https://s2.loli.net/2024/08/22/KQiSLGwTM6vFR3U.webp)

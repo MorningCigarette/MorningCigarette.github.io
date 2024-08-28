@@ -15,7 +15,7 @@ categories:
 </UserControl>
 ```
 
-### 分析 `d:DataContext` 的作用
+## 分析 `d:DataContext` 的作用
 
 1. **`d:DataContext` 概述:**
 
@@ -33,29 +33,25 @@ categories:
      Type=local:ViewRentalsViewModel
      ```
 
-     :
-
      - 指定设计时数据上下文的类型为 `ViewRentalsViewModel`。
-     - `local` 通常是项目中命名空间的一个前缀。
+  - `local` 通常是项目中命名空间的一个前缀。
      - `ViewRentalsViewModel` 是一个视图模型类，应该定义在 `local` 命名空间中。
-
+     
    - ```
-     IsDesignTimeCreatable=False
+  IsDesignTimeCreatable=False
      ```
-
-     :
-
+   
      - 表示在设计时不创建这个视图模型的实例。
-     - 通常用于复杂的视图模型，可能需要特定的构造函数参数或初始化逻辑，无法在设计时轻松创建。
+  - 通常用于复杂的视图模型，可能需要特定的构造函数参数或初始化逻辑，无法在设计时轻松创建。
 
-### 作用及好处
+## 作用及好处
 
 - 提高设计效率:
   - 设计时数据上下文允许在设计器中显示数据模板、绑定和控件的外观，使开发者可以更好地调整布局和样式，而不需要运行应用程序。
 - 防止设计时错误:
   - 通过设置 `IsDesignTimeCreatable=False`，可以避免因为设计时无法创建视图模型实例而导致的设计器错误或崩溃。
 
-### 示例上下文
+## 示例上下文
 
 假设你的项目中有一个 `ViewRentalsViewModel` 类，并且你希望在设计视图中预览 `ViewRentalsView` 的布局，那么可以这样设置：
 
@@ -79,13 +75,13 @@ namespace RentopolyNew.Rentals
 </UserControl>
 ```
 
-### 代码总结
+## 代码总结
 
 - `d:DataContext` 用于在设计时设置数据上下文，仅影响设计视图，不影响运行时行为。
 - `DesignInstance` 指定数据上下文的类型，并可以控制是否在设计时创建实例。
 - 提高设计效率，防止设计时错误。
 
-### 下一步建议
+## 下一步建议
 
 **a.** 考虑将 `IsDesignTimeCreatable` 设置为 `True`，如果 `ViewRentalsViewModel` 可以在设计时轻松创建，以便更好地预览设计视图。
 

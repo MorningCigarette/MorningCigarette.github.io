@@ -34,15 +34,15 @@ categories:
      ```
 
      - 指定设计时数据上下文的类型为 `ViewRentalsViewModel`。
-  - `local` 通常是项目中命名空间的一个前缀。
+     - `local` 通常是项目中命名空间的一个前缀。
      - `ViewRentalsViewModel` 是一个视图模型类，应该定义在 `local` 命名空间中。
      
    - ```
-  IsDesignTimeCreatable=False
+     IsDesignTimeCreatable=False
      ```
    
      - 表示在设计时不创建这个视图模型的实例。
-  - 通常用于复杂的视图模型，可能需要特定的构造函数参数或初始化逻辑，无法在设计时轻松创建。
+     - 通常用于复杂的视图模型，可能需要特定的构造函数参数或初始化逻辑，无法在设计时轻松创建。
 
 ## 作用及好处
 

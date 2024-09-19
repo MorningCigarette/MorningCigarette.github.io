@@ -1,5 +1,5 @@
 ---
-title: "WPF引用程序中的依赖注入方法比较"
+title: "WPF中的依赖注入方法比较"
 description: 
 slug: "Wpf-Injection"
 date: 2024-08-06

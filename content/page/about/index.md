@@ -17,7 +17,8 @@ readingTime: false
 
 * WPF MVVM
 * ROS2
+* C++
 
 
-平时的我喜欢玩一些游戏:地平线4，天涯明月刀，三国志14
+
 

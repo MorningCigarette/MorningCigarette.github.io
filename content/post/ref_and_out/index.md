@@ -4,7 +4,7 @@ description:
 slug: "ref_and_out"
 date: 2024-09-19
 categories:
-    - 值类型引用类型
+    - 值类型和引用类型
 
 ---
 

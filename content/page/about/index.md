@@ -16,7 +16,6 @@ readingTime: false
 我现在在学习的技术有：
 
 * WPF MVVM
-* ROS2
 * C++
 
 

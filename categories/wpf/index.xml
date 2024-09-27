@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>WPF on RongRuo`s Sutra Library</title><link>https://MorningCigarette.github.io/categories/wpf/</link><description>Recent content in WPF on RongRuo`s Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 28 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/wpf/index.xml" rel="self" type="application/rss+xml"/><item><title>DataContent in Xaml</title><link>https://MorningCigarette.github.io/p/datacontentinxaml/</link><pubDate>Wed, 28 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/datacontentinxaml/</guid><description>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;lt;UserControl x:Class=&amp;#34;RentopolyNew.Rentals.ViewRentalsView&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> xmlns=&amp;#34;http://schemas.microsoft.com/winfx/2006/xaml/presentation&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> xmlns:x=&amp;#34;http://schemas.microsoft.com/winfx/2006/xaml&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> d:DataContext=&amp;#34;{d:DesignInstance Type=local:ViewRentalsViewModel,IsDesignTimeCreatable=False}&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;/UserControl&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="分析-ddatacontext-的作用">分析 &lt;code>d:DataContext&lt;/code> 的作用
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>d:DataContext&lt;/code> 概述:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>d:DataContext&lt;/code> 是在 XAML 中为设计时数据上下文（DataContext）设置的命名空间属性。&lt;/li>
+&lt;li>它只在设计时使用，不会影响运行时的行为。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>DesignInstance&lt;/code>:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>d:DesignInstance&lt;/code> 是 XAML 中的一个扩展标记，用于指定设计时数据上下文的实例。&lt;/li>
+&lt;li>它可以帮助开发者在设计视图中看到绑定的数据结构，从而方便布局和设计。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>属性解析:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Type=local:ViewRentalsViewModel
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>指定设计时数据上下文的类型为 &lt;code>ViewRentalsViewModel&lt;/code>。&lt;/li>
+&lt;li>&lt;code>local&lt;/code> 通常是项目中命名空间的一个前缀。&lt;/li>
+&lt;li>&lt;code>ViewRentalsViewModel&lt;/code> 是一个视图模型类，应该定义在 &lt;code>local&lt;/code> 命名空间中。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">IsDesignTimeCreatable=False
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>表示在设计时不创建这个视图模型的实例。&lt;/li>
+&lt;li>通常用于复杂的视图模型，可能需要特定的构造函数参数或初始化逻辑，无法在设计时轻松创建。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="作用及好处">作用及好处
+&lt;/h2>&lt;ul>
+&lt;li>提高设计效率:
+&lt;ul>
+&lt;li>设计时数据上下文允许在设计器中显示数据模板、绑定和控件的外观，使开发者可以更好地调整布局和样式，而不需要运行应用程序。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>防止设计时错误:
+&lt;ul>
+&lt;li>通过设置 &lt;code>IsDesignTimeCreatable=False&lt;/code>，可以避免因为设计时无法创建视图模型实例而导致的设计器错误或崩溃。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="示例上下文">示例上下文
+&lt;/h2>&lt;p>假设你的项目中有一个 &lt;code>ViewRentalsViewModel&lt;/code> 类，并且你希望在设计视图中预览 &lt;code>ViewRentalsView&lt;/code> 的布局，那么可以这样设置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">// ViewRentalsViewModel.cs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">namespace RentopolyNew.Rentals
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> public class ViewRentalsViewModel
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> // ViewModel properties and methods
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;!-- ViewRentalsView.xaml --&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;UserControl x:Class=&amp;#34;RentopolyNew.Rentals.ViewRentalsView&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> xmlns=&amp;#34;http://schemas.microsoft.com/winfx/2006/xaml/presentation&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> xmlns:x=&amp;#34;http://schemas.microsoft.com/winfx/2006/xaml&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> xmlns:d=&amp;#34;http://schemas.microsoft.com/expression/blend/2008&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> xmlns:local=&amp;#34;clr-namespace:RentopolyNew.Rentals&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> d:DataContext=&amp;#34;{d:DesignInstance Type=local:ViewRentalsViewModel,IsDesignTimeCreatable=False}&amp;#34;&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;lt;!-- UserControl content here --&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;/UserControl&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="代码总结">代码总结
+&lt;/h2>&lt;ul>
+&lt;li>&lt;code>d:DataContext&lt;/code> 用于在设计时设置数据上下文，仅影响设计视图，不影响运行时行为。&lt;/li>
+&lt;li>&lt;code>DesignInstance&lt;/code> 指定数据上下文的类型，并可以控制是否在设计时创建实例。&lt;/li>
+&lt;li>提高设计效率，防止设计时错误。&lt;/li>
+&lt;/ul>
+&lt;h2 id="下一步建议">下一步建议
+&lt;/h2>&lt;p>&lt;strong>a.&lt;/strong> 考虑将 &lt;code>IsDesignTimeCreatable&lt;/code> 设置为 &lt;code>True&lt;/code>，如果 &lt;code>ViewRentalsViewModel&lt;/code> 可以在设计时轻松创建，以便更好地预览设计视图。&lt;/p>
+&lt;p>&lt;strong>b.&lt;/strong> 添加更多的设计时数据，以便在设计器中预览更复杂的 UI 布局和绑定。&lt;/p></description></item></channel></rss>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Route on RongRuo`s Sutra Library</title><link>https://MorningCigarette.github.io/categories/route/</link><description>Recent content in Route on RongRuo`s Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 13 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/route/index.xml" rel="self" type="application/rss+xml"/><item><title>电脑内外网路由配置</title><link>https://MorningCigarette.github.io/p/routesetter/</link><pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/routesetter/</guid><description>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">route print
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">​route delete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">​route  add 172.0.0.0 mask 255.0.0.0 172.17.140.1 -p
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

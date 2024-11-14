@@ -128,7 +128,8 @@ serverName = "cactus.chat"
 siteName = ""
 
 [comments.giscus]
-repo = "MorningCigarette/MorningCigarette.github.io"
+# repo = "MorningCigarette/MorningCigarette.github.io"
+repo = "MorningCigarette.github.io"
 repoID = "R_kgDOMfZTRw"
 category = "Announcements"
 categoryID = "DIC_kwDOMfZTR84ChaA8"

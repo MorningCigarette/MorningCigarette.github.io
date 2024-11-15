@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>小技巧 on RongRuo`s Sutra Library</title><link>https://MorningCigarette.github.io/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/</link><description>Recent content in 小技巧 on RongRuo`s Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 12 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml"/><item><title>Typora入门</title><link>https://MorningCigarette.github.io/p/typora_1/</link><pubDate>Sat, 12 Oct 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/typora_1/</guid><description>&lt;blockquote>
+&lt;p>写Mrakdown费事？Typora让你像写Word一样行云流水，所见即所得。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="简介">简介
+&lt;/h2>&lt;p>Typora是一款轻便简洁的Markdown编辑器，支持即时渲染技术，这也是与其他Markdown编辑器最显著的区别。即时渲染使得你写Markdown就想是写Word文档一样流畅自如，不像其他编辑器的有编辑栏和显示栏。&lt;/p>
+&lt;ul>
+&lt;li>Typora删除了预览窗口，以及所有其他不必要的干扰。取而代之的是实时预览。&lt;/li>
+&lt;li>Markdown的语法因不同的解析器或编辑器而异，Typora使用的是&lt;a class="link" href="https://help.github.com/articles/basic-writing-and-formatting-syntax/" target="_blank" rel="noopener"
+>GitHub Flavored Markdown&lt;/a>。&lt;/li>
+&lt;/ul>
+&lt;h2 id="markdown介绍">Markdown介绍
+&lt;/h2>&lt;p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。&lt;/p>
+&lt;p>Markdown 语言在 2004 由约翰·格鲁伯（英语：John Gruber）创建。&lt;/p>
+&lt;p>Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。&lt;/p>
+&lt;p>Markdown 编写的文档后缀为 &lt;code>.md&lt;/code>, &lt;code>.markdown&lt;/code>。&lt;/p>
+&lt;h2 id="常用快捷键">常用快捷键
+&lt;/h2>&lt;ul>
+&lt;li>加粗： &lt;code>Ctrl + B&lt;/code>&lt;/li>
+&lt;li>标题： &lt;code>Ctrl + H&lt;/code>&lt;/li>
+&lt;li>插入链接： &lt;code>Ctrl + K&lt;/code>&lt;/li>
+&lt;li>插入代码： &lt;code>Ctrl + Shift + C&lt;/code> &amp;ndash; 无法执行&lt;/li>
+&lt;li>行内代码： &lt;code>Ctrl + Shift + K&lt;/code>&lt;/li>
+&lt;li>插入图片： &lt;code>Ctrl + Shift + I&lt;/code>&lt;/li>
+&lt;li>无序列表：&lt;code>Ctrl + Shift + L&lt;/code> &amp;ndash; 无法执行&lt;/li>
+&lt;li>撤销： &lt;code>Ctrl + Z&lt;/code>&lt;/li>
+&lt;li>一级标题： &lt;code>Ctrl + 1&lt;/code> &amp;ndash; 以此类推&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Typora快捷键整合
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">```
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+1 一阶标题 Ctrl+B 字体加粗
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+2 二阶标题 Ctrl+I 字体倾斜
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+3 三阶标题 Ctrl+U 下划线
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+4 四阶标题 Ctrl+Home 返回Typora顶部
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+5 五阶标题 Ctrl+End 返回Typora底部
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+6 六阶标题 Ctrl+T 创建表格
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+L 选中某句话 Ctrl+K 创建超链接
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+D 选中某个单词 Ctrl+F 搜索
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+E 选中相同格式的文字 Ctrl+H 搜索并替换
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Alt+Shift+5 删除线 Ctrl+Shift+I 插入图片
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Ctrl+Shift+M 公式块 Ctrl+Shift+Q 引用
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">注：一些实体符号需要在实体符号之前加”\”才能够显示
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">```
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="块元素">块元素
+&lt;/h2>&lt;h3 id="换行符">换行符
+&lt;/h3>&lt;p>在markdown中，段落由多个空格分隔。在Typora中，只需回车即可创建新段落。&lt;/p>
+&lt;h3 id="标题级别">标题级别
+&lt;/h3>&lt;p># 一级标题 快捷键为 Ctrl + 1&lt;br>
+## 二级标题 快捷键为 Ctrl + 2&lt;br>
+&amp;hellip;&amp;hellip;&lt;br>
+###### 六级标题 快捷键为 Ctrl + 6&lt;/p>
+&lt;h3 id="引用文字">引用文字
+&lt;/h3>&lt;p>&amp;gt; + 空格 + 引用文字&lt;/p>
+&lt;h3 id="无序列表">无序列表
+&lt;/h3>&lt;p>使用 * + - 都可以创建一个无序列表&lt;/p>
+&lt;ul>
+&lt;li>AAA&lt;/li>
+&lt;li>BBB&lt;/li>
+&lt;li>CCC&lt;/li>
+&lt;/ul>
+&lt;h3 id="有序列表">有序列表
+&lt;/h3>&lt;p>使用 1. 2. 3. 创建有序列表&lt;/p>
+&lt;ol>
+&lt;li>AAA&lt;/li>
+&lt;li>BBB&lt;/li>
+&lt;li>CCC&lt;/li>
+&lt;/ol>
+&lt;h3 id="任务列表">任务列表
+&lt;/h3>&lt;p>\ -[ ] 不勾选&lt;br>
+\ -[x] 勾选&lt;/p>
+&lt;h3 id="代码块">代码块
+&lt;/h3>&lt;p>在Typora中插入程序代码的方式有两种：使用反引号 `（~ 键）、使用缩进（Tab）。&lt;/p>
+&lt;ul>
+&lt;li>插入行内代码，即插入一个单词或者一句代码的情况，使用 &lt;code>code&lt;/code> 这样的形式插入。&lt;/li>
+&lt;li>插入多行代码输入3个反引号（`） + 回车，并在后面选择一个语言名称即可实现语法高亮。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">def helloworld():
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> print(&amp;#34;hello, world!&amp;#34;)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="数学表达式">数学表达式
+&lt;/h3>&lt;p>当你需要在编辑器中插入数学公式时，可以使用两个美元符 $$ 包裹 TeX 或 LaTeX 格式的数学公式来实现。根据需要加载 Mathjax 对数学公式进行渲染。&lt;/p>
+&lt;p>按下 &lt;code>$$&lt;/code>，然后按下回车键，即可进行数学公式的编辑。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">\mathbf{V}_1\times\mathbf{V}_2 = \mathbf{X}_3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="插入表格">插入表格
+&lt;/h3>&lt;p>输入 &lt;code>| 表头1 | 表头2 |&lt;/code>并回车。即可创建一个包含2列表。快捷键 &lt;code>Ctrl + T&lt;/code>弹出对话框。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">id&lt;/th>
+&lt;th style="text-align: center">number&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;ul>
+&lt;li>
+&lt;p>不管是哪种方式，第一行为表头，第二行为分割表头和主体部分，第三行开始每一行为一个表格行&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>列与列之间用管道符号 &lt;code>|&lt;/code> 隔开&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>还可设置对齐方式(表头与内容之间)，如果不使用对齐标记，内容默认左对齐，表头居中对齐&lt;/p>
+&lt;ul>
+&lt;li>左对齐 ：|&lt;/li>
+&lt;li>右对齐 |：&lt;/li>
+&lt;li>中对齐 ：|：&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>为了美观，可以使用空格对齐不同行的单元格，并在左右两侧都使用 | 来标记单元格边界&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>为了使 Markdown 更清晰，| 和 - 两侧需要至少有一个空格（最左侧和最右侧的 | 外就不需要了）。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="脚注">脚注
+&lt;/h3>&lt;p>这个例子的脚注为&lt;sup>&lt;a id="fnref1">&lt;/a>&lt;a class="link" href="#fn1" >[1]&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>注意：该例子脚注标识是1，脚注标识可以为字母数字下划线，但是暂不支持中文。脚注内容可为任意字符，包括中文。&lt;/p>
+&lt;h3 id="分割线">分割线
+&lt;/h3>&lt;p>输入 &lt;code>***&lt;/code> 或者 &lt;code>---&lt;/code> 再按回车即可绘制一条水平线，如下：&lt;/p>
+&lt;hr>
+&lt;h3 id="目录toc">目录（TOC）
+&lt;/h3>&lt;p>输入 &lt;code>[ toc ]&lt;/code> 然后回车，即可创建一个“目录”。TOC从文档中提取所有标题，其内容将自动更新。&lt;/p>
+&lt;blockquote>
+&lt;p>Typora支持TOC自动生成目录，博客园不支持？&lt;/p>
+&lt;/blockquote>
+&lt;p>目录&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="#%e7%ae%80%e4%bb%8b" >简介&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#markdown%e4%bb%8b%e7%bb%8d" >Markdown介绍&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%b8%b8%e7%94%a8%e5%bf%ab%e6%8d%b7%e9%94%ae" >常用快捷键&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%9d%97%e5%85%83%e7%b4%a0" >块元素&lt;/a>
+&lt;ul>
+&lt;li>&lt;a class="link" href="#%e6%8d%a2%e8%a1%8c%e7%ac%a6" >换行符&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%a0%87%e9%a2%98%e7%ba%a7%e5%88%ab" >标题级别&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%bc%95%e7%94%a8%e6%96%87%e5%ad%97" >引用文字&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%97%a0%e5%ba%8f%e5%88%97%e8%a1%a8" >无序列表&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%9c%89%e5%ba%8f%e5%88%97%e8%a1%a8" >有序列表&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e4%bb%bb%e5%8a%a1%e5%88%97%e8%a1%a8" >任务列表&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e4%bb%a3%e7%a0%81%e5%9d%97" >代码块&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%95%b0%e5%ad%a6%e8%a1%a8%e8%be%be%e5%bc%8f" >数学表达式&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%8f%92%e5%85%a5%e8%a1%a8%e6%a0%bc" >插入表格&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e8%84%9a%e6%b3%a8" >脚注&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%88%86%e5%89%b2%e7%ba%bf" >分割线&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e7%9b%ae%e5%bd%95toc" >目录（TOC）&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a class="link" href="#%e8%b7%a8%e5%ba%a6%e5%85%83%e7%b4%a0" >跨度元素&lt;/a>
+&lt;ul>
+&lt;li>&lt;a class="link" href="#%e9%93%be%e6%8e%a5" >链接&lt;/a>
+&lt;ul>
+&lt;li>&lt;a class="link" href="#%e5%86%85%e9%83%a8%e9%93%be%e6%8e%a5" >内部链接&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5" >参考链接&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a class="link" href="#%e7%bd%91%e5%9d%80" >网址&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%9b%be%e7%89%87" >图片&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%96%9c%e4%bd%93" >斜体&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%8a%a0%e7%b2%97" >加粗&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%8a%a0%e7%b2%97%e6%96%9c%e4%bd%93" >加粗斜体&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e4%bb%a3%e7%a0%81%e6%a0%87%e8%ae%b0" >代码标记&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e5%88%a0%e9%99%a4%e7%ba%bf" >删除线&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e4%b8%8b%e5%88%92%e7%ba%bf" >下划线&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e8%a1%a8%e6%83%85%e7%ac%a6%e5%8f%b7" >表情符号&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e4%b8%8b%e6%a0%87" >下标&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e4%b8%8a%e6%a0%87" >上标&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e9%ab%98%e4%ba%ae" >高亮&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%96%87%e6%9c%ac%e5%b1%85%e4%b8%ad" >文本居中&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%8d%a2%e8%a1%8c%e7%ac%a6-1" >换行符&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e8%bd%ac%e4%b9%89" >转义&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a class="link" href="#html" >HTML&lt;/a>
+&lt;ul>
+&lt;li>&lt;a class="link" href="#%e5%b5%8c%e5%85%a5%e5%86%85%e5%ae%b9" >嵌入内容&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="#%e8%a7%86%e9%a2%91" >视频&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a class="link" href="#%e6%80%bb%e7%bb%93" >总结&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="跨度元素">跨度元素
+&lt;/h2>&lt;p>跨度元素即图片，网址，视频等，在Typora中输入后，会立即载入并呈现。&lt;/p>
+&lt;h3 id="链接">链接
+&lt;/h3>&lt;h4 id="内部链接">内部链接
+&lt;/h4>&lt;p>这是一个带有标题属性的 &lt;code>[链接](http://example.com/ &amp;quot;标题&amp;quot;)&lt;/code>&lt;br>
+这是一个没有标题属性的 &lt;code>[链接](http://example.net/)&lt;/code>&lt;/p>
+&lt;p>&lt;a class="link" href="http://example.com/" title="标题"
+target="_blank" rel="noopener"
+>链接&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="http://example.net/" target="_blank" rel="noopener"
+>链接&lt;/a>&lt;/p>
+&lt;h4 id="参考链接">参考链接
+&lt;/h4>&lt;p>这是一个[参考链接]id &amp;ndash; 无法执行&lt;/p>
+&lt;h3 id="网址">网址
+&lt;/h3>&lt;p>Typora允许用&amp;lt;括号括起来&amp;gt;, 把URL作为链接插入。&lt;/p>
+&lt;p>Typora还会自动链接标准网址。&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.baidu.com" target="_blank" rel="noopener"
+>www.baidu.com&lt;/a>&lt;/p>
+&lt;h3 id="图片">图片
+&lt;/h3>&lt;p>&lt;code>![显示的文字](C:\Users\Hider\Desktop\echart.png &amp;quot;图片标题&amp;quot;)&lt;/code>&lt;/p>
+&lt;p>&lt;code>![显示的文字](C:\Users\Hider\Desktop\echart.png)&lt;/code>&lt;/p>
+&lt;p>除了以上2种方式之外，还可以直接将图片拖拽进来，自动生成链接。&lt;/p>
+&lt;h3 id="斜体">斜体
+&lt;/h3>&lt;p>使用 &lt;code>*单个星号*&lt;/code> 或者 &lt;code>_单下划线_&lt;/code> 可以字体倾斜。快捷键 &lt;code>Ctrl + I&lt;/code>&lt;/p>
+&lt;p>&lt;em>斜体&lt;/em>&lt;/p>
+&lt;h3 id="加粗">加粗
+&lt;/h3>&lt;p>使用 &lt;code>**两个星号**&lt;/code> 或者 &lt;code>__两个下划线__&lt;/code> 可以字体加粗。快捷键 &lt;code>Ctrl + B&lt;/code>&lt;/p>
+&lt;p>&lt;strong>加粗&lt;/strong>&lt;/p>
+&lt;h3 id="加粗斜体">加粗斜体
+&lt;/h3>&lt;p>使用&lt;code>***加粗斜体***&lt;/code>可以加粗斜体。&lt;/p>
+&lt;p>&lt;em>&lt;strong>加粗斜体&lt;/strong>&lt;/em>&lt;/p>
+&lt;h3 id="代码标记">代码标记
+&lt;/h3>&lt;p>标记代码使用反引号，即在英文输入法下，ESC键下面和1键左边的符号。&lt;/p>
+&lt;blockquote>
+&lt;p>使用该 &lt;code>printf()&lt;/code>功能&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="删除线">删除线
+&lt;/h3>&lt;p>使用&lt;code>~~删除线~~&lt;/code> 快捷键 &lt;code>Alt + Shift + 5&lt;/code>&lt;/p>
+&lt;p>&lt;del>删除线&lt;/del>&lt;/p>
+&lt;h3 id="下划线">下划线
+&lt;/h3>&lt;p>\下划线 &amp;ndash; 无法执行&lt;/p>
+&lt;p>参考另一篇文章，可执行。&lt;/p>
+&lt;p>通过&lt;code>&amp;lt;u&amp;gt;下划线的内容&amp;lt;/u&amp;gt;&lt;/code> 或者 快捷键&lt;code>Ctrl + U&lt;/code>可实现下划线&lt;/p>
+&lt;p>下划线的内容&lt;/p>
+&lt;h3 id="表情符号">表情符号
+&lt;/h3>&lt;p>Github的Markdown语法支持添加emoji表情，输入不同的符号码（两个冒号包围的字符）可以显示出不同的表情。&lt;/p>
+&lt;p>:smile &amp;ndash; 无法显示&lt;/p>
+&lt;p>😺&lt;/p>
+&lt;h3 id="下标">下标
+&lt;/h3>&lt;p>可以使用 &lt;code>&amp;lt;sub&amp;gt;文本&amp;lt;/sub&amp;gt;&lt;/code>实现下标。&lt;/p>
+&lt;p>(需在设置中打开该功能)&lt;/p>
+&lt;p>H&lt;sub>2&lt;/sub>O&lt;/p>
+&lt;p>H&lt;sub>2&lt;/sub>O&lt;/p>
+&lt;h3 id="上标">上标
+&lt;/h3>&lt;p>可以使用&lt;code>&amp;lt;sup&amp;gt;文本&amp;lt;/sup&amp;gt;&lt;/code>实现上标。&lt;/p>
+&lt;p>(需在设置中打开该功能)&lt;/p>
+&lt;p>X&lt;sup>2&lt;/sup>&lt;/p>
+&lt;p>X&lt;sup>2&lt;/sup>&lt;/p>
+&lt;h3 id="高亮">高亮
+&lt;/h3>&lt;p>&lt;code>==高亮==&lt;/code>(需在设置中打开该功能)&lt;/p>
+&lt;p>==我是最重要的==&lt;/p>
+&lt;h3 id="文本居中">文本居中
+&lt;/h3>&lt;p>使用 &lt;code>&amp;lt;center&amp;gt;这是要居中的内容&amp;lt;/center&amp;gt;&lt;/code>可以使文本居中&lt;/p>
+&lt;p>这是要居中的文本内容&lt;/p>
+&lt;h3 id="换行符-1">换行符
+&lt;/h3>&lt;p>使用 &lt;code>空格 + 空格 + Enter&lt;/code>可以实现换行，例如：&lt;/p>
+&lt;p>或者可以使用&lt;code>&amp;lt;br/&amp;gt;&lt;/code>实现换行。&lt;/p>
+&lt;br/>
+&lt;h3 id="转义">转义
+&lt;/h3>&lt;p>Markdown 使用了很多特殊符号来表示特定的意义，如果需要显示特定的符号则需要使用转义字符，Markdown 使用反斜杠转义特殊字符：&lt;/p>
+&lt;p>&lt;strong>文本加粗&lt;/strong>&lt;br>
+** 正常显示星号 **&lt;/p>
+&lt;p>Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">\ 反斜线
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">` 反引号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">* 星号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">_ 下划线
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{} 花括号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[] 方括号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">() 小括号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 井字号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">+ 加号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- 减号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">. 英文句点
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">! 感叹号
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="html">HTML
+&lt;/h2>&lt;p>支持HTML&lt;/p>
+&lt;p>不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。&lt;/p>
+&lt;p>目前支持的 HTML 元素有：&lt;code>&amp;lt;kbd&amp;gt; &amp;lt;b&amp;gt; &amp;lt;i&amp;gt; &amp;lt;em&amp;gt; &amp;lt;sup&amp;gt; &amp;lt;sub&amp;gt; &amp;lt;br&amp;gt;&lt;/code>等 ，如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">使用 &amp;lt;kbd&amp;gt;Ctrl&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;Alt&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;Del&amp;lt;/kbd&amp;gt; 重启电脑
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;lt;kbd&amp;gt; &amp;lt;/kbd&amp;gt; -- 白色框框
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>效果：&lt;br>
+使用 Ctrl+Alt+Del 重启电脑&lt;/p>
+&lt;h3 id="嵌入内容">嵌入内容
+&lt;/h3>&lt;h3 id="视频">视频
+&lt;/h3>&lt;h2 id="总结">总结
+&lt;/h2>&lt;ol>
+&lt;li>建议打开大纲视图&lt;code>Ctrl + Shift + 1&lt;/code>&lt;/li>
+&lt;li>插入表格需要顶格写，否则无法显示&lt;/li>
+&lt;li>语法无须刻意记忆，右键可查询&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>参考链接1：&lt;a class="link" href="https://www.simon96.online/2018/10/18/Typora%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%89/" target="_blank" rel="noopener"
+>Typora入门（中文版）&lt;/a>&lt;/p>
+&lt;p>参考链接2：&lt;a class="link" href="https://www.jianshu.com/p/b7fd16a44508" target="_blank" rel="noopener"
+>Typora&lt;/a>&lt;/p>
+&lt;p>参考链接3：&lt;a class="link" href="https://www.jianshu.com/p/65ab196bef04" target="_blank" rel="noopener"
+>Markdown代码块与语法高亮&lt;/a>&lt;/p>
+&lt;p>参考链接4：&lt;a class="link" href="https://www.cnblogs.com/anliux/p/10805103.html" target="_blank" rel="noopener"
+>Markdown使用-表格及其居中等格式&lt;/a>&lt;/p>
+&lt;p>参考链接5：&lt;a class="link" href="https://www.cnblogs.com/rossoneri/p/4446440.html" target="_blank" rel="noopener"
+>Markdown语法小结&lt;/a>&lt;/p>
+&lt;p>参考链接6：&lt;a class="link" href="https://www.runoob.com/markdown/md-tutorial.html" target="_blank" rel="noopener"
+>Runoob：Markdown教程&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;hr></description></item><item><title>Windows开启远程访问MySQL</title><link>https://MorningCigarette.github.io/p/mysqlorigin/</link><pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/mysqlorigin/</guid><description>&lt;h2 id="进入mysql安装目录-bin-下">进入MySQL安装目录 \bin 下
+&lt;/h2>&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/ujTIHxi1GU29JPz.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>在目录输入”cmd“然后回车&lt;/p>
+&lt;h2 id="第二步-开启远程访问权限">第二步 &lt;strong>开启远程访问权限&lt;/strong>
+&lt;/h2>&lt;p>在步骤一执行成功后的mysql&amp;gt;下，依次输入命令 use mysql、update user set host = &amp;lsquo;%&amp;rsquo; where user = &amp;lsquo;root&amp;rsquo;;、flush privileges; &lt;strong>（分号别漏了）&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">use mysql
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">update user set host = &amp;#39;%&amp;#39; where user = &amp;#39;root&amp;#39;;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">flush privileges;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/my4CzBkaQIX3UxZ.png"
+loading="lazy"
+>&lt;/p></description></item><item><title>相机拍摄时最重要的三个参数——光圈、快门、ISO</title><link>https://MorningCigarette.github.io/p/photography1/</link><pubDate>Mon, 19 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/photography1/</guid><description>&lt;p>如果你对相机只有很少了解，那么看这篇文章再好不过啦，我结合很多资料，力图用最通俗易懂的方式进行讲解。&lt;/p>
+&lt;p>相机拍摄时最重要的3个参数就是——&lt;strong>光圈、快门、ISO&lt;/strong>&lt;br>
+&lt;br/>次重要的参数有——&lt;strong>焦距、景深、曝光&lt;/strong>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>在介绍光圈、快门、ISO之前，必须先介绍曝光。&lt;br>
+&lt;br/>&lt;br/>&lt;strong>曝光准确的照片：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/XUNFqk6la4QcELS.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>过曝的照片：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/ElDXdB356YkOtW1.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>欠曝的照片：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/zsOZtiSePl6x94o.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>我们把一张完美曝光的照片理解成&lt;strong>一桶刚刚装满的水&lt;/strong>，不多也不少，并且水里面是有杂质的，那么如何把这桶水装满呢？（先不考虑装到里面的水干不干净）&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/tGPVqr6XvZcWlM8.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p>（看见没有，我往水里面加了一下杂色，代表杂质）&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>光圈：控制水龙头水量大小的开关&lt;/strong>&lt;br>
+&lt;strong>快门：开了多久的水龙头&lt;/strong>&lt;br>
+&lt;strong>ISO：滤网&lt;/strong>&lt;br>
+&lt;br/>如果你要把一个水桶装满水，需要打开水龙头然后等水装满就行了，那么你水龙头开的越大（&lt;strong>光圈越大&lt;/strong>）哗哗哗的流水，流水的时间（&lt;strong>快门速度&lt;/strong>）也就越短；同理，龙头开的越小（&lt;strong>光圈越小&lt;/strong>）嘀嗒嘀嗒的流水，需要的时间（&lt;strong>快门速度&lt;/strong>）就越长，这差不多就是快门和光圈之间的关系。&lt;br>
+&lt;br/>&lt;br/>ISO在里面起到了一个滤网的作用，ISO（&lt;strong>感光度&lt;/strong>）越高相当于滤网的空隙越大，那么出水量一定就大了，同理里面的杂质就会很多，所以拍出来的照片有很多的&lt;strong>噪点和颗粒&lt;/strong>，如果ISO（&lt;strong>感光度&lt;/strong>）低呢，那么就是说明滤网的间隙越小，越能过滤出杂质，所以水流的速度就满了，同时水里的杂质也就少了，拍出来的照片相对干净了很多（桶里面的水干净了很多）。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>从上面我们知道，&lt;strong>曝光量由光圈、快门、ISO三者共同决定&lt;/strong>。&lt;br>
+&lt;br/>&lt;br/>光圈由F值表示，例如F1.4，F1.8，F3.5，F5.6，F16，&lt;strong>数字越小代表光圈越大&lt;/strong>，例如F1.8&amp;gt;F5.6，光圈越大，代表水龙头开得越大，单位时间内流出的水也就越多（单位时间内进来的光也就越多）。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/sdWrOLcpiE5PDSx.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>如图所示，光圈越大，代表光孔越大，单位时间内进来的光肯定也就越多。例如某手机的光圈就是F1.8，很大，当然与相机不同的是，手机的光圈通常都是不可以改变的，也就是在任何情况这个手机的光圈都是F1.8。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>快门：开了多久的水龙头。&lt;/strong>&lt;br>
+&lt;br/>具体到相机上，就是放了多长时间的光进来。在光圈和ISO一定的情况下，如果你只放了0.001秒的光进来，很明显这个总光量很少，如果你放了10秒钟的光进来，那么这个光的总量就很大。&lt;br>
+&lt;br/>&lt;br/>快门其实是相当于一个窗帘的东西，如果快门是30秒，说明窗帘打开了30秒后才拉上。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/KBQWiT237vguVNp.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>快门通常用时间单位**秒（S）**表示，并且通常用分数表示，例如：&lt;/p>
+&lt;p>1/4000 S，1/2000 S ，1/200 S， 1/60 S，1/5 S，1 S，15 S ，30S&lt;br>
+&lt;br/>数字越小，代表快门越快，例如1/4000秒是非常快的快门。&lt;br>
+30秒的快门相当于把水龙头开了30秒，1/2000秒的快门相当于只放了两千分之一秒的水，那放出来的水肯定少得可怜，也就是放进来的光非常少。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>ISO的高低：滤网的大小。&lt;/strong>&lt;br>
+&lt;br/>ISO越高，滤网的滤孔越大，进来的杂质就越多，当然同时出来的水（进来的光）也就越多。画面的噪点也就越多，画质越差。&lt;br>
+&lt;br/>ISO 的常见值是100， 200， 400， 800， 1600， 3200， 6400， 12800等等。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/ti14hcToUe7uNE9.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>从上面我们知道了，光圈、快门、ISO就是三个控制曝光量的因素，三个共同作用。它们就像杂技师手中的三个球，任何一个没耍好，曝光就会出问题。&lt;br>
+&lt;br/>&lt;br/>但是，这三个参数之间却并不能力往一处使，你需要在三者之间互相取舍，做出最优决策。&lt;br>
+&lt;br/>&lt;br/>&lt;strong>很明显如果需要进的光足够多，思路有：光圈足够大、快门足够慢、ISO足够高。&lt;/strong>&lt;br>
+&lt;br/>&lt;br/>三者之中，除了大光圈没有明显缺点外（工业领域中大光圈也有缺点，即景深太浅），慢的快门和高的ISO都有明显的缺点。&lt;br>
+&lt;br/>&lt;br/>&lt;strong>快门太慢&lt;/strong>：拍的照片容易模糊，例如快门是0.5秒，就像这样。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/j7npqBhzcotlMO2.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>这是因为，被拍的人是动的，你的手也是抖的，在0.5秒的时间里面已经足够它俩抖来抖去了。相机记录的是这0.5秒内所有的光线信息，而并不是0.5秒的最后末尾的那一瞬间的光线信息。&lt;br>
+&lt;br/>如果你的快门足够快，例如1/500秒，那么，你的手抖动和被拍者的抖动在这么短的时间内可以认为基本没有移动多少，因此拍出来的照片是清晰的，就像这样：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/GNjTJl5vPXcrRxC.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p>至于高ISO产生高噪点的缺点在上文已经提及。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>如果我们想要一张尽可能清晰、画质高、噪点少、曝光合适的照片，应该怎么办呢？&lt;br>
+&lt;br/>必须要高速快门、低ISO，但是如果快门太快，ISO太低，那么曝光量就会不足，怎么办呢？只有用大光圈！！&lt;br>
+&lt;br/>&lt;br/>如果光圈开到最大也不行呢？那么这样还能实现清晰、画质高、噪点少、曝光合适的效果吗？不能！&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/7fV2RN9oIW4UMmq.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>所以我们需要取舍，要么把快门变慢一点，要么把ISO调高一点，当然这些都是以降低照片质量为代价的。&lt;br>
+&lt;br/>知道为什么大光圈镜头这么贵了吧？&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>三脚架存在的意义：&lt;/strong>&lt;br>
+&lt;br/>我们在上文说过，当光圈开到最大但曝光还不够的话，我们就需要取舍，要么把快门变慢一点增加曝光时间，要么把ISO调高一点增加感光度，当然这些在手持相机拍摄的时候都会降低照片质量。&lt;br>
+&lt;br/>事实上，增加ISO（感光度）一定会降低画质，但是把快门变慢却未必，我们说将快门变慢主要是可能会使照片模糊，因为被摄者和人的手都是都是移动（抖动）的。&lt;br>
+那么如果把相机放在三脚架上，而且被拍的物体是不动的呢？那么这时候就不会产生抖动了。这就是三脚架存在的意义。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/nKVQsHx65oOI38y.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>事实上，就算你拍人或者动物的话，把相机放在三脚架上也会比手持画质要好，因为它至少避免了你手的抖动。&lt;br>
+&lt;br/>当相机放在三脚架上拍静物的时候，无论快门速度为多少，都不会模糊，哪怕是曝光几个小时。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>焦距：&lt;/strong>&lt;br>
+为了简单起见，我们选择一个简单的定义：焦距就是透镜中心到焦点的距离。为了形象便于理解一点，你可以这样理解，焦距越长通常镜头也就越长。&lt;br>
+&lt;br/>通常说焦距，我们会涉及两个概念：广角和长焦。&lt;br>
+&lt;br/>广角一般是等效焦距在35mm及以下的焦距，等效焦距小于等于24mm的就是超广角；&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/epzKCdw6LZvMoEy.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>而长焦一般指85mm以上的焦距，如果在300mm以上则称为超长焦。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/fiWR7dX6MVE9YP1.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;strong>广角的视野广；&lt;/strong>&lt;br>
+&lt;strong>长焦的视野窄，但是可以拉近物体。&lt;/strong>&lt;br>
+&lt;br/>&lt;br/>下图是焦距和视角（视野宽还是窄）的对应关系图：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/WaXvMRpYQk6drLN.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>例如广角镜头可以拍这样的照片：（宽广辽阔的壮观）&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/8uXoCpcRH5leTLO.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>长焦镜头可以拍这样的照片：（适合&lt;strong>局部特写&lt;/strong>，百米之外如在眼前，长焦视觉上可以压缩空间）&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/duPYpbl5sINqcTH.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>我必须说的是，好的广角镜头和长焦镜头都很贵。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>其实我主要是谈光圈、快门、ISO这个三个参数，为什么这里又要谈到焦距这个参数呢？这是因为我即将谈到的一个名词，叫做“安全快门”，而安全快门和等效焦距密切相关。&lt;br>
+&lt;br/>&lt;br/>数码相机的快门时间如果低于某个值 ，便很容易因为手的晃动，而让画面变得很模糊。这个快门值就是我们说的安全快门。&lt;strong>安全快门一般是等效焦距的倒数。&lt;/strong>&lt;br>
+&lt;br/>&lt;br/>有一句很重要的话：&lt;strong>等效焦距越长，抖动产生的影响就会越大，影像就会越模糊。&lt;/strong>&lt;br>
+&lt;br/>&lt;br/>&lt;br/>原因分析如下：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/83lkDWnCEMKochL.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p>以某等效焦距为25mm — 750mm的普通数码相机为例：&lt;br>
+&lt;br/>&lt;br/>当你使用25mm焦距的时候，手持拍摄时快门应不慢于1/25秒，当使用750mm的焦距时，手持拍摄时的快门应不低于1/750秒。当然，如果用三脚架的话，就没有快门的限制了。&lt;/p>
+&lt;p>但是，一旦你为了消除抖动的影响而使用了高速快门，这时就算你使用最大的光圈，曝光量可能还是不足，这时相机只有强行使用极高的ISO，例如ISO 3200或者ISO 6400，这时画质就会变得非常糟糕。&lt;br>
+&lt;br/>解决这个矛盾的方法通常有两个：&lt;strong>一个是使用三脚架杜绝抖动，另一个是使用防抖镜头以使用较慢的快门就可以有效减轻抖动的影响。&lt;/strong>&lt;br>
+&lt;br/>但是……&lt;br>
+防抖镜头是很贵的。&lt;br>
+&lt;br/>&lt;br/>看这两个镜头，基本区别就是一个防抖一个不防抖，结果防抖的贵了近4000块钱。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/IUQPXtzDxgoAdby.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p> &lt;/p>
+&lt;p>最后要谈的一个名词叫做“景深”。&lt;br>
+&lt;br/>&lt;strong>景深：在聚焦完成后，在焦点前后的范围内都能形成清晰的像，这一前一后的距离范围，便叫做景深。&lt;/strong>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/eA9sEtGxF3oqLdV.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>景深通常和“虚化”这个词联系在一起，&lt;strong>景深浅即虚化强，景深深即虚化弱。&lt;/strong>&lt;br>
+&lt;br/>&lt;br/>浅景深的照片：（蜜蜂和花朵主体清晰，后面的绿叶几乎完全虚掉了）&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/95Xnc8PdGrsQyfp.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>深景深的照片：（无论是主体石狮子还是后面的太和殿都很清晰）&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/qek2AjKorlPFg1t.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>那么要获得浅的景深一般需要满足什么条件呢？&lt;br>
+&lt;strong>1、大光圈；&lt;/strong>&lt;br>
+&lt;strong>2、实际焦距较长；&lt;/strong>&lt;br>
+&lt;strong>3、镜头离被摄者近，而背景离被摄者远。&lt;/strong>&lt;br>
+&lt;br/>&lt;/p>
+&lt;p>注：为了避免过于复杂，对于上文中的“等效焦距”和“实际焦距”的区别在此我不详述了。&lt;/p>
+&lt;p> &lt;/p>
+&lt;p>再补充一张经典的图吧：光圈、快门、ISO、景深&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/12YAlgjaq5XdWFu.jpg"
+loading="lazy"
+>&lt;/p>
+&lt;p> &lt;/p></description></item><item><title>电脑内外网路由配置</title><link>https://MorningCigarette.github.io/p/routesetter/</link><pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/routesetter/</guid><description>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">route print
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">​route delete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">​route  add 172.0.0.0 mask 255.0.0.0 172.17.140.1 -p
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

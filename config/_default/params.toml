@@ -128,7 +128,7 @@ serverName = "cactus.chat"
 siteName = ""
 
 [comments.giscus]
-repo = "MorningCigarette/Giscus"
+repo = "Giscus"
 repoID = "R_kgDONPlk_w"
 category = "Announcements"
 categoryID = "DIC_kwDONPlk_84CkSIZ"

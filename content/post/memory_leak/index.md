@@ -4,7 +4,7 @@ description:
 slug: "memory_leak"
 date: 2024-09-27
 categories:
-    - Memory Leak
+    - C#
 ---
 
 内存泄漏（Memory Leak）是指程序无法释放已经不再使用的内存，从而导致内存消耗不断增加，最终可能耗尽系统内存资源。尽管C#具有垃圾回收机制（Garbage Collection，简称GC），能够自动管理内存，但某些情况下仍可能出现内存泄漏。内存泄漏在C#中通常不是由于忘记释放内存，而是由于程序中存在对不再需要的对象的引用，导致这些对象无法被GC回收。

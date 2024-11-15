@@ -4,7 +4,7 @@ description:
 slug: "C#Invoke"
 date: 2024-09-26
 categories:
-    - Invoke
+    - C#
 ---
 
 在 C# 中，Invoke() 是一个用于调用方法的方法，它能够在运行时动态地调用一个方法。Invoke方法主要用于以下几种场景：

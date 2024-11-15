@@ -4,7 +4,7 @@ description:
 slug: "value_and_reference"
 date: 2024-09-19
 categories:
-    - 值类型和引用类型
+    - C#
 ---
 
 不知道你在开发过程中有没有遇到过这样的困惑：这个变量怎么值被改？这个值怎么没变？

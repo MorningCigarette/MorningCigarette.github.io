@@ -3,7 +3,8 @@ title: "C#12 中的集合表达式"
 description: 
 slug: "collection-expressions"
 date: 2024-11-14
-
+categories:
+    - C#
 ---
 
 # C#12 中的集合表达式

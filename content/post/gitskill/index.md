@@ -4,7 +4,7 @@ description:
 slug: "gitskill"
 date: 2024-11-15
 categories:
-    - SourceTree
+    - Git
 
 ---
 

@@ -4,7 +4,7 @@ description:
 slug: "mysqlorigin"
 date: 2024-08-20
 categories:
-    - MySQL
+    - 小技巧
 
 ---
 

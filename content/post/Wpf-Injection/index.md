@@ -4,7 +4,7 @@ description:
 slug: "Wpf-Injection"
 date: 2024-08-06
 categories:
-    - MVVM
+    - WPF&&MVVM
 
 ---
 第一种方式（基于 Application 类的静态方法）：

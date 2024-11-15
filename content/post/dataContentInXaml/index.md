@@ -4,7 +4,7 @@ description:
 slug: "dataContentInXaml"
 date: 2024-08-28
 categories:
-    - WPF
+    - WPF&&MVVM
 ---
 
 ```xaml

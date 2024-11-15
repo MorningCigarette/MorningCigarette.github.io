@@ -128,10 +128,10 @@ serverName = "cactus.chat"
 siteName = ""
 
 [comments.giscus]
-repo = "Giscus"
-repoID = "R_kgDONPlk_w"
+repo = "MorningCigarette/MorningCigarette.github.io"
+repoID = "R_kgDOMfZTRw"
 category = "Announcements"
-categoryID = "DIC_kwDONPlk_84CkSIZ"
+categoryID = "DIC_kwDOMfZTR84ChaA8"
 mapping = "pathname"
 lightTheme = "light"
 darkTheme = "dark"

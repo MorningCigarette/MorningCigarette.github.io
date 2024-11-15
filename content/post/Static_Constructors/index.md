@@ -4,7 +4,7 @@ description:
 slug: "Static_Constructors"
 date: 2024-09-27
 categories:
-    - Static Constructors
+    - C#
 ---
 
 在C#中，静态构造函数（也称为类型构造函数）是一种特殊的构造函数，用于初始化静态成员或执行只需要一次的操作。静态构造函数的主要特点包括：

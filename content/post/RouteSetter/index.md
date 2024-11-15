@@ -4,7 +4,7 @@ description:
 slug: "RouteSetter"
 date: 2024-08-13
 categories:
-    - Route
+    - 小技巧
 
 ---
 ```

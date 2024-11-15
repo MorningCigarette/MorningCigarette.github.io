@@ -4,7 +4,7 @@ description:
 slug: "typora_1"
 date: 2024-10-12
 categories:
-    - Typora
+    - 小技巧
 
 ---
 

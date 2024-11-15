@@ -4,7 +4,7 @@ description:
 slug: "photography1"
 date: 2024-08-19
 categories:
-    - 摄影
+    - 小技巧
 
 ---
 如果你对相机只有很少了解，那么看这篇文章再好不过啦，我结合很多资料，力图用最通俗易懂的方式进行讲解。

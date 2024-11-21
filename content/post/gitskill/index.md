@@ -48,7 +48,7 @@ categories:
 
 **打开码云，找到自己需要Clone的仓库！**
 
-![img](https://s2.loli.net/2024/11/15/89OvVyKjcu4B7xg.png)![img](https://s2.loli.net/2024/11/15/3QVa7p1RFnPBmM2.png)![img](https://s2.loli.net/2024/11/15/UnzM3BVZhvHCeGq.png)
+![img](https://s2.loli.net/2024/11/15/89OvVyKjcu4B7xg.png)![img](https://s2.loli.net/2024/11/21/QNRk7flcY3qOtAX.png)![img](https://s2.loli.net/2024/11/15/UnzM3BVZhvHCeGq.png)
 
 ## SourceTree设置默认工作目录：
 
@@ -58,27 +58,27 @@ categories:
 
 **点击工具=>选项=>一般=>找到项目目录设置Clone项目默认存储的位置：**
 
-![img](C:/Users/llc/.config/joplin-desktop/resources/f7fa5341c0f84def84324f7ef19cb155.png)
+![img](https://s2.loli.net/2024/11/21/kYqo8iUSJBaWHwd.png)
 
 ## SourceTree代码提交：
 
-### 1.首先切换到需要修改功能代码所在的分支：
+### 首先切换到需要修改功能代码所在的分支：
 
 ![img](https://s2.loli.net/2024/11/15/wcD2a4nK8dAFJBp.png)
 
 ![图片](https://s2.loli.net/2024/11/15/xVbGHNhsID4mOyJ.png)
 
-### 2.将修改的代码提交到暂存区：
+### 将修改的代码提交到暂存区：
 
 ![img](https://s2.loli.net/2024/11/15/KujbJ6MYvlh71sn.png)
 
-### 3.将暂存区中的代码提交到本地代码仓库：
+### 将暂存区中的代码提交到本地代码仓库：
 
 **注意：多人同时开发项目的时候，不推荐默认选中立即推送变更到origin/develop，避免一些不必要的麻烦！**
 
 ![img](https://s2.loli.net/2024/11/15/1d4OKkCRj7LYWB6.png)
 
-### 4.代码拉取更新本地代码库，并将代码推送到远程仓库：
+### 代码拉取更新本地代码库，并将代码推送到远程仓库：
 
 ![img](https://s2.loli.net/2024/11/15/VvGWX4AZhszLJPa.png)
 
@@ -92,13 +92,13 @@ categories:
 
 ![img](https://s2.loli.net/2024/11/15/nEOaRj5iyD1zGYM.png)
 
-### 5.在Gitee中查看推送结果：
+### 在Gitee中查看推送结果：
 
 ![img](https://s2.loli.net/2024/11/15/OA9DEqKYFU4kifm.png)
 
 ## SourceTree分支切换，新建，合并：
 
-### 1.分支切换：
+### 分支切换：
 
 **双击切换：**
 
@@ -108,13 +108,13 @@ categories:
 
 ![图片](https://s2.loli.net/2024/11/15/VbKr1zlxhEoJ9XH.png)
 
-### 2.新建分支：
+### 新建分支：
 
 **注意：在新建分支时，我们需要在哪个主分支的基础上新建分支必须先要切换到对应的主分支才能到该主分支上创建分支，如下我们要在master分支上创建一个feature-0613分支：**
 
 ![img](https://s2.loli.net/2024/11/15/uzWCAF8hJp1Kqt2.png)![img](https://s2.loli.net/2024/11/15/h9qdToGs6jFRMQB.png)
 
-### 3.合并分支:
+### 合并分支:
 
 **注意：在合并代码之前我们都需要将需要合并的分支拉取到最新状态（\**避免覆盖别人的代码，或者丢失一些重要文件）!!!**
 
@@ -193,7 +193,7 @@ Beyond Compare使用技巧：
 
 SourceTree打开外部和合并工具：
 
-![img](C:/Users/llc/.config/joplin-desktop/resources/9f9be61e4bc744fcb3c743ace8755006.png)
+![img](https://s2.loli.net/2024/11/21/47O6tSJTkbi5gcI.png)
 
 **注意：第一次启动Beynod Compare软件需要一会时间，请耐心等待：**
 
@@ -201,7 +201,7 @@ SourceTree打开外部和合并工具：
 
 Beynod Compare进行冲突合并：
 
-![img](C:/Users/llc/.config/joplin-desktop/resources/9b14bb230f984d89af94e8c963324d1c.png)
+![img](https://s2.loli.net/2024/11/21/Cm7QiNljaPDoV1n.png)
 
 点击保存文件后关闭Beynod Compare工具，SourceTree中的冲突就解决了，在SourceTree中我们会发现多了一个 .orig 的文件。接着选中那个.orig文件，单击右键 => 移除，最后我们推送到远程代码库即可：
 
@@ -255,15 +255,15 @@ Pull Request提交相关操作参考该篇文章：
 
 > https://www.jianshu.com/p/b365c743ec8d
 
-### 1、fork 项目：
+### fork 项目：
 
-![img](C:/Users/llc/.config/joplin-desktop/resources/3bf0fbd95fe7409587508f158b44b3f9.png)
+![img](https://s2.loli.net/2024/11/21/DOxV29PK4ZnqsAc.png)
 
  
 
-### 2、克隆本地
+### 克隆本地
 
-![img](C:/Users/llc/.config/joplin-desktop/resources/d211561028e8400889ab7cfbd7a16ec3.png)
+![img](https://s2.loli.net/2024/11/21/dfTeBGkIJ15Pql2.png)
 
  打开Git Bash输入仓库克隆命令：
 
@@ -271,7 +271,7 @@ Pull Request提交相关操作参考该篇文章：
 git clone https://github.com/liangtongzhuo/taro-ui.git
 ```
 
-### 3、根据文档创建分支
+### 根据文档创建分支
 
 拖进 SourceTree，基于 dev 创建分支如下图：
 
@@ -279,7 +279,7 @@ git clone https://github.com/liangtongzhuo/taro-ui.git
 
  
 
-### 4、提交修改的代码到远程代码库
+### 提交修改的代码到远程代码库
 
 文章上面已经提到了使用SourceTree提交的相关操作，可参考：
 
@@ -291,7 +291,7 @@ https://www.cnblogs.com/Can-daydayup/p/13128633.html#\_label5（或者Ctrl F：S
 `git add .  --提交所有修改的文件到本地暂存区``git commit -m"fix(dos):修正文字 "   --提交到本地代码库``git push  --提交到github中的远程代码库`
 ```
 
-### 5、提交 Pull Request
+### 提交 Pull Request
 
 第四步提交成功后，进入原来fork的仓库，点击 Compare
 

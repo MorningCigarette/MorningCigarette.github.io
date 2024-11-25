@@ -82,7 +82,7 @@ var guid_v7_time = Guid.CreateVersion7(TimeProvider.System.GetLocalNow());
 
 引入了新的方法 CountBy 和 AggregateBy后，可以在不经过GroupBy 分配中间分组的情况下快速完成复杂的聚合操作，同时方法命名也非常直观，可以大大提升工作效率。
 
-``````
+```
 public class Student
 {
     public string Name { get; set; }
@@ -112,7 +112,6 @@ public void CountByExample()
 }
 
 ```
-
 ```
 public class Student
 {

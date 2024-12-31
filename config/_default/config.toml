@@ -2,7 +2,7 @@
 baseurl = "https://MorningCigarette.github.io"
 languageCode = "zh-cn"
 paginate = 5
-title = "RongRuo`s Sutra Library"
+title = "Sutra Library"
 
 # Theme i18n support
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar

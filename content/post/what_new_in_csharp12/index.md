@@ -21,9 +21,9 @@ categories:
 
 ## 集合表达式
 
-集合表达式引入了新的 terse 语法来创建常见的集合值。 可以使用展开运算符 `..` 将其他集合内联到这些值中。
+集合表达式引入了新的 语法来创建常见的集合值。 可以使用展开运算符 `..` 将其他集合内联到这些值中。
 
-可以创建多个类似集合的类型，而无需使用外部 BCL 支持。 这些类型包括：
+可以创建多个类似集合的类型，而无需使用外部 BCL(Base Class Library) 支持。 这些类型包括：
 
 - 数组类型，例如 `int[]`。
 - [System.Span&lt;T&gt;](https://learn.microsoft.com/zh-cn/dotnet/api/system.span-1) 和 [System.ReadOnlySpan&lt;T&gt;](https://learn.microsoft.com/zh-cn/dotnet/api/system.readonlyspan-1)。

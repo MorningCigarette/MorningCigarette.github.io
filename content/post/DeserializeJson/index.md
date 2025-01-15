@@ -1,13 +1,21 @@
 ---
-title: "JsonConvert.DeserializeObject和JObject.Parse在反序列化中的性能对比"
+title: "Newtonsoft反序列化Json常用方式的性能对比"
 description: 
 slug: "DeserializeJson"
 date: 2025-01-15
 categories:
-    - C#
+   
+
 ---
 
-这里采用BenchmarkDotNet进行测试，我们直接上代码
+## 反序列化Json常用方式
+
+1. `JsonConvert.DeserializeObject<dynamic>(string)`
+2. `JObject.Parse(string)`
+
+
+
+​    这里采用enchmarkDotNet进行测试，我们直接上代码
 
 ```
 #load "BenchmarkDotNet"
@@ -52,9 +60,9 @@ public void BenchmarkSetup()
 }
 ```
 
-我们来看结果
+​    我们来看结果
 ![34ac03add12f281099b443508ac96f39.png](https://s2.loli.net/2025/01/15/ZoL7KkCu1UvYEQR.png)
 
 ## 结论
 
-不论是复查Json还是简单Json，JObject.Parse都是最优选择
+​    可以看出**不论是复杂Json还是简单Json，JObject.Parse都是最优选择**

@@ -15,3 +15,14 @@ hasCJKLanguage = true
 
 # Change it to your Disqus shortname before using
 # disqusShortname = "hugo-theme-stack"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\[', '\]'], ['$$', '$$']]
+          inline = [['\(', '\)']]
+[params]
+  math = true

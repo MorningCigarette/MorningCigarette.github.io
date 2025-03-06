@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on Sutra Library</title><link>https://MorningCigarette.github.io/categories/git/</link><description>Recent content in Git on Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 21 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Git checkout 签出或切换分支</title><link>https://MorningCigarette.github.io/p/git_checkout/</link><pubDate>Thu, 21 Nov 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/git_checkout/</guid><description>&lt;h1 id="git-checkout-签出或切换分支">Git checkout 签出或切换分支
+&lt;/h1>&lt;p>本章节是对git checkout 命令的介绍。在Git的术语中，“checkout”是指在目标实体的不同版本之间切换的行为。git checkout命令操作三个不同的实体：文件、提交和分支。除了“checkout”的定义之外，短语“签出”通常用于暗示执行&lt;code>git checkout&lt;/code>命令的行为。&lt;/p>
+&lt;p>在&lt;a class="link" href="https://www.jiyik.com/w/git/git-undoing-changes" target="_blank" rel="noopener"
+>git 撤消更改和提交&lt;/a>一篇中，我们看到了如何使用 git checkout 查看旧提交。 本文档大部分内容的重点将是分支的 “checkout” 操作。&lt;/p>
+&lt;p>检出分支类似于检出旧的提交和文件，因为工作目录会更新以匹配选定的分支； 但是，新的更改会保存在项目历史记录中——也就是说，它不是只读操作。&lt;/p>
+&lt;hr>
+&lt;h2 id="签出分支">签出分支
+&lt;/h2>&lt;p>git checkout 命令允许我们在 &lt;a class="link" href="https://www.jiyik.com/w/git/git-branch" target="_blank" rel="noopener"
+>git branch&lt;/a> 创建的分支之间进行切换。 签出分支会更新工作目录中的文件以匹配该分支中存储的版本，并告诉 Git 记录该分支上的所有新提交。 将其视为选择你正在从事的开发工作线的一种方式。&lt;/p>
+&lt;p>为每个新功能都新建一个专门的分支是对传统 SVN 工作流程的巨大转变。 它使尝试新实验变得非常容易，而不必担心破坏现有功能，并且可以同时处理许多不相关的功能。 此外，分支机构还促进了多个协作工作流程。&lt;/p>
+&lt;p>git checkout 命令有时可能会与 &lt;a class="link" href="https://www.jiyik.com/w/git/git-clone" target="_blank" rel="noopener"
+>git clone&lt;/a> 混淆。 这两个命令之间的区别在于 clone 用于从远程仓库获取代码，或者 checkout 用于在本地系统上已有的代码版本之间切换。&lt;/p>
+&lt;hr>
+&lt;h2 id="git-checkout-用法">git checkout 用法
+&lt;/h2>&lt;p>下面我们看一下 git checkout 常见的两种用法&lt;/p>
+&lt;h3 id="已经存在的分支">已经存在的分支
+&lt;/h3>&lt;p>假设你正在使用的仓库已经创建了几个分支，那么可以使用 git checkout 在这些分支之间进行切换。 要找出哪些分支可用以及当前分支名称是什么，请执行 &lt;a class="link" href="https://www.jiyik.com/w/git/git-branch" target="_blank" rel="noopener"
+>git branch&lt;/a>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/md8cF1EW2koIQUT.jpg"
+loading="lazy"
+alt="git branch 查看的分支列表"
+>&lt;/p>
+&lt;p>绿色的分支 master 表示的是我们当前所在的活跃分支。下面我们是用 git checkout 命令切换到 jiyik 分支&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git checkout jiyik
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/v8LlZgw47MybBGI.jpg"
+loading="lazy"
+alt="git checkout 切换分支"
+>&lt;/p>
+&lt;p>我们看到，现在绿色的分支为 jiyik。说明我们当前切换到了jiyik分支。&lt;/p>
+&lt;h3 id="新分支">新分支
+&lt;/h3>&lt;p>Git checkout 与 &lt;a class="link" href="https://www.jiyik.com/w/git/git-branch" target="_blank" rel="noopener"
+>git branch&lt;/a> 协同工作。 git branch 命令可用于创建新分支。 当你想开发一个新功能时，可以使用 &lt;code>git branch new_branch&lt;/code> 在 master 之外创建一个新分支。 创建后，可以使用 &lt;code>git checkout new_branch&lt;/code> 切换到该分支。 此外， git checkout 命令后面可以跟一个 &lt;code>-b&lt;/code> 参数，这样就不用使用 git branch命令新建分支了。它会自动创建一个新分支并立即切换到这个分支。 我们可以使用 git checkout 在单个仓库中切换多个功能分支之间进行切换来处理这些功能。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout -b &amp;lt;new-branch&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>下面我们使用上面给出的命令创建一个新的分支，首先我们看一下当前有哪些分支&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/YHaxQDdMruL9Uic.jpg"
+loading="lazy"
+alt="git checkout 创建新分支之前查看当前的分支"
+>&lt;/p>
+&lt;p>接下来使用git checkout 创建分支并切换到它&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git checkout -b new_branch
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/8s9dCWR6kuPBHEO.jpg"
+loading="lazy"
+alt="git checkout 创建新分支并切换到了新的分支"
+>&lt;/p>
+&lt;p>默认情况下 &lt;code>git checkout -b&lt;/code> 将基于当前 HEAD 指向的分支创建新分支。 一个可选的附加分支参数可以传递给 git checkout。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout -b &amp;lt;new-branch&amp;gt; &amp;lt;existing-branch&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在上面的例子中，git checkout 命令后面跟着 &lt;existing-branch> 参数，然后新分支基于该指定的分支而不是当前 HEAD。&lt;/p>
+&lt;h3 id="git-checkout-签出远程分支">git checkout 签出远程分支
+&lt;/h3>&lt;p>与团队合作时，通常使用远程仓库。 这些仓库可能是托管和共享的，也可能是其他同事的本地副本。 每个远程仓库都将包含自己的一组分支。 为了签出远程分支，我们必须首先获取分支的内容。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git fetch --all
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后我们看一下本地分支和远程分支的差异&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git branch
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git branch -r
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/gdALBZptHoyOXGr.jpg"
+loading="lazy"
+alt="git checkout 本地分支和远程分支"
+>&lt;/p>
+&lt;p>在现代版本的 Git 中，您可以像签出本地分支一样签出远程分支。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git checkout jiyik_branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/GXAOpgBhU7jVsIq.jpg"
+loading="lazy"
+alt="git checkout 签出远程分支"
+>&lt;/p>
+&lt;p>如果你的Git版本比较旧，则需要使用下面的命令&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git checkout -b jiyik_branch origin/jiyik_branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此外，您可以签出一个新的本地分支并将其重置为上次提交的远程分支。这里需要用到 &lt;a class="link" href="https://www.jiyik.com/w/git/git-reset" target="_blank" rel="noopener"
+>git reset 命令&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ git checkout -b new_branch
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git reset --hard origin/new_branch
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">HEAD is now at f88bed1 增加迹忆客教程地址
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;hr>
+&lt;h2 id="分离-head-状态">分离 HEAD 状态
+&lt;/h2>&lt;p>现在我们已经看到了 git checkout 在分支上的三个主要用途，讨论“分离的 HEAD”状态很重要。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>记住&lt;/code> - HEAD 是 Git 引用当前快照的方式。&lt;/p>&lt;/blockquote>
+&lt;p>在内部， git checkout 命令只是更新 HEAD 以指向指定的分支或提交。 当它指向一个分支时，Git 不会有什么变化，但是当你检出一个提交时，它会切换到“分离的 HEAD”状态。&lt;/p>
+&lt;p>这是一个警告，告诉我们所做的一切都与项目开发的其余部分“分离”。 如果你在处于“分离的 HEAD 状态”时开始开发功能，则不会有任何分支允许你返回到它。 当不可避免地检查另一个分支（例如，将我们的功能合并到其中）时，将无法引用我们的功能：&lt;/p>
+&lt;p>git checkout分离的HEAD状态&lt;/p>
+&lt;p>关键是，你的开发应该总是在一个分支上进行——而不是在一个独立的 HEAD 上。 这确保您始终可以引用新提交。 但是，如果您只是查看旧提交，那么您是否处于分离的 HEAD 状态并不重要。&lt;/p>
+&lt;hr>
+&lt;h2 id="git-checkout-总结">git checkout 总结
+&lt;/h2>&lt;p>本章节主要介绍更改分支时 git checkout 命令的使用。 总之，git checkout 在分支上使用时会改变 HEAD 引用的目标。 它可用于创建分支、切换分支和检出远程分支。 git checkout 命令是标准 Git 操作的必备工具。 它和 &lt;a class="link" href="https://www.jiyik.com/w/git/git-merge" target="_blank" rel="noopener"
+>git merge&lt;/a> 是对应的。 git checkout 和 git merge 命令是启用 git 工作流的关键工具。&lt;/p></description></item><item><title>SourceTree使用教程</title><link>https://MorningCigarette.github.io/p/gitskill/</link><pubDate>Fri, 15 Nov 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/gitskill/</guid><description>&lt;h2 id="前言">前言：
+&lt;/h2>&lt;p>俗话说的好工欲善其事必先利其器，Git分布式版本控制系统是我们日常开发中不可或缺的。目前市面上比较流行的Git可视化管理工具有SourceTree、Github Desktop、TortoiseGit，综合网上的一些文章分析和自己的日常开发实践心得个人比较推荐开发者使用SourceTree，因为SourceTree同时支持Windows和Mac，并且界面十分的精美简洁，大大的简化了开发者与代码库之间的Git操作方式。该篇文章主要是对日常开发中使用SourceTree可视化管理工具的一些常用操作进行详细讲解。&lt;/p>
+&lt;h2 id="sourcetree--github-desktop--tortoisegit-可视化管理工具对比">SourceTree | Github Desktop | TortoiseGit 可视化管理工具对比：
+&lt;/h2>&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/hmllittlekoi/article/details/104504406/" target="_blank" rel="noopener"
+>https://blog.csdn.net/hmllittlekoi/article/details/104504406/&lt;/a>&lt;/p>&lt;/blockquote>
+&lt;h2 id="sourcetree介绍和atlassian账号注册和登录教程">SourceTree介绍和Atlassian账号注册和登录教程：
+&lt;/h2>&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/Can-daydayup/p/13128511.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/Can-daydayup/p/13128511.html&lt;/a>&lt;/p>&lt;/blockquote>
+&lt;h2 id="连接gitee-or-github获取代码">连接Gitee or GitHub，获取代码:
+&lt;/h2>&lt;p>&lt;strong>注意：这里介绍的是使用SSH协议获取关联远程仓库的代码，大家也可以直接使用过HTTPS协议的方式直接输入账号密码获取关联代码！&lt;/strong>&lt;/p>
+&lt;h3 id="全面概述gitee和github生成添加ssh公钥">全面概述Gitee和GitHub生成/添加SSH公钥：
+&lt;/h3>&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/Can-daydayup/p/13063280.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/Can-daydayup/p/13063280.html&lt;/a>&lt;/p>&lt;/blockquote>
+&lt;h3 id="在sourcetree中添加ssh密钥">在SourceTree中添加SSH密钥：
+&lt;/h3>&lt;p>&lt;strong>工具=&amp;gt;选择：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/b4q9pwtYcZSHLVW.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;strong>添加SSH密钥位置：C:\Users\xxxxx.ssh\id_rsa.pub：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/usHvRrWzE2yPotD.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;strong>SSH客户端选择OpenSSH：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/VNYaA1EnvS7yZqT.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="clone对应托管平台仓库以gitee为例">Clone对应托管平台仓库（以Gitee为例）：
+&lt;/h3>&lt;p>&lt;strong>打开码云，找到自己需要Clone的仓库！&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/89OvVyKjcu4B7xg.png"
+loading="lazy"
+alt="img"
+>&lt;img src="https://s2.loli.net/2024/11/21/QNRk7flcY3qOtAX.png"
+loading="lazy"
+alt="img"
+>&lt;img src="https://s2.loli.net/2024/11/15/UnzM3BVZhvHCeGq.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h2 id="sourcetree设置默认工作目录">SourceTree设置默认工作目录：
+&lt;/h2>&lt;p>由上面我们可以发现每次Clone克隆项目的时候，克隆下来的项目默认存储位置都是在C盘，因此每次都需要我们去选择项目存放的路径，作为一个喜欢偷懒的人而言当然不喜欢这种方式啦，因此我们可以设置一个默认的项目存储位置。&lt;/p>
+&lt;h3 id="设置sourcetree默认项目目录">设置SourceTree默认项目目录：
+&lt;/h3>&lt;p>&lt;strong>点击工具=&amp;gt;选项=&amp;gt;一般=&amp;gt;找到项目目录设置Clone项目默认存储的位置：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/kYqo8iUSJBaWHwd.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h2 id="sourcetree代码提交">SourceTree代码提交：
+&lt;/h2>&lt;h3 id="首先切换到需要修改功能代码所在的分支">首先切换到需要修改功能代码所在的分支：
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/wcD2a4nK8dAFJBp.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/xVbGHNhsID4mOyJ.png"
+loading="lazy"
+alt="图片"
+>&lt;/p>
+&lt;h3 id="将修改的代码提交到暂存区">将修改的代码提交到暂存区：
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/KujbJ6MYvlh71sn.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="将暂存区中的代码提交到本地代码仓库">将暂存区中的代码提交到本地代码仓库：
+&lt;/h3>&lt;p>&lt;strong>注意：多人同时开发项目的时候，不推荐默认选中立即推送变更到origin/develop，避免一些不必要的麻烦！&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/1d4OKkCRj7LYWB6.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="代码拉取更新本地代码库并将代码推送到远程仓库">代码拉取更新本地代码库，并将代码推送到远程仓库：
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/VvGWX4AZhszLJPa.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;strong>勾选需要推送的分支，点击推送到远程分支：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/5gb4uspM3nWVNZq.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;strong>代码成功推送到远程代码库：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/nEOaRj5iyD1zGYM.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="在gitee中查看推送结果">在Gitee中查看推送结果：
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/OA9DEqKYFU4kifm.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h2 id="sourcetree分支切换新建合并">SourceTree分支切换，新建，合并：
+&lt;/h2>&lt;h3 id="分支切换">分支切换：
+&lt;/h3>&lt;p>&lt;strong>双击切换：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/pFgtQ2J4GrSdU75.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;strong>单击鼠标右键切换：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/VbKr1zlxhEoJ9XH.png"
+loading="lazy"
+alt="图片"
+>&lt;/p>
+&lt;h3 id="新建分支">新建分支：
+&lt;/h3>&lt;p>&lt;strong>注意：在新建分支时，我们需要在哪个主分支的基础上新建分支必须先要切换到对应的主分支才能到该主分支上创建分支，如下我们要在master分支上创建一个feature-0613分支：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/uzWCAF8hJp1Kqt2.png"
+loading="lazy"
+alt="img"
+>&lt;img src="https://s2.loli.net/2024/11/15/h9qdToGs6jFRMQB.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="合并分支">合并分支:
+&lt;/h3>&lt;p>*&lt;em>注意：在合并代码之前我们都需要将需要合并的分支拉取到最新状态（*&lt;em>避免覆盖别人的代码，或者丢失一些重要文件）!!!&lt;/em>&lt;/em>&lt;/p>
+&lt;p>在master分支上点击右键，选择合并feature-0613至当前分支即可进行合并:&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/to2uxwHLUhpv9fg.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>分支合并成功：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/hqctx82zp9ZaSM1.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h2 id="sourcetree代码冲突解决">SourceTree代码冲突解决：
+&lt;/h2>&lt;h3 id="首先我们需要制造一个提交文件遇到冲突的情景">首先我们需要制造一个提交文件遇到冲突的情景：
+&lt;/h3>&lt;p>在SoureceTree中在Clone一个新项目，命名为pingrixuexilianxi2，如下图所示：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/dVJ27x5SzeniETc.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>我们以项目中的【代码合并冲突测试.txt】文件为例：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/XBqOQDEylId7ogk.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>在pingrixuexilianxi2中添加内容，并提交到远程代码库，添加的内容如下：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/UHXVatQdO95ZNDi.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>在pingrixuexilianxi中添加内容，提交代码（不选择立即推送变更到origin/master），拉取代码即会遇到冲突：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/xTZh9QkoCqSDK78.png"
+loading="lazy"
+alt="img"
+>&lt;img src="https://s2.loli.net/2024/11/15/s7zcxuhONKPUADS.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/Qy6SJZ5dkhLDsRE.png"
+loading="lazy"
+alt="图片"
+>&lt;/p>
+&lt;p>&lt;strong>冲突文件中的内容：&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/6wSv1YLoz2VXWIR.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="直接打开冲突文件手动解决冲突">直接打开冲突文件手动解决冲突：
+&lt;/h3>&lt;p>由下面的冲突文件中的冲突内容我们了解到：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">`&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD``6月19日 pingrixuexilianxi添加了内容``=======``6月18日 pingrixuexilianxi2修改了这个文件哦``&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; a8284fd41903c54212d1105a6feb6c57292e07b5`
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">`&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD到 =======里面的【6月19日 pingrixuexilianxi添加了内容】是自己刚才的Commit提交的内容``=======到 &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; a8284fd41903c54212d1105a6feb6c57292e07b5里面的【6月18日 pingrixuexilianxi2修改了这个文件哦】是远程代码库更新的内容（即为pingrixuexilianxi2本地代码库推送修改内容）。`
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>手动冲突解决方法：&lt;/p>
+&lt;blockquote>
+&lt;p>根据项目需求删除不需要的代码就行了，假如都需要的话我们只需要把 &amp;laquo;&amp;laquo;&amp;laquo;&amp;lt; HEAD======= &amp;raquo;&amp;raquo;&amp;raquo;&amp;gt; a8284fd41903c54212d1105a6feb6c57292e07b5都删掉冲突就解决了（注意，在项目中最后这些符号都不能存在，否则可能会报异常）。&lt;/p>&lt;/blockquote>
+&lt;p>最后将冲突文件标记为已解决，提交到远程仓库：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/vnFNBDE3kKT1zfp.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="采用外部文本文件对比工具beyond-compare解决冲突">采用外部文本文件对比工具Beyond Compare解决冲突:
+&lt;/h3>&lt;h4 id="sourcetree配置文本文件对比工具beyond-compare">&lt;strong>SourceTree配置文本文件对比工具Beyond Compare:&lt;/strong>
+&lt;/h4>&lt;p>工具=&amp;gt;选项=&amp;gt;比较：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/vS9uGwNBYiPThay.png"
+loading="lazy"
+alt="图片"
+>&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/PKdi9FBqZxLp1lk.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h4 id="使用beyond-compare解决冲突">使用Beyond Compare解决冲突：
+&lt;/h4>&lt;p>Beyond Compare使用技巧：&lt;/p>
+&lt;p>官方全面教程：https://www.beyondcompare.cc/jiqiao/&lt;/p>
+&lt;p>SourceTree打开外部和合并工具：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/47O6tSJTkbi5gcI.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>&lt;strong>注意：第一次启动Beynod Compare软件需要一会时间，请耐心等待：&lt;/strong>&lt;/p>
+&lt;p>&lt;em>&lt;em>&lt;em>*&lt;/em>*&lt;img src="https://s2.loli.net/2024/11/15/5yspA9x1UmECcGJ.png"
+loading="lazy"
+alt="图片"
+>**&lt;/em>*&lt;/em>*&lt;/p>
+&lt;p>Beynod Compare进行冲突合并：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/Cm7QiNljaPDoV1n.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>点击保存文件后关闭Beynod Compare工具，SourceTree中的冲突就解决了，在SourceTree中我们会发现多了一个 .orig 的文件。接着选中那个.orig文件，单击右键 =&amp;gt; 移除，最后我们推送到远程代码库即可：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/Xi2LCZwuEGHa7c8.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h2 id="sourcetree中的基本名词说明">Sourcetree中的基本名词说明：
+&lt;/h2>&lt;blockquote>
+&lt;p>克隆/新建(clone)：从远程仓库URL加载创建一个与远程仓库一样的本地仓库。&lt;/p>
+&lt;p>提交(commit)：将暂存区文件上传到本地代码仓库。&lt;/p>
+&lt;p>推送(push)：将本地仓库同步至远程仓库，一般推送（push）前先拉取（pull）一次，确保一致（十分注意：这样你才能达到和别人最新代码同步的状态，同时也能够规避很多不必要的问题）。&lt;/p>
+&lt;p>拉取(pull)：从远程仓库获取信息并同步至本地仓库，并且自动执行合并（merge）操作（git pull=git fetch+git merge）。&lt;/p>
+&lt;p>获取(fetch)：从远程仓库获取信息并同步至本地仓库。&lt;/p>
+&lt;p>分支(branch)：创建/修改/删除分枝。&lt;/p>
+&lt;p>合并(merge)：将多个同名文件合并为一个文件，该文件包含多个同名文件的所有内容，相同内容抵消。&lt;/p>
+&lt;p>贮藏(git stash)：保存工作现场。&lt;/p>
+&lt;p>丢弃(Discard)：丢弃更改,恢复文件改动/重置所有改动,即将已暂存的文件丢回未暂存的文件。&lt;/p>
+&lt;p>标签(tag)：给项目增添标签。&lt;/p>
+&lt;p>工作流(Git Flow)：团队工作时，每个人创建属于自己的分枝（branch）��确定无误后提交到master分支。&lt;/p>
+&lt;p>终端(terminal)：可以输入git命令行。&lt;/p>
+&lt;p>每次拉取和推送的时候不用每次输入密码的命令行：git config credential.helper osxkeychain sourcetree。&lt;/p>
+&lt;p>检出(checkout)：切换不同分支。&lt;/p>
+&lt;p>添加（add）：添加文件到缓存区。&lt;/p>
+&lt;p>移除（remove）：移除文件至缓存区。&lt;/p>
+&lt;p>重置(reset)：回到最近添加(add)/提交(commit)状态。&lt;/p>&lt;/blockquote>
+&lt;h2 id="git分布式版本控制器常用命令和使用">Git分布式版本控制器常用命令和使用：
+&lt;/h2>&lt;p>当然作为一个有逼格的程序员， 一些常用的命令我们还是需要了解和掌握的，详情可参考我之前写过的文章：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/Can-daydayup/p/10134733.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/Can-daydayup/p/10134733.html&lt;/a>&lt;/p>&lt;/blockquote>
+&lt;h2 id="sourcetree如何提交prpull-request">SourceTree如何提交PR(Pull Request)：
+&lt;/h2>&lt;p>Pull Request提交相关操作参考该篇文章：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a class="link" href="https://www.jianshu.com/p/b365c743ec8d" target="_blank" rel="noopener"
+>https://www.jianshu.com/p/b365c743ec8d&lt;/a>&lt;/p>&lt;/blockquote>
+&lt;h3 id="fork-项目">fork 项目：
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/DOxV29PK4ZnqsAc.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="克隆本地">克隆本地
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/11/21/dfTeBGkIJ15Pql2.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>打开Git Bash输入仓库克隆命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git clone https://github.com/liangtongzhuo/taro-ui.git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="根据文档创建分支">根据文档创建分支
+&lt;/h3>&lt;p>拖进 SourceTree，基于 dev 创建分支如下图：&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/teqPI4bYFUHR1rZ.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;h3 id="提交修改的代码到远程代码库">提交修改的代码到远程代码库
+&lt;/h3>&lt;p>文章上面已经提到了使用SourceTree提交的相关操作，可参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/Can-daydayup/p/13128633.html#" target="_blank" rel="noopener"
+>https://www.cnblogs.com/Can-daydayup/p/13128633.html#&lt;/a>_label5（或者Ctrl F：SourceTree代码提交）&lt;/p>
+&lt;p>当然也可以使用git命令提交：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">`git add . --提交所有修改的文件到本地暂存区``git commit -m&amp;#34;fix(dos):修正文字 &amp;#34; --提交到本地代码库``git push --提交到github中的远程代码库`
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="提交-pull-request">提交 Pull Request
+&lt;/h3>&lt;p>第四步提交成功后，进入原来fork的仓库，点击 Compare&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/2kwyM8ApsPLOmIu.png"
+loading="lazy"
+alt="img"
+>&lt;/p>
+&lt;p>提交你的说明，选择合并的分支即可，剩下等待合并。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/11/15/G1gVLm4wCk6jUAX.png"
+loading="lazy"
+alt="img"
+>&lt;/p></description></item><item><title>Git Skill</title><link>https://MorningCigarette.github.io/p/git-skill/</link><pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/git-skill/</guid><description>&lt;h2 id="git">Git
+&lt;/h2>&lt;p>Git 是一种分布式版本控制系统，用于管理软件项目的源代码。它是由 Linux 之父 &lt;a class="link" href="https://so.csdn.net/so/search?q=Linus&amp;amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener"
+>Linus&lt;/a> Torvalds 开发的，并已经成为了现代软件开发领域中最流行的版本控制系统之一。&lt;/p>
+&lt;p>使用 Git 可以追踪代码的历史修改记录，方便团队协作、代码共享和代码重构。Git 的基本工作流程如下：&lt;/p>
+&lt;ol>
+&lt;li>在开始编写代码之前，首先需要创建一个 Git 仓库（repository），用于存储代码和版本历史记录。&lt;/li>
+&lt;li>在编写代码时，可以通过 &lt;code>git add&lt;/code> 命令将更改的文件添加到 Git 的暂存区（staging area）中。&lt;/li>
+&lt;li>通过 &lt;code>git commit&lt;/code> 命令将暂存区中的更改提交到 Git 仓库中，并生成一个新的版本号（commit hash）。&lt;/li>
+&lt;li>如果需要撤销某个提交，可以使用 &lt;code>git revert&lt;/code> 命令来创建一个新的提交，该提交将会抵消先前的提交效果。&lt;/li>
+&lt;li>如果需要合并不同分支的代码，可以使用 &lt;code>git merge&lt;/code> 命令进行合并。&lt;/li>
+&lt;li>如果需要查看代码的历史提交记录，可以使用 &lt;code>git log&lt;/code> 命令来获取详细信息。&lt;/li>
+&lt;li>如果需要将代码推送到远程仓库，可以使用 &lt;code>git push&lt;/code> 命令将本地代码推送到远程仓库。&lt;/li>
+&lt;li>如果需要从远程仓库中获取代码，可以使用 &lt;code>git pull&lt;/code> 命令将远程代码拉取到本地。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/deYiy9WGv4ZkJxS.png"
+loading="lazy"
+alt="image-20240820113350043"
+>&lt;/p>
+&lt;p> &lt;/p>
+&lt;ul>
+&lt;li>Workspace：工作区&lt;/li>
+&lt;li>Index / Stage：暂存区&lt;/li>
+&lt;li>Repository：仓库区（或本地仓库）&lt;/li>
+&lt;li>Remote：远程仓库&lt;/li>
+&lt;/ul>
+&lt;h2 id="svn与git的的区别">SVN与Git的的区别
+&lt;/h2>&lt;p>SVN和Git都是版本控制系统，但它们有以下区别：&lt;/p>
+&lt;ol>
+&lt;li>分布式 vs 集中式：Git 是一种分布式版本控制系统，而 SVN 是一种集中式版本控制系统。在 Git 中，每个开发者都拥有本地代码库的完整副本，可以离线工作并在不同的工作流程之间自由转换。而在 SVN 中，所有开发者共享同一个中央代码库，并且需要有网络连接才能进行版本控制操作。&lt;/li>
+&lt;li>分支管理：Git 在分支管理方面比 SVN 更加强大和灵活。Git 的分支非常轻量级，创建和合并分支也很容易，因此可以轻松实现多人协作和并行开发。而在 SVN 中，分支比较重量级（即创建和合并分支需要花费相对更多的时间和资源），因此往往只用于重要的版本分支。&lt;/li>
+&lt;li>版本号：Git 使用 SHA-1 哈希值来标识每个提交，而 SVN 采用递增的数字版本号来标识每个提交。SHA-1 哈希值保证了每个提交的唯一性，而递增版本号则简化了版本控制过程。&lt;/li>
+&lt;li>整体性：由于 SVN 是一种集中式版本控制系统，因此所有数据都存储在中央代码库中。如果中央代码库损坏或丢失，可能会导致数据丢失或无法恢复。而 Git 是一种分布式版本控制系统，每个开发者都拥有完整的代码库副本，保证了代码的整体性和可靠性。&lt;/li>
+&lt;li>性能：Git 比 SVN 更快，特别是在处理大型仓库、分支合并以及比较代码差异时。Git 使用基于内容的哈希算法来检测文件是否修改，而 SVN 则需要检查文件的元数据（如时间戳和文件大小）来确定是否修改。&lt;/li>
+&lt;/ol>
+&lt;p>总之，虽然 SVN 和 Git 都是版本控制系统，但它们的设计和实现方式存在较大差异，开发人员应根据自身需求选择最适合的版本控制系统。&lt;/p>
+&lt;h2 id="常规操作">常规操作
+&lt;/h2>&lt;h3 id="创建版本库">创建版本库
+&lt;/h3>&lt;p>首先，打开终端或命令行界面，进入要创建版本库的目录下。&lt;/p>
+&lt;p>接着，使用以下命令初始化一个空的 Git 仓库：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git init
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后，将需要管理的文件添加到暂存区：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git add &amp;lt;file&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>你也可以使用以下命令一次性将所有变更添加到暂存区：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git add .
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>接下来，提交暂存区中的变更到本地仓库，并添加一个描述信息：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git commit -m &amp;#34;Initial commit&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>现在，你已经成功地创建了一个版本库。你可以使用其他 Git 命令来管理它，例如：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>git status&lt;/code>：查看当前工作区和暂存区的状态。&lt;/li>
+&lt;li>&lt;code>git log&lt;/code>：查看提交记录。&lt;/li>
+&lt;li>&lt;code>git branch&lt;/code>：管理分支。&lt;/li>
+&lt;li>&lt;code>git remote&lt;/code>：管理远程仓库。&lt;/li>
+&lt;/ul>
+&lt;h3 id="版本回退">版本回退
+&lt;/h3>&lt;p>要将Git存储库版本回退，请使用git reset命令。如果您想要撤消上次提交并返回到上一个提交，则可以使用以下命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git reset HEAD~1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将使HEAD指向上一个提交，但不会删除您最新的更改。如果您希望完全返回到以前的提交并放弃所有更改，则可以添加&amp;ndash;hard选项：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git reset --hard HEAD~1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>请注意，此操作将永久删除您最新的更改，请谨慎使用。如果您已经将更改推送到远程存储库，则在执行此操作之前应先备份这些更改。&lt;/p>
+&lt;h3 id="理解工作区与暂存区的区别">理解工作区与暂存区的区别
+&lt;/h3>&lt;p>Git有三个主要的工作区域：工作区（working directory）、暂存区（staging area）和版本库（repository）。&lt;/p>
+&lt;p>工作区是指您电脑文件系统上用于修改文件的目录。在这里，您可以创建、编辑和删除文件。&lt;/p>
+&lt;p>暂存区是一个中间状态，它充当了您提交更改的缓冲区。在Git中，您必须明确地将文件添加到暂存区，然后才能将其提交到版本库中。这样做的好处是，您可以对每个更改进行精细控制，并确保只提交需要保存的更改。&lt;/p>
+&lt;p>版本库包含Git存储库的所有历史记录和元数据。它是Git存储库的核心组成部分，是由Git自动维护的。&lt;/p>
+&lt;p>简而言之，工作区是您正在处理的实际文件，而暂存区是下一次提交所需更改的文件列表。它们之间的区别在于，您可以对工作区中的任何文件进行修改，但只有将它们添加到暂存区并将其提交到版本库中，它们才会成为Git跟踪的部分。&lt;/p>
+&lt;h3 id="git撤销修改和删除文件操作">Git撤销修改和删除文件操作
+&lt;/h3>&lt;p>要撤销对文件的修改，可以使用git checkout命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout -- &amp;lt;filename&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>此命令将覆盖工作树中指定文件的更改，还原为最近提交或上次检出的状态。&lt;/p>
+&lt;p>要删除文件并将此更改提交到Git存储库中，可以使用git &lt;a class="link" href="https://so.csdn.net/so/search?q=rm%E5%91%BD%E4%BB%A4&amp;amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener"
+>rm命令&lt;/a>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git rm &amp;lt;filename&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git commit -m &amp;#34;Remove file&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将从工作树和版本历史记录中删除指定的文件。如果只是想从Git版本库中删除文件但保留在工作树中，则可以使用git rm命令的&amp;ndash;cached选项：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git rm --cached &amp;lt;filename&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git commit -m &amp;#34;Remove file from repository&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将从版本历史记录中删除指定的文件，但保留在工作树中。&lt;/p>
+&lt;h2 id="远程仓库">远程仓库
+&lt;/h2>&lt;h3 id="如何添加远程仓库">如何添加远程仓库
+&lt;/h3>&lt;p>要将本地代码库连接到远程仓库，可以使用以下git命令：&lt;/p>
+&lt;ol>
+&lt;li>首先，将本地代码库初始化为Git仓库（如果尚未完成）：&lt;br>
+git init&lt;/li>
+&lt;li>添加远程仓库的URL，其中&lt;code>&amp;lt;remote-name&amp;gt;&lt;/code>是自定义名称，&lt;code>&amp;lt;remote-url&amp;gt;&lt;/code>是远程仓库的URL：&lt;br>
+git remote add &amp;lt;remote-name&amp;gt; &amp;lt;remote-url&amp;gt;&lt;/li>
+&lt;li>可以使用以下命令确认远程仓库是否已成功添加：&lt;br>
+git remote -v&lt;/li>
+&lt;/ol>
+&lt;p>此后，您就可以使用&lt;code>git push&lt;/code>命令将代码推送到远程仓库，或使用&lt;code>git pull&lt;/code>命令从远程仓库拉取代码。&lt;/p>
+&lt;h3 id="如何从远程库克隆">如何从远程库克隆
+&lt;/h3>&lt;p>要从远程仓库克隆代码到本地，可以使用以下git命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git clone &amp;lt;remote-url&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中&lt;code>&amp;lt;remote-url&amp;gt;&lt;/code>是远程仓库的URL。执行此命令后，Git将在当前目录下创建一个新目录，其中包含克隆的代码库副本。如果想指定不同的目录名，可以将目录名作为可选参数添加到命令中：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git clone &amp;lt;remote-url&amp;gt; &amp;lt;directory-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在执行&lt;code>git clone&lt;/code>命令时，还可以通过添加其他标志来更改默认行为，例如指定要克隆的分支、禁用克隆时自动检查的文件等。有关详细信息，请参阅相应的文档。&lt;/p>
+&lt;h2 id="创建与合并分支">创建与合并分支
+&lt;/h2>&lt;p>创建一个新的分支可以使用以下命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git branch &amp;lt;branch_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将在当前所在的提交上创建一个名为 &lt;code>&amp;lt;branch_name&amp;gt;&lt;/code> 的新分支。&lt;/p>
+&lt;p>要切换到新创建的分支，可以使用以下命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout &amp;lt;branch_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>创建并立即切换到该分支，可以使用以下命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout -b &amp;lt;branch_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>合并分支可以使用以下命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git merge &amp;lt;branch_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这将将 &lt;code>&amp;lt;branch_name&amp;gt;&lt;/code> 分支中的更改合并到当前分支。&lt;/p>
+&lt;h3 id="处理冲突">处理冲突
+&lt;/h3>&lt;p>当两个分支上的代码修改了同一部分，并且尝试将这两个分支合并时，就会发生代码冲突。Git提供了以下步骤来解决冲突：&lt;/p>
+&lt;ol>
+&lt;li>运行 &lt;code>git status&lt;/code> 命令查看哪些文件包含冲突。&lt;/li>
+&lt;li>编辑有冲突的文件，手动解决文件中的冲突。&lt;/li>
+&lt;li>对编辑后的文件进行 &lt;code>git add&lt;/code>，标记为已解决冲突的文件。&lt;/li>
+&lt;li>使用 &lt;code>git commit&lt;/code> 提交更改，Git 会自动生成一个合并提交，其中包含各自分支中的更改。&lt;/li>
+&lt;/ol>
+&lt;p>注意：在解决冲突前，最好先备份当前的代码状态，以免不小心破坏代码库。另外，在处理冲突之前，可以通过运行 &lt;code>git diff&lt;/code> 命令来查看冲突的源代码，以便更好地理解要解决的问题。&lt;/p>
+&lt;h3 id="分支管理策略">分支管理策略
+&lt;/h3>&lt;p>在 Git 中，常见的分支管理策略包括以下几个方面：&lt;/p>
+&lt;ol>
+&lt;li>主分支：主分支通常是最稳定的分支，用于发布生产版本。在 Git 中，主分支通常是 master 分支或者 main 分支。&lt;/li>
+&lt;li>开发分支：开发分支通常从主分支派生而来，在其上进行新功能或修复错误的开发。在 Git 中，通常使用 develop 分支作为开发分支。&lt;/li>
+&lt;li>特性分支：特性分支是为了开发单独的功能而创建的分支。这些分支通常从开发分支派生而来，并在实现目标后被合并回开发分支。在 Git 中，通常使用 feature/ 分支命名约定来表示特性分支。&lt;/li>
+&lt;li>发布分支：发布分支是用于准备发布版本的分支，通常从主分支派生而来。这些分支应该包含与发布相关的所有更改，并且应该经过全面测试和审核后再合并回主分支。在 Git 中，通常使用 release/ 分支命名约定来表示发布分支。&lt;/li>
+&lt;li>热修复分支：热修复分支通常用于快速修复紧急问题，例如安全漏洞或崩溃。这些分支通常从主分支派生而来，并且只包含必要的更改。在 Git 中，通常使用 hotfix/ 分支命名约定来表示热修复分支。&lt;/li>
+&lt;/ol>
+&lt;p>通过采用合适的 Git 分支管理策略，可以帮助团队更好地组织和管理代码，提高团队的协作能力和生产效率。除了上述常见的分支管理策略，还可以根据团队的具体需求和工作流程定制适合自己的分支管理策略。&lt;/p>
+&lt;h2 id="bug分支">bug分支
+&lt;/h2>&lt;p>在 Git 中，通常使用 bug 分支用于修复代码中的错误或缺陷。当发现 bug 时，可以从当前开发分支（如 develop 分支）创建一个 bug 分支，在该分支上进行错误修复。修复完成后，可以将更改提交到 bug 分支，并将其合并回开发分支和主分支。&lt;/p>
+&lt;p>以下是一个典型的使用 Git bug 分支的流程：&lt;/p>
+&lt;ol>
+&lt;li>从当前开发分支（如 develop 分支）创建一个新的 bug 分支：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout -b bug/fix-xxx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>在 bug 分支上进行错误修复，包括必要的测试和代码审查。&lt;/li>
+&lt;li>提交更改并推送到远程仓库：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git add .
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git commit -m &amp;#34;Fix xxx bug&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git push origin bug/fix-xxx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>将 bug 分支合并回开发分支（如 develop 分支）：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout develop
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git merge --no-ff bug/fix-xxx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>测试修复是否正确，如果一切正常，则将开发分支合并回主分支（如 master 分支）：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout master
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git merge --no-ff develop
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过使用 Git bug 分支，可以帮助团队更好地管理和修复代码中的错误和缺陷，同时保持代码库的稳定性和可靠性。&lt;/p>
+&lt;h2 id="多人协作">多人协作
+&lt;/h2>&lt;p>Git 是一个优秀的多人协作工具，以下是 Git 多人协作的一些最佳实践：&lt;/p>
+&lt;ol>
+&lt;li>使用分支：使用分支可以帮助团队成员在不影响主分支的情况下进行开发和测试，避免代码冲突和错误。建议采用主分支、开发分支、特性分支、发布分支、热修复分支等分支管理策略。&lt;/li>
+&lt;li>提交规范：每次提交代码时应该附加有意义的提交信息，描述本次提交的更改内容和目的。建议采用语义化版本号和提交信息模板等规范，以便更好地记录和追踪代码变更历史。&lt;/li>
+&lt;li>定期合并：团队成员应该定期将自己的分支合并回主分支或者开发分支。这可以避免较大的代码冲突和错误，并且保持代码库的整洁和可维护性。&lt;/li>
+&lt;li>代码审查：通过代码审查可以确保代码的质量和一致性，并且可以识别和纠正潜在的问题和错误。建议采用 pull request 和 code review 等工具和流程，以便团队成员对彼此的代码进行审查和反馈。&lt;/li>
+&lt;li>团队协作：团队成员之间应该保持及时和有效的沟通，共享技术和经验，并尽可能避免个人行为和偏见对项目和团队产生不良影响。&lt;/li>
+&lt;/ol>
+&lt;p>通过采用上述最佳实践，可以帮助团队高效协作、保证代码质量和稳定性，并提高团队的生产力和创造力。&lt;/p>
+&lt;h3 id="推送分支">推送分支
+&lt;/h3>&lt;p>在 Git 中，推送分支指将本地的分支提交到远程仓库中，使得其他团队成员可以访问和获取该分支的代码。以下是在 Git 中推送分支的一些常用命令：&lt;/p>
+&lt;ol>
+&lt;li>推送当前分支到远程仓库，并与远程分支关联：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git push -u origin &amp;lt;branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>推送当前分支到远程仓库，并与远程分支合并：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git push origin &amp;lt;branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>强制推送当前分支到远程仓库：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git push -f origin &amp;lt;branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>删除远程分支：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git push origin :&amp;lt;branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">或
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git push --delete origin &amp;lt;branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在推送分支时，通常会遇到冲突等问题。如果发生冲突，需要先解决冲突，然后再进行推送。&lt;/p>
+&lt;p>另外，在多人协作项目中，建议采用 pull request 和 code review 等工具和流程来对分支进行审查和反馈，以确保代码质量和稳定性。同时，也应该避免直接向主分支（如 master 分支）提交代码，而是应该使用分支管理策略来组织和管理代码。&lt;/p>
+&lt;h3 id="抓取分支">抓取分支
+&lt;/h3>&lt;p>在 Git 中，抓取分支指从远程仓库拉取最新的代码和分支信息，并在本地创建相应的分支。以下是在 Git 中抓取分支的一些常用命令：&lt;/p>
+&lt;ol>
+&lt;li>拉取所有远程分支并更新本地分支：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git fetch --all
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>拉取一个特定的远程分支到本地：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git fetch origin &amp;lt;branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>在本地创建基于远程分支的新分支：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout -b &amp;lt;new-branch-name&amp;gt; origin/&amp;lt;remote-branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>拉取远程分支并自动与本地分支关联：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">git checkout --track origin/&amp;lt;remote-branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">或
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git checkout -t origin/&amp;lt;remote-branch-name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>抓取分支时，需要注意避免覆盖当前分支中未提交的更改。如果本地分支和远程分支存在冲突，需要解决冲突后才能将更改合并到本地分支中。&lt;/p>
+&lt;p>通过抓取分支可以使得开发者获取最新的代码和分支信息，在本地进行代码修改和测试，并将更改推送回远程仓库以进行协作开发。&lt;/p>
+&lt;h2 id="git可视化工具">git可视化工具
+&lt;/h2>&lt;p>Git 可视化工具可以帮助开发者更直观地查看和管理代码版本控制历史，以下是几个常用的 Git 可视化工具：&lt;/p>
+&lt;ol>
+&lt;li>GitKraken：GitKraken 是一款简单易用的 Git 可视化工具，支持 Windows、Mac 和 Linux 等多个平台。它提供了强大的图形界面，包括代码历史记录、分支管理、合并冲突解决等功能。&lt;/li>
+&lt;li>Sourcetree：Sourcetree 是由 Atlassian 公司开发的一款免费 Git 可视化工具，支持 Windows 和 Mac 平台。它提供了友好的用户界面，可以轻松地进行代码提交、分支管理和冲突解决等操作。&lt;/li>
+&lt;li>GitHub Desktop：GitHub Desktop 是 GitHub 公司出品的一款免费 Git 可视化工具，支持 Windows 和 Mac 平台。它提供了清晰明了的界面，可视化显示代码历史记录、分支管理、拉取请求（pull request）等功能，以及与 GitHub 网站的集成支持。&lt;/li>
+&lt;li>Git GUI：Git GUI 是 Git 官方提供的一个图形化界面的工具，支持 Windows、Mac 和 Linux 等多个平台。它虽然不如前面提到的工具那样友好易用，但是对于习惯命令行操作的开发者来说，Git GUI 可以提供便捷的图形化界面。&lt;/li>
+&lt;/ol>
+&lt;p>使用 Git 可视化工具可以帮助开发者更直观地理解和管理 Git 中的代码版本控制历史，提高协作效率和代码质量。&lt;/p>
+&lt;h2 id="git-add和git-add--a的区别">&lt;code>git add.&lt;/code>和&lt;code>git add -a&lt;/code>的区别
+&lt;/h2>&lt;ul>
+&lt;li>&lt;code>git add .&lt;/code> 会把当前目录及子孙目录里的变动都加到暂存区&lt;/li>
+&lt;li>&lt;code>git add --all&lt;/code> 或者&lt;code>git add -A&lt;/code>会将项目里所有文件的变动都加到暂存区，也就是说该命令不论在项目的哪级目录执行，都有同样的效果。&lt;/li>
+&lt;/ul></description></item><item><title>如何提交PR（Pull Request）</title><link>https://MorningCigarette.github.io/p/git-pr/</link><pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/git-pr/</guid><description>&lt;h1 id="前言">&lt;strong>前言&lt;/strong>
+&lt;/h1>&lt;p>本文尽量使用图形工具介绍如何向开源项目提交 Pull Request，一次亲身经历提交 PR&lt;/p>
+&lt;h3 id="fork-项目">fork 项目
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/yUnX7F4sY9OuxZP.webp"
+loading="lazy"
+>&lt;/p>
+&lt;p>image&lt;/p>
+&lt;h3 id="克隆本地">克隆本地
+&lt;/h3>&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/rlQEXRqTsn3LWfK.webp"
+loading="lazy"
+>&lt;/p>
+&lt;p>image&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-php" data-lang="php">&lt;span class="line">&lt;span class="cl">&lt;span class="nx">git&lt;/span> &lt;span class="k">clone&lt;/span> &lt;span class="nx">https&lt;/span>&lt;span class="o">://&lt;/span>&lt;span class="nx">github&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="nx">com&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">liangtongzhuo&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="nx">taro&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="nx">ui&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="nx">git&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="根据文档创建分支">根据文档创建分支
+&lt;/h3>&lt;p>拖进 SourceTree，基于 dev 创建分支&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/qT9eUzQAwbP74ml.webp"
+loading="lazy"
+>&lt;/p>
+&lt;p>image&lt;/p>
+&lt;h3 id="提交的自己仓库">提交的自己仓库
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-csharp" data-lang="csharp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">git&lt;/span> &lt;span class="k">add&lt;/span> &lt;span class="p">.&lt;/span> &lt;span class="p">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">git&lt;/span> &lt;span class="n">commit&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="s">&amp;#34;fix(dos):修正文字 &amp;#34;&lt;/span> &lt;span class="p">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">git&lt;/span> &lt;span class="n">push&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="提交-pull-request">提交 Pull Request
+&lt;/h3>&lt;p>第四步提交成功后，进入原来的仓库，点击 compare&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/CT1VYWo68I4GPwJ.webp"
+loading="lazy"
+>&lt;/p>
+&lt;p>image&lt;/p>
+&lt;p>提交你的说明，选择合并的分支即可，剩下等待合并。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/20/hPlkA2E7KDTfNmo.webp"
+loading="lazy"
+>&lt;/p>
+&lt;p>image&lt;/p>
+&lt;h1 id="结尾">&lt;strong>结尾&lt;/strong>
+&lt;/h1>&lt;p>开源的魅力就在于协同工作，提高效率。&lt;/p>
+&lt;p>&lt;img src="https://s2.loli.net/2024/08/22/KQiSLGwTM6vFR3U.webp"
+loading="lazy"
+>&lt;/p></description></item></channel></rss>

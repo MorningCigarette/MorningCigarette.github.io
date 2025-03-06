@@ -120,7 +120,7 @@ int FibonacciIterative(int n) {
 
 ---
 
-## **5. 时间与空间的权衡**
+## **时间与空间的权衡**
 ### **哈希表：以空间换时间**
 ```csharp
 bool HasDuplicate(int[] arr) {

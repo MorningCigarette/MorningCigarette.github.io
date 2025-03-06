@@ -7,10 +7,8 @@ categories:
     - C#
 ---
 
----
-
-### **常数时间复杂度 O(1)**
-#### **示例：访问数组元素**
+## **常数时间复杂度 O(1)**
+### **示例：访问数组元素**
 ```csharp
 int[] arr = { 1, 2, 3, 4, 5 };
 int firstElement = arr[0]; // 直接访问第一个元素
@@ -24,8 +22,8 @@ int firstElement = arr[0]; // 直接访问第一个元素
 
 ---
 
-### **线性时间复杂度 O(n)**
-#### **示例1：遍历数组求和**
+## **线性时间复杂度 O(n)**
+### **示例1：遍历数组求和**
 ```csharp
 int SumArray(int[] arr) {
     int sum = 0;
@@ -40,7 +38,7 @@ int SumArray(int[] arr) {
 • **空间复杂度**：O(1)  
   仅使用固定变量 `sum`，不随输入规模增加。
 
-#### **示例2：复制数组**
+### **示例2：复制数组**
 ```csharp
 int[] CopyArray(int[] arr) {
     int[] newArr = new int[arr.Length];
@@ -61,8 +59,8 @@ int[] CopyArray(int[] arr) {
 
 ---
 
-### **平方时间复杂度 O(n²)**
-#### **示例：冒泡排序**
+## **平方时间复杂度 O(n²)**
+### **示例：冒泡排序**
 ```csharp
 void BubbleSort(int[] arr) {
     for (int i = 0; i < arr.Length; i++) {
@@ -85,8 +83,8 @@ void BubbleSort(int[] arr) {
 
 ---
 
-### **递归算法的复杂度分析**
-#### **示例1：斐波那契数列（递归实现）**
+## **递归算法的复杂度分析**
+### **示例1：斐波那契数列（递归实现）**
 ```csharp
 int Fibonacci(int n) {
     if (n <= 1) return n;
@@ -98,7 +96,7 @@ int Fibonacci(int n) {
 • **空间复杂度**：O(n)  
   递归调用栈深度为 `n`，占用线性空间。
 
-#### **示例2：斐波那契数列（迭代实现）**
+### **示例2：斐波那契数列（迭代实现）**
 ```csharp
 int FibonacciIterative(int n) {
     if (n <= 1) return n;
@@ -122,8 +120,8 @@ int FibonacciIterative(int n) {
 
 ---
 
-### **5. 时间与空间的权衡**
-#### **哈希表：以空间换时间**
+## **5. 时间与空间的权衡**
+### **哈希表：以空间换时间**
 ```csharp
 bool HasDuplicate(int[] arr) {
     HashSet<int> seen = new HashSet<int>();
@@ -144,7 +142,7 @@ bool HasDuplicate(int[] arr) {
 
 ---
 
-### **总结对比**
+## **总结对比**
 | **场景**         | **时间复杂度** | **空间复杂度** | **核心权衡**               |
 | ---------------- | -------------- | -------------- | -------------------------- |
 | 直接访问数组元素 | O(1)           | O(1)           | 无                         |

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>视觉 on Sutra Library</title><link>https://MorningCigarette.github.io/categories/%E8%A7%86%E8%A7%89/</link><description>Recent content in 视觉 on Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 11 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/%E8%A7%86%E8%A7%89/index.xml" rel="self" type="application/rss+xml"/><item><title>Halcon基础</title><link>https://MorningCigarette.github.io/p/halcon_base/</link><pubDate>Fri, 11 Apr 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/halcon_base/</guid><description>&lt;h2 id="如何在halcon中进行图像配准">如何在Halcon中进行图像配准？
+&lt;/h2>&lt;p>在 Halcon 中图像配准通常使用 &lt;code>FindShapeModel&lt;/code> 函数，它通过形状匹配来定位模型的位置和角度。&lt;/p>
+&lt;p>首先，通过创建一个形状模型来描述待匹配的图像特征，然后使用 &lt;code>FindShapeModel&lt;/code> 在目标图像中查找匹配。&lt;/p>
+&lt;p>可以设置匹配的精度和容忍度，以提高配准的准确性。配准后，返回模型的位置信息（位置、旋转角度等），使得物体定位更加精准。&lt;/p>
+&lt;h2 id="halcon-中的-region-和-image-的区别是什么">Halcon 中的 Region 和 Image 的区别是什么？
+&lt;/h2>&lt;p>在Halcon中 &lt;code>Region&lt;/code> 和 &lt;code>Image&lt;/code>是两种不同的数据类型。&lt;/p>
+&lt;p>&lt;code>Image&lt;/code>表示原始图像数据，包含每个像素的颜色或灰度值；&lt;/p>
+&lt;p>而 &lt;code>Region&lt;/code>则表示图像中的二值化区域，即只包含前景或背景区域。&lt;/p>
+&lt;p>通过阈值处理、形态学操作可以将&lt;code>Image&lt;/code> 转换为&lt;code>Region&lt;/code>，进行区域分析和处理。&lt;/p>
+&lt;p>&lt;code>Region&lt;/code> 更多地用于形态学、测量、分割等任务，而 &lt;code>Image&lt;/code> 用于图像处理和分析。&lt;/p>
+&lt;h2 id="halcon-中的-reducedomain-函数如何使用">Halcon 中的 ReduceDomain 函数如何使用？
+&lt;/h2>&lt;p>&lt;code>ReduceDomain&lt;/code> 函数用于限制图像的处理区域，创建一个包含感兴趣区域（ROI）的新图像。&lt;/p>
+&lt;p>用户可以指定一个区域（如矩形、圆形等），然后 &lt;code>ReduceDomain&lt;/code>会将图像的域限制在该区域内，后续的图像处理仅在该区域内进行。&lt;/p>
+&lt;p>这对于加速处理和提高计算效率非常有用，特别是在大图像中只需要关注某个特定区域时。&lt;/p>
+&lt;h2 id="如何在-halcon-中计算物体的面积">如何在 Halcon 中计算物体的面积
+&lt;/h2>&lt;p>在Halcon中，计算物体的面积可以使用 &lt;code>AreaCenter&lt;/code>函数。该函数不仅返回物体的面积，还返回物体的质心坐标。&lt;/p>
+&lt;p>面积的单位通常为像素，用户可以根据需要转换为实际物理单位（如毫米、厘米等）。面积计算通常用于物体计数、尺寸测量和质量控制等应用中。&lt;/p>
+&lt;p>&lt;code>AreaCenter&lt;/code>在处理二值图像时尤为常见，可用来计算物体、孔洞或其他感兴趣区域的面积。&lt;/p>
+&lt;h2 id="如何在-halcon-中提取图像的边缘">如何在 Halcon 中提取图像的边缘？
+&lt;/h2>&lt;p>Halcon 提供了多个函数来提取图像的边缘，常用的函数包括&lt;code>EdgeSubPix&lt;/code>和 &lt;code>EdgeGray&lt;/code>。&lt;/p>
+&lt;p>&lt;code>EdgeSubPix&lt;/code>用于亚像素级边缘检测，它通过更精细的像素估计来获取边缘位置，适合高精度要求的应用。&lt;/p>
+&lt;p>&lt;code>EdgeGray&lt;/code>则基于图像灰度梯度进行边缘检测，适用于一般的边缘提取任务。&lt;/p>
+&lt;p>边缘检测在物体识别、形状分析和轮廓提取中起着重要作用。&lt;/p>
+&lt;h2 id="halcon-如何处理图像的灰度变换">Halcon 如何处理图像的灰度变换？
+&lt;/h2>&lt;p>Halcon提供了多种灰度变换函数，如 &lt;code>GammaCorrection&lt;/code>、&lt;code>LogTransformation&lt;/code>、&lt;code>PowerTransformation&lt;/code>等。灰度变换用于调整图像的亮度、对比度或特定的灰度特征。&lt;/p>
+&lt;p>例如，&lt;code>GammaCorrection&lt;/code>可以调整图像的对比度，使图像更适合后续的分析。灰度变换操作通常用于图像增强、对比度调整等，帮助突出图像中的关键信息，改善图像的质量，适应不同的处理需求。&lt;/p>
+&lt;h2 id="halcon-中的-findnccmodel-函数是什么">Halcon 中的 FindNccModel 函数是什么？
+&lt;/h2>&lt;p>&lt;code>FindNccModel&lt;/code>函数用于进行基于模板的图像匹配，利用归一化互相关（NCC）来比较目标图像和模板图像的相似性。&lt;/p>
+&lt;p>该函数在实际应用中常用于定位物体或识别特定形状，适用于模板较小、旋转角度变化较小的场景。&lt;/p>
+&lt;p>用户可以设置匹配精度、匹配方向和容忍度参数，以提高匹配的成功率。此函数广泛应用于工业自动化、视觉检测和质量控制等领域。&lt;/p>
+&lt;h2 id="halcon-中如何使用深度学习进行缺陷检测">Halcon 中如何使用深度学习进行缺陷检测？
+&lt;/h2>&lt;p>在Halcon中进行缺陷检测时，通常使用深度学习模型来识别产品表面上的缺陷，如裂纹、划痕等。首先，需要收集带标签的正常与缺陷样本。&lt;/p>
+&lt;p>使用&lt;code>TrainDLClassifier&lt;/code>进行训练，模型将学习正常样本的特征以及缺陷样本的特征。完成训练后，使用&lt;code>ClassifyDL&lt;/code>算子对新图像进行缺陷检测。&lt;/p>
+&lt;p>深度学习模型通过学习不同的缺陷类型，能够准确识别并分类缺陷，提高工业生产线上的检测效率。&lt;/p>
+&lt;h2 id="halcon-中如何进行目标检测模型的训练与优化">Halcon 中如何进行目标检测模型的训练与优化？
+&lt;/h2>&lt;p>在Halcon中，目标检测模型的训练涉及多种数据处理技术。&lt;/p>
+&lt;p>首先，需要准备大量带有标签的训练图像，包括每个物体的边界坐标。Halcon提供&lt;code>TrainObjectDetection&lt;/code>算子进行训练。&lt;/p>
+&lt;p>训练过程中，通过调整学习率、批次大小、训练次数等参数来优化模型。在优化过程中，可以通过验证集上的损失值来判断模型的表现。如果模型过拟合或欠拟合，需调整网络结构、数据增强方法或优化器。&lt;/p>
+&lt;h2 id="halcon-中的目标检测与分类的区别是什么">Halcon 中的目标检测与分类的区别是什么？
+&lt;/h2>&lt;p>目标检测和分类是计算机视觉中的两个不同任务。目标检测不仅要求分类物体，还需要定位物体的位置（即生成边界）。&lt;/p>
+&lt;p>而分类任务仅需要识别图像中的物体类别。Halcon中的目标检测使用深度学习模型（如YOLO）进行位置和类别的双重预测，而分类任务则使用单一的类别标签。&lt;/p>
+&lt;p>分类关注整体的图像类别，而目标检测注重图像中所有物体的位置与类别。&lt;/p>
+&lt;h2 id="halcon-中的异常检测是如何实现的">Halcon 中的异常检测是如何实现的？
+&lt;/h2>&lt;p>异常检测（Anomaly Detection）在Halcon中通常使用无监督学习方法来检测图像中的异常模式。&lt;/p>
+&lt;p>在训练阶段，系统会学习到正常样本的特征，并通过计算图像的特征向量来与训练数据中的正常样本进行对比。使用深度学习模型或其他传统的机器学习方法（如支持向量机（SVM））来构建异常检测模型。&lt;/p>
+&lt;p>Halcon中的&lt;code>DetectAnomalies&lt;/code>算子可以帮助快速进行异常检测。该技术广泛应用于工业生产线上的缺陷检测。&lt;/p>
+&lt;h2 id="halcon-中的形态学操作有什么作用如何使用它们进行图像分析">Halcon 中的形态学操作有什么作用，如何使用它们进行图像分析？
+&lt;/h2>&lt;p>形态学操作主要用于图像的结构分析，常见操作包括膨胀、腐蚀、开运算和闭运算等。&lt;/p>
+&lt;p>在Halcon中，形态学操作用于去噪、连接物体、提取轮廓等任务。膨胀和腐蚀算子主要用于对图像的结构进行调整，开闭运算可以帮助去除噪声或填补空洞。&lt;/p>
+&lt;p>通过组合这些操作，能够从复杂的图像中提取出所需的特征并进行后续分析。&lt;/p>
+&lt;h2 id="halcon-如何处理非规则物体的测量">Halcon 如何处理非规则物体的测量？
+&lt;/h2>&lt;p>对于非规则物体的测量，Halcon可以使用轮廓分析和形态学操作。&lt;/p>
+&lt;p>通过提取物体的边缘信息，并使用拟合算子（如拟合曲线、拟合圆等），可以从不规则形状中提取出关键信息。对于复杂的非规则物体，通常需要多步骤处理，如先通过边缘检测提取大致形状，再通过细化算法提取物体的精细特征，最后进行尺寸计算。&lt;/p>
+&lt;h2 id="在halcon中如何处理噪声">在Halcon中如何处理噪声？
+&lt;/h2>&lt;p>Halcon提供多种去噪手段，包括中值滤波、高斯滤波等。中值滤波适用于去除椒盐噪声，而高斯滤波则适用于去除高斯噪声。&lt;/p>
+&lt;p>对于复杂的噪声，可以使用形态学滤波算子，如开运算和闭运算，这有助于去除小的噪点或连接分离的物体。&lt;/p>
+&lt;p>此外，Halcon还提供了图像质量评估工具，用于分析图像中的噪声类型和程度，从而选择合适的去噪方法。&lt;/p>
+&lt;h2 id="halcon-中如何进行颜色检测与分析">Halcon 中如何进行颜色检测与分析？
+&lt;/h2>&lt;p>在Halcon中，颜色检测通常需要先进行颜色空间转换（例如从RGB到HSV或Lab颜色空间），然后通过颜色分割来提取感兴趣区域。&lt;/p>
+&lt;p>常用的颜色分割算子如&lt;code>Thresho1d&lt;/code>可以根据指定的颜色范围来提取目标区域。此外，Halcon还提供了颜色直方图分析、颜色匹配和颜色区域分析等功能，可以帮助在复杂背景下进行准确的颜色识别。&lt;/p>
+&lt;h2 id="halcon-如何通过模板匹配进行物体定位">Halcon 如何通过模板匹配进行物体定位？
+&lt;/h2>&lt;p>在Halcon中，模板匹配是一种通过已知模板图像定位物体的技术。使用FindShapeMode1算子，可以通过图像中的形状特征匹配来定位目标物体。&lt;/p>
+&lt;p>模板匹配的基本步骤包括：首先，创建模板图像（可以是目标物体的二维图像），然后，通过图像处理算法提取出该模板的形状特征。&lt;/p>
+&lt;p>匹配过程中，Halcon会根据这些特征在待检测图像中找到相似的区域，并返回匹配的位置、角度和尺度信息。&lt;/p>
+&lt;h2 id="在halcon中如何进行物体的角度测量">在Halcon中如何进行物体的角度测量？
+&lt;/h2>&lt;p>Halcon中进行角度测量通常需要首先通过边缘检测或拟合算子提取物体的边缘或特征。然后，可以使用&lt;code>Ang1e&lt;/code>算子来计算两条边缘或两条拟合直线之间的角度。该角度的单位可以设置为度或弧度。&lt;/p>
+&lt;p>通过多点拟合方法，可以更精确地获取物体的角度，特别是在物体存在旋转或倾斜的情况下。&lt;/p>
+&lt;h2 id="在halcon中如何实现直线拟合">在Halcon中如何实现直线拟合？
+&lt;/h2>&lt;p>在Halcon中，直线拟合通过算子FitLine来实现。该算子可以根据给定的点集拟合出最佳拟合直线。&lt;/p>
+&lt;p>具体步骤包括：首先通过边缘检测或阈值分割得到一系列点，然后使用FitLine算法根据这些点的坐 标信息来计算最佳拟合直线。拟合结果包括直线的斜率、截距以及拟合的误差。Halcon还提供了不同的拟合精度选项，可以根据需求调整。&lt;/p>
+&lt;h2 id="halcon中的边缘检测算法有哪几种">Halcon中的边缘检测算法有哪几种？
+&lt;/h2>&lt;p>Halcon提供多种边缘检测算法，以适应不同的图像和应用场景。常见的边缘检测算法包括&lt;code>Sobel&lt;/code>、&lt;code>Prewitt&lt;/code>、&lt;code>Canny&lt;/code>和&lt;code>Laplacian&lt;/code>等。&lt;/p>
+&lt;p>每种算法的原理不同，&lt;code>Sobel&lt;/code>和&lt;code>Prewitt&lt;/code>算子主要用于检测图像中的梯度变化，适合检测较为明显的边缘；&lt;code>Canny&lt;/code>算子则是一种多阶段算法，能够检测到更精细的边缘，且不易受噪声影响。&lt;/p>
+&lt;p>&lt;code>Laplacian&lt;/code>算子则可以用于检测图像中的二阶导数变化，适合用于细节检测。&lt;/p>
+&lt;h2 id="halcon如何进行二维码条形码的读取">Halcon如何进行二维码/条形码的读取？
+&lt;/h2>&lt;p>在Halcon中，读取二维码和条形码非常直接。使用相关的条形码读取算子，如&lt;code>FindBarcode&lt;/code>和 &lt;code>FindQRCode&lt;/code>，它们可以快速地从图像中检测到条形码或二维码。&lt;/p>
+&lt;p>读取过程中，Halcon会首先定位条形码的边界，进行解码，并返回编码信息。为了提高读取的准确性，图像预处理步骤（如对比度增强或去噪）通常是必须的，尤其在图像质量较差的情况下。&lt;/p></description></item><item><title>手眼标定</title><link>https://MorningCigarette.github.io/p/eye_to_handle/</link><pubDate>Tue, 04 Mar 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/eye_to_handle/</guid><description>&lt;h1 id="手眼标定原理">手眼标定原理
+&lt;/h1>&lt;p>&lt;strong>手眼标定&lt;/strong>是指求解出工业机器人的末端坐标系与相机坐标系之间的坐标变换关系，或者工业机器人的基底坐标系与相机坐标系之间的坐标变换关系。手眼标定有两种情形：第一种是相机（眼）固定在机器臂（手）的末端，相机相对于机器臂末端是固定的，相机跟随机器臂移动，这种方式的手眼标定成为 Eye-in-hand；第二种是相机（眼）和机器臂（手）分离，相机相对于工业机器人的基座是固定的，机器臂的运动对相机没有影响, 这种方式的手眼标定成为 Eye-to-hand。&lt;/p>
+&lt;h2 id="眼在手上的手眼标定">眼在手上的手眼标定
+&lt;/h2>&lt;p>对于 Eye-in-hand 手眼标定方式，需要求解工业机器人的末端坐标系与相机坐标系之间的坐标转换关系。 Eye-in-hand 手眼标定的原理示意图如图 1所示。这其中有几个坐标系， 基础坐标系（用 base 表示） 是机器臂的基底坐标系，末端坐标系（用 end 表示） 是机器臂的末端坐标系， 相机坐标系（用 cam 表示） 是固定在机器臂上面的相机自身坐标系，标定物坐标系（用 cal 表示）是标定板所在的坐标系。任意移动两次机器臂，由于标定板和机器臂的基底是不动的，因此对于某个世界点，其在 base 坐标系和 cal 坐标系下的坐标值不变，在 end 坐标系和 cam 坐标系下的坐标值随着机器臂的运动而改变。根据这一关系，可以求解出end坐标系和 cam 坐标系之间的转换矩阵。具体求解过程如下。&lt;br>
+&lt;img src="https://s2.loli.net/2025/03/04/1hId8cwuoa7U9iB.png"
+loading="lazy"
+alt="image-20250304160944670"
+>&lt;/p>
+&lt;p>对于手眼标定矩阵的求解，即求解出 end 坐标系和 cam 坐标系之间的转换矩阵，目前有许多方法，基本原理都是根据上述约束关系来求解的。 cal 坐标系下的某个点 P&lt;del>0&lt;/del> ，根据已知的相机外参（转换矩阵T &lt;del>1&lt;/del>）能够转换到 cam 坐标系下点 P&lt;del>1&lt;/del>,再根据待求的手眼标定矩阵（转换矩阵 X ）能够转换到 end 坐标系下点 P&lt;del>2&lt;/del>，然后根据已知的机器人自身参数（转换矩阵T&lt;del>3&lt;/del>）能够转换到 base 坐标系下点 P&lt;del>3&lt;/del>。因此能够得到关系式如下：
+$$
+T_3XT_1P_0=P_3
+$$
+移动机器臂，对于同一点，P&lt;del>0&lt;/del> 和P&lt;del>3&lt;/del>的坐标值不变，只是P&lt;del>1&lt;/del> 和P&lt;del>2&lt;/del> 的坐标值改变了，上述关系式变为如下形式：
+$$
+T_3^\prime XT_1^\prime P_0=P_3
+$$
+上式中$ T_3^\prime $和$ T_1^\prime$同样是第二次测量的已知参数。联立(1)和(2)式可以得到如下关系式
+$$
+T_3XT_1=T3^\prime XT_1^\prime
+$$&lt;/p>
+&lt;p>对式(3)变换一下，得：
+$$
+T_3^ {\prime-1}T_3X=XT_1^\prime T_1^{-1}
+$$
+上式可以看成$ A X = X B $方程形式，且矩阵$ A=T_3^{\prime-1}T_3 $和$ B=T_1^\prime T_1^{-1} $都是已知的。对手眼标定方程$ A X = X B $求解，即可得到手眼转换矩阵X的值&lt;/p></description></item></channel></rss>

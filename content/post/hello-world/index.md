@@ -11,4 +11,4 @@ tags:
 weight: 1       # You can add weight to some posts to override the default sorting (date descending)
 ---
 
-Welcome to RongRuo`s blog! I will share my programming insights, fleeting thoughts and experiences in the coding world, and also share some interesting things
+And we count these moments. These moments when we dare to aim higher, to break barriers, to reach for the stars, to make the unknown known. We count these moments as our proudest achievements.

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MySQL on Sutra Library</title><link>https://MorningCigarette.github.io/categories/mysql/</link><description>Recent content in MySQL on Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 20 Aug 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows开启远程访问MySQL</title><link>https://MorningCigarette.github.io/p/mysqlorigin/</link><pubDate>Tue, 20 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/mysqlorigin/</guid><description>&lt;h2 id="进入mysql安装目录-bin-下"&gt;进入MySQL安装目录 \bin 下
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/ujTIHxi1GU29JPz.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;在目录输入”cmd“然后回车&lt;/p&gt;
+&lt;h2 id="第二步-开启远程访问权限"&gt;第二步 &lt;strong&gt;开启远程访问权限&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;在步骤一执行成功后的mysql&amp;gt;下，依次输入命令 use mysql、update user set host = &amp;lsquo;%&amp;rsquo; where user = &amp;lsquo;root&amp;rsquo;;、flush privileges; &lt;strong&gt;（分号别漏了）&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;use mysql
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;update user set host = &amp;#39;%&amp;#39; where user = &amp;#39;root&amp;#39;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;flush privileges;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/my4CzBkaQIX3UxZ.png"
+loading="lazy"
+&gt;&lt;/p&gt;</description></item></channel></rss>

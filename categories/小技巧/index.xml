@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>小技巧 on Sutra Library</title><link>https://MorningCigarette.github.io/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/</link><description>Recent content in 小技巧 on Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 21 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/%E5%B0%8F%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml"/><item><title>Markdown注意事项</title><link>https://MorningCigarette.github.io/p/markdown-skill/</link><pubDate>Fri, 21 Feb 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/markdown-skill/</guid><description>&lt;p&gt;在Markdown中，标题一般建议从&lt;strong&gt;一级标题&lt;/strong&gt;（即单个&lt;code&gt;#&lt;/code&gt;）开始，作为文档的主标题或文章名称，然后依次使用&lt;strong&gt;二级标题&lt;/strong&gt;（&lt;code&gt;##&lt;/code&gt;）和&lt;strong&gt;三级标题&lt;/strong&gt;（&lt;code&gt;###&lt;/code&gt;）来组织子章节。这种层级结构既清晰又美观，符合大多数文档的排版需求。&lt;/p&gt;
+&lt;h3 id="具体建议"&gt;具体建议：
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;一级标题&lt;/strong&gt;用于文档或文章的主标题（如&lt;code&gt;# 文章标题&lt;/code&gt;）；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;二级标题&lt;/strong&gt;用于主要章节（如&lt;code&gt;## 引言&lt;/code&gt;、&lt;code&gt;## 方法&lt;/code&gt;）；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;三级标题&lt;/strong&gt;用于子章节（如&lt;code&gt;### 实验设计&lt;/code&gt;、&lt;code&gt;### 数据分析&lt;/code&gt;）；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;四级及以下标题&lt;/strong&gt;应谨慎使用，避免层级过深导致结构复杂。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="注意事项"&gt;注意事项：
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;避免标题层级跳跃（如直接从一级跳到三级）；&lt;/li&gt;
+&lt;li&gt;同一级标题下避免仅有一个子标题（如二级标题下仅一个三级标题）；&lt;/li&gt;
+&lt;li&gt;保持标题简洁，减少四级标题的使用。&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Typora入门</title><link>https://MorningCigarette.github.io/p/typora_1/</link><pubDate>Sat, 12 Oct 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/typora_1/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;写Mrakdown费事？Typora让你像写Word一样行云流水，所见即所得。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="简介"&gt;简介
+&lt;/h2&gt;&lt;p&gt;Typora是一款轻便简洁的Markdown编辑器，支持即时渲染技术，这也是与其他Markdown编辑器最显著的区别。即时渲染使得你写Markdown就想是写Word文档一样流畅自如，不像其他编辑器的有编辑栏和显示栏。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Typora删除了预览窗口，以及所有其他不必要的干扰。取而代之的是实时预览。&lt;/li&gt;
+&lt;li&gt;Markdown的语法因不同的解析器或编辑器而异，Typora使用的是&lt;a class="link" href="https://help.github.com/articles/basic-writing-and-formatting-syntax/" target="_blank" rel="noopener"
+&gt;GitHub Flavored Markdown&lt;/a&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="markdown介绍"&gt;Markdown介绍
+&lt;/h2&gt;&lt;p&gt;Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档。&lt;/p&gt;
+&lt;p&gt;Markdown 语言在 2004 由约翰·格鲁伯（英语：John Gruber）创建。&lt;/p&gt;
+&lt;p&gt;Markdown 编写的文档可以导出 HTML 、Word、图像、PDF、Epub 等多种格式的文档。&lt;/p&gt;
+&lt;p&gt;Markdown 编写的文档后缀为 &lt;code&gt;.md&lt;/code&gt;, &lt;code&gt;.markdown&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id="常用快捷键"&gt;常用快捷键
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;加粗： &lt;code&gt;Ctrl + B&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;标题： &lt;code&gt;Ctrl + H&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;插入链接： &lt;code&gt;Ctrl + K&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;插入代码： &lt;code&gt;Ctrl + Shift + C&lt;/code&gt; &amp;ndash; 无法执行&lt;/li&gt;
+&lt;li&gt;行内代码： &lt;code&gt;Ctrl + Shift + K&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;插入图片： &lt;code&gt;Ctrl + Shift + I&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;无序列表：&lt;code&gt;Ctrl + Shift + L&lt;/code&gt; &amp;ndash; 无法执行&lt;/li&gt;
+&lt;li&gt;撤销： &lt;code&gt;Ctrl + Z&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;一级标题： &lt;code&gt;Ctrl + 1&lt;/code&gt; &amp;ndash; 以此类推&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Typora快捷键整合
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;```
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+1 一阶标题 Ctrl+B 字体加粗
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+2 二阶标题 Ctrl+I 字体倾斜
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+3 三阶标题 Ctrl+U 下划线
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+4 四阶标题 Ctrl+Home 返回Typora顶部
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+5 五阶标题 Ctrl+End 返回Typora底部
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+6 六阶标题 Ctrl+T 创建表格
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+L 选中某句话 Ctrl+K 创建超链接
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+D 选中某个单词 Ctrl+F 搜索
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+E 选中相同格式的文字 Ctrl+H 搜索并替换
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Alt+Shift+5 删除线 Ctrl+Shift+I 插入图片
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Ctrl+Shift+M 公式块 Ctrl+Shift+Q 引用
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;注：一些实体符号需要在实体符号之前加”\”才能够显示
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;```
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="块元素"&gt;块元素
+&lt;/h2&gt;&lt;h3 id="换行符"&gt;换行符
+&lt;/h3&gt;&lt;p&gt;在markdown中，段落由多个空格分隔。在Typora中，只需回车即可创建新段落。&lt;/p&gt;
+&lt;h3 id="标题级别"&gt;标题级别
+&lt;/h3&gt;&lt;p&gt;# 一级标题 快捷键为 Ctrl + 1&lt;br&gt;
+## 二级标题 快捷键为 Ctrl + 2&lt;br&gt;
+&amp;hellip;&amp;hellip;&lt;br&gt;
+###### 六级标题 快捷键为 Ctrl + 6&lt;/p&gt;
+&lt;h3 id="引用文字"&gt;引用文字
+&lt;/h3&gt;&lt;p&gt;&amp;gt; + 空格 + 引用文字&lt;/p&gt;
+&lt;h3 id="无序列表"&gt;无序列表
+&lt;/h3&gt;&lt;p&gt;使用 * + - 都可以创建一个无序列表&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AAA&lt;/li&gt;
+&lt;li&gt;BBB&lt;/li&gt;
+&lt;li&gt;CCC&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="有序列表"&gt;有序列表
+&lt;/h3&gt;&lt;p&gt;使用 1. 2. 3. 创建有序列表&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;AAA&lt;/li&gt;
+&lt;li&gt;BBB&lt;/li&gt;
+&lt;li&gt;CCC&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="任务列表"&gt;任务列表
+&lt;/h3&gt;&lt;p&gt;\ -[ ] 不勾选&lt;br&gt;
+\ -[x] 勾选&lt;/p&gt;
+&lt;h3 id="代码块"&gt;代码块
+&lt;/h3&gt;&lt;p&gt;在Typora中插入程序代码的方式有两种：使用反引号 `（~ 键）、使用缩进（Tab）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;插入行内代码，即插入一个单词或者一句代码的情况，使用 &lt;code&gt;code&lt;/code&gt; 这样的形式插入。&lt;/li&gt;
+&lt;li&gt;插入多行代码输入3个反引号（`） + 回车，并在后面选择一个语言名称即可实现语法高亮。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;def helloworld():
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; print(&amp;#34;hello, world!&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="数学表达式"&gt;数学表达式
+&lt;/h3&gt;&lt;p&gt;当你需要在编辑器中插入数学公式时，可以使用两个美元符 $$ 包裹 TeX 或 LaTeX 格式的数学公式来实现。根据需要加载 Mathjax 对数学公式进行渲染。&lt;/p&gt;
+&lt;p&gt;按下 &lt;code&gt;$$&lt;/code&gt;，然后按下回车键，即可进行数学公式的编辑。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$$
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;\mathbf{V}_1\times\mathbf{V}_2 = \mathbf{X}_3
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$$
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="插入表格"&gt;插入表格
+&lt;/h3&gt;&lt;p&gt;输入 &lt;code&gt;| 表头1 | 表头2 |&lt;/code&gt;并回车。即可创建一个包含2列表。快捷键 &lt;code&gt;Ctrl + T&lt;/code&gt;弹出对话框。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center"&gt;id&lt;/th&gt;
+&lt;th style="text-align: center"&gt;number&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center"&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;不管是哪种方式，第一行为表头，第二行为分割表头和主体部分，第三行开始每一行为一个表格行&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;列与列之间用管道符号 &lt;code&gt;|&lt;/code&gt; 隔开&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;还可设置对齐方式(表头与内容之间)，如果不使用对齐标记，内容默认左对齐，表头居中对齐&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;左对齐 ：|&lt;/li&gt;
+&lt;li&gt;右对齐 |：&lt;/li&gt;
+&lt;li&gt;中对齐 ：|：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;为了美观，可以使用空格对齐不同行的单元格，并在左右两侧都使用 | 来标记单元格边界&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;为了使 Markdown 更清晰，| 和 - 两侧需要至少有一个空格（最左侧和最右侧的 | 外就不需要了）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="脚注"&gt;脚注
+&lt;/h3&gt;&lt;p&gt;这个例子的脚注为&lt;sup&gt;&lt;a id="fnref1"&gt;&lt;/a&gt;&lt;a class="link" href="#fn1" &gt;[1]&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;注意：该例子脚注标识是1，脚注标识可以为字母数字下划线，但是暂不支持中文。脚注内容可为任意字符，包括中文。&lt;/p&gt;
+&lt;h3 id="分割线"&gt;分割线
+&lt;/h3&gt;&lt;p&gt;输入 &lt;code&gt;***&lt;/code&gt; 或者 &lt;code&gt;---&lt;/code&gt; 再按回车即可绘制一条水平线，如下：&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="目录toc"&gt;目录（TOC）
+&lt;/h3&gt;&lt;p&gt;输入 &lt;code&gt;[ toc ]&lt;/code&gt; 然后回车，即可创建一个“目录”。TOC从文档中提取所有标题，其内容将自动更新。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Typora支持TOC自动生成目录，博客园不支持？&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;目录&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#%e7%ae%80%e4%bb%8b" &gt;简介&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#markdown%e4%bb%8b%e7%bb%8d" &gt;Markdown介绍&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%b8%b8%e7%94%a8%e5%bf%ab%e6%8d%b7%e9%94%ae" &gt;常用快捷键&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%9d%97%e5%85%83%e7%b4%a0" &gt;块元素&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%8d%a2%e8%a1%8c%e7%ac%a6" &gt;换行符&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%a0%87%e9%a2%98%e7%ba%a7%e5%88%ab" &gt;标题级别&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%bc%95%e7%94%a8%e6%96%87%e5%ad%97" &gt;引用文字&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%97%a0%e5%ba%8f%e5%88%97%e8%a1%a8" &gt;无序列表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%9c%89%e5%ba%8f%e5%88%97%e8%a1%a8" &gt;有序列表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e4%bb%bb%e5%8a%a1%e5%88%97%e8%a1%a8" &gt;任务列表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e4%bb%a3%e7%a0%81%e5%9d%97" &gt;代码块&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%95%b0%e5%ad%a6%e8%a1%a8%e8%be%be%e5%bc%8f" &gt;数学表达式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%8f%92%e5%85%a5%e8%a1%a8%e6%a0%bc" &gt;插入表格&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e8%84%9a%e6%b3%a8" &gt;脚注&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%88%86%e5%89%b2%e7%ba%bf" &gt;分割线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e7%9b%ae%e5%bd%95toc" &gt;目录（TOC）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e8%b7%a8%e5%ba%a6%e5%85%83%e7%b4%a0" &gt;跨度元素&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#%e9%93%be%e6%8e%a5" &gt;链接&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%86%85%e9%83%a8%e9%93%be%e6%8e%a5" &gt;内部链接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5" &gt;参考链接&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e7%bd%91%e5%9d%80" &gt;网址&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%9b%be%e7%89%87" &gt;图片&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%96%9c%e4%bd%93" &gt;斜体&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%8a%a0%e7%b2%97" &gt;加粗&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%8a%a0%e7%b2%97%e6%96%9c%e4%bd%93" &gt;加粗斜体&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e4%bb%a3%e7%a0%81%e6%a0%87%e8%ae%b0" &gt;代码标记&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%88%a0%e9%99%a4%e7%ba%bf" &gt;删除线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e4%b8%8b%e5%88%92%e7%ba%bf" &gt;下划线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e8%a1%a8%e6%83%85%e7%ac%a6%e5%8f%b7" &gt;表情符号&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e4%b8%8b%e6%a0%87" &gt;下标&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e4%b8%8a%e6%a0%87" &gt;上标&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e9%ab%98%e4%ba%ae" &gt;高亮&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%96%87%e6%9c%ac%e5%b1%85%e4%b8%ad" &gt;文本居中&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%8d%a2%e8%a1%8c%e7%ac%a6-1" &gt;换行符&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e8%bd%ac%e4%b9%89" &gt;转义&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#html" &gt;HTML&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#%e5%b5%8c%e5%85%a5%e5%86%85%e5%ae%b9" &gt;嵌入内容&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e8%a7%86%e9%a2%91" &gt;视频&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#%e6%80%bb%e7%bb%93" &gt;总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="跨度元素"&gt;跨度元素
+&lt;/h2&gt;&lt;p&gt;跨度元素即图片，网址，视频等，在Typora中输入后，会立即载入并呈现。&lt;/p&gt;
+&lt;h3 id="链接"&gt;链接
+&lt;/h3&gt;&lt;h4 id="内部链接"&gt;内部链接
+&lt;/h4&gt;&lt;p&gt;这是一个带有标题属性的 &lt;code&gt;[链接](http://example.com/ &amp;quot;标题&amp;quot;)&lt;/code&gt;&lt;br&gt;
+这是一个没有标题属性的 &lt;code&gt;[链接](http://example.net/)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="http://example.com/" title="标题"
+target="_blank" rel="noopener"
+&gt;链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="http://example.net/" target="_blank" rel="noopener"
+&gt;链接&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="参考链接"&gt;参考链接
+&lt;/h4&gt;&lt;p&gt;这是一个[参考链接]id &amp;ndash; 无法执行&lt;/p&gt;
+&lt;h3 id="网址"&gt;网址
+&lt;/h3&gt;&lt;p&gt;Typora允许用&amp;lt;括号括起来&amp;gt;, 把URL作为链接插入。&lt;/p&gt;
+&lt;p&gt;Typora还会自动链接标准网址。&lt;/p&gt;
+&lt;p&gt;&lt;a class="link" href="https://www.baidu.com" target="_blank" rel="noopener"
+&gt;www.baidu.com&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="图片"&gt;图片
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;![显示的文字](C:\Users\Hider\Desktop\echart.png &amp;quot;图片标题&amp;quot;)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;![显示的文字](C:\Users\Hider\Desktop\echart.png)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;除了以上2种方式之外，还可以直接将图片拖拽进来，自动生成链接。&lt;/p&gt;
+&lt;h3 id="斜体"&gt;斜体
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;*单个星号*&lt;/code&gt; 或者 &lt;code&gt;_单下划线_&lt;/code&gt; 可以字体倾斜。快捷键 &lt;code&gt;Ctrl + I&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id="加粗"&gt;加粗
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;**两个星号**&lt;/code&gt; 或者 &lt;code&gt;__两个下划线__&lt;/code&gt; 可以字体加粗。快捷键 &lt;code&gt;Ctrl + B&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;加粗&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id="加粗斜体"&gt;加粗斜体
+&lt;/h3&gt;&lt;p&gt;使用&lt;code&gt;***加粗斜体***&lt;/code&gt;可以加粗斜体。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;加粗斜体&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id="代码标记"&gt;代码标记
+&lt;/h3&gt;&lt;p&gt;标记代码使用反引号，即在英文输入法下，ESC键下面和1键左边的符号。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;使用该 &lt;code&gt;printf()&lt;/code&gt;功能&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="删除线"&gt;删除线
+&lt;/h3&gt;&lt;p&gt;使用&lt;code&gt;~~删除线~~&lt;/code&gt; 快捷键 &lt;code&gt;Alt + Shift + 5&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;删除线&lt;/del&gt;&lt;/p&gt;
+&lt;h3 id="下划线"&gt;下划线
+&lt;/h3&gt;&lt;p&gt;\下划线 &amp;ndash; 无法执行&lt;/p&gt;
+&lt;p&gt;参考另一篇文章，可执行。&lt;/p&gt;
+&lt;p&gt;通过&lt;code&gt;&amp;lt;u&amp;gt;下划线的内容&amp;lt;/u&amp;gt;&lt;/code&gt; 或者 快捷键&lt;code&gt;Ctrl + U&lt;/code&gt;可实现下划线&lt;/p&gt;
+&lt;p&gt;下划线的内容&lt;/p&gt;
+&lt;h3 id="表情符号"&gt;表情符号
+&lt;/h3&gt;&lt;p&gt;Github的Markdown语法支持添加emoji表情，输入不同的符号码（两个冒号包围的字符）可以显示出不同的表情。&lt;/p&gt;
+&lt;p&gt;:smile &amp;ndash; 无法显示&lt;/p&gt;
+&lt;p&gt;😺&lt;/p&gt;
+&lt;h3 id="下标"&gt;下标
+&lt;/h3&gt;&lt;p&gt;可以使用 &lt;code&gt;&amp;lt;sub&amp;gt;文本&amp;lt;/sub&amp;gt;&lt;/code&gt;实现下标。&lt;/p&gt;
+&lt;p&gt;(需在设置中打开该功能)&lt;/p&gt;
+&lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;
+&lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;
+&lt;h3 id="上标"&gt;上标
+&lt;/h3&gt;&lt;p&gt;可以使用&lt;code&gt;&amp;lt;sup&amp;gt;文本&amp;lt;/sup&amp;gt;&lt;/code&gt;实现上标。&lt;/p&gt;
+&lt;p&gt;(需在设置中打开该功能)&lt;/p&gt;
+&lt;p&gt;X&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;X&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;
+&lt;h3 id="高亮"&gt;高亮
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;==高亮==&lt;/code&gt;(需在设置中打开该功能)&lt;/p&gt;
+&lt;p&gt;==我是最重要的==&lt;/p&gt;
+&lt;h3 id="文本居中"&gt;文本居中
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;&amp;lt;center&amp;gt;这是要居中的内容&amp;lt;/center&amp;gt;&lt;/code&gt;可以使文本居中&lt;/p&gt;
+&lt;p&gt;这是要居中的文本内容&lt;/p&gt;
+&lt;h3 id="换行符-1"&gt;换行符
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;空格 + 空格 + Enter&lt;/code&gt;可以实现换行，例如：&lt;/p&gt;
+&lt;p&gt;或者可以使用&lt;code&gt;&amp;lt;br/&amp;gt;&lt;/code&gt;实现换行。&lt;/p&gt;
+&lt;br/&gt;
+&lt;h3 id="转义"&gt;转义
+&lt;/h3&gt;&lt;p&gt;Markdown 使用了很多特殊符号来表示特定的意义，如果需要显示特定的符号则需要使用转义字符，Markdown 使用反斜杠转义特殊字符：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;文本加粗&lt;/strong&gt;&lt;br&gt;
+** 正常显示星号 **&lt;/p&gt;
+&lt;p&gt;Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;\ 反斜线
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;` 反引号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;* 星号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;_ 下划线
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;{} 花括号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[] 方括号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;() 小括号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 井字号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;+ 加号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- 减号
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;. 英文句点
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;! 感叹号
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="html"&gt;HTML
+&lt;/h2&gt;&lt;p&gt;支持HTML&lt;/p&gt;
+&lt;p&gt;不在 Markdown 涵盖范围之内的标签，都可以直接在文档里面用 HTML 撰写。&lt;/p&gt;
+&lt;p&gt;目前支持的 HTML 元素有：&lt;code&gt;&amp;lt;kbd&amp;gt; &amp;lt;b&amp;gt; &amp;lt;i&amp;gt; &amp;lt;em&amp;gt; &amp;lt;sup&amp;gt; &amp;lt;sub&amp;gt; &amp;lt;br&amp;gt;&lt;/code&gt;等 ，如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;使用 &amp;lt;kbd&amp;gt;Ctrl&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;Alt&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;Del&amp;lt;/kbd&amp;gt; 重启电脑
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;kbd&amp;gt; &amp;lt;/kbd&amp;gt; -- 白色框框
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;效果：&lt;br&gt;
+使用 Ctrl+Alt+Del 重启电脑&lt;/p&gt;
+&lt;h3 id="嵌入内容"&gt;嵌入内容
+&lt;/h3&gt;&lt;h3 id="视频"&gt;视频
+&lt;/h3&gt;&lt;h2 id="总结"&gt;总结
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;建议打开大纲视图&lt;code&gt;Ctrl + Shift + 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;插入表格需要顶格写，否则无法显示&lt;/li&gt;
+&lt;li&gt;语法无须刻意记忆，右键可查询&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;参考链接1：&lt;a class="link" href="https://www.simon96.online/2018/10/18/Typora%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%89/" target="_blank" rel="noopener"
+&gt;Typora入门（中文版）&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考链接2：&lt;a class="link" href="https://www.jianshu.com/p/b7fd16a44508" target="_blank" rel="noopener"
+&gt;Typora&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考链接3：&lt;a class="link" href="https://www.jianshu.com/p/65ab196bef04" target="_blank" rel="noopener"
+&gt;Markdown代码块与语法高亮&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考链接4：&lt;a class="link" href="https://www.cnblogs.com/anliux/p/10805103.html" target="_blank" rel="noopener"
+&gt;Markdown使用-表格及其居中等格式&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考链接5：&lt;a class="link" href="https://www.cnblogs.com/rossoneri/p/4446440.html" target="_blank" rel="noopener"
+&gt;Markdown语法小结&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;参考链接6：&lt;a class="link" href="https://www.runoob.com/markdown/md-tutorial.html" target="_blank" rel="noopener"
+&gt;Runoob：Markdown教程&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;</description></item><item><title>相机拍摄时最重要的三个参数——光圈、快门、ISO</title><link>https://MorningCigarette.github.io/p/photography1/</link><pubDate>Mon, 19 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/photography1/</guid><description>&lt;p&gt;如果你对相机只有很少了解，那么看这篇文章再好不过啦，我结合很多资料，力图用最通俗易懂的方式进行讲解。&lt;/p&gt;
+&lt;p&gt;相机拍摄时最重要的3个参数就是——&lt;strong&gt;光圈、快门、ISO&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;次重要的参数有——&lt;strong&gt;焦距、景深、曝光&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;在介绍光圈、快门、ISO之前，必须先介绍曝光。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;曝光准确的照片：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/XUNFqk6la4QcELS.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;过曝的照片：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/ElDXdB356YkOtW1.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;欠曝的照片：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/zsOZtiSePl6x94o.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;我们把一张完美曝光的照片理解成&lt;strong&gt;一桶刚刚装满的水&lt;/strong&gt;，不多也不少，并且水里面是有杂质的，那么如何把这桶水装满呢？（先不考虑装到里面的水干不干净）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/tGPVqr6XvZcWlM8.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;（看见没有，我往水里面加了一下杂色，代表杂质）&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;光圈：控制水龙头水量大小的开关&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;快门：开了多久的水龙头&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;ISO：滤网&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;如果你要把一个水桶装满水，需要打开水龙头然后等水装满就行了，那么你水龙头开的越大（&lt;strong&gt;光圈越大&lt;/strong&gt;）哗哗哗的流水，流水的时间（&lt;strong&gt;快门速度&lt;/strong&gt;）也就越短；同理，龙头开的越小（&lt;strong&gt;光圈越小&lt;/strong&gt;）嘀嗒嘀嗒的流水，需要的时间（&lt;strong&gt;快门速度&lt;/strong&gt;）就越长，这差不多就是快门和光圈之间的关系。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;ISO在里面起到了一个滤网的作用，ISO（&lt;strong&gt;感光度&lt;/strong&gt;）越高相当于滤网的空隙越大，那么出水量一定就大了，同理里面的杂质就会很多，所以拍出来的照片有很多的&lt;strong&gt;噪点和颗粒&lt;/strong&gt;，如果ISO（&lt;strong&gt;感光度&lt;/strong&gt;）低呢，那么就是说明滤网的间隙越小，越能过滤出杂质，所以水流的速度就满了，同时水里的杂质也就少了，拍出来的照片相对干净了很多（桶里面的水干净了很多）。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;从上面我们知道，&lt;strong&gt;曝光量由光圈、快门、ISO三者共同决定&lt;/strong&gt;。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;光圈由F值表示，例如F1.4，F1.8，F3.5，F5.6，F16，&lt;strong&gt;数字越小代表光圈越大&lt;/strong&gt;，例如F1.8&amp;gt;F5.6，光圈越大，代表水龙头开得越大，单位时间内流出的水也就越多（单位时间内进来的光也就越多）。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/sdWrOLcpiE5PDSx.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;如图所示，光圈越大，代表光孔越大，单位时间内进来的光肯定也就越多。例如某手机的光圈就是F1.8，很大，当然与相机不同的是，手机的光圈通常都是不可以改变的，也就是在任何情况这个手机的光圈都是F1.8。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;快门：开了多久的水龙头。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;具体到相机上，就是放了多长时间的光进来。在光圈和ISO一定的情况下，如果你只放了0.001秒的光进来，很明显这个总光量很少，如果你放了10秒钟的光进来，那么这个光的总量就很大。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;快门其实是相当于一个窗帘的东西，如果快门是30秒，说明窗帘打开了30秒后才拉上。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/KBQWiT237vguVNp.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;快门通常用时间单位**秒（S）**表示，并且通常用分数表示，例如：&lt;/p&gt;
+&lt;p&gt;1/4000 S，1/2000 S ，1/200 S， 1/60 S，1/5 S，1 S，15 S ，30S&lt;br&gt;
+&lt;br/&gt;数字越小，代表快门越快，例如1/4000秒是非常快的快门。&lt;br&gt;
+30秒的快门相当于把水龙头开了30秒，1/2000秒的快门相当于只放了两千分之一秒的水，那放出来的水肯定少得可怜，也就是放进来的光非常少。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ISO的高低：滤网的大小。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;ISO越高，滤网的滤孔越大，进来的杂质就越多，当然同时出来的水（进来的光）也就越多。画面的噪点也就越多，画质越差。&lt;br&gt;
+&lt;br/&gt;ISO 的常见值是100， 200， 400， 800， 1600， 3200， 6400， 12800等等。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/ti14hcToUe7uNE9.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;从上面我们知道了，光圈、快门、ISO就是三个控制曝光量的因素，三个共同作用。它们就像杂技师手中的三个球，任何一个没耍好，曝光就会出问题。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;但是，这三个参数之间却并不能力往一处使，你需要在三者之间互相取舍，做出最优决策。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;很明显如果需要进的光足够多，思路有：光圈足够大、快门足够慢、ISO足够高。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;三者之中，除了大光圈没有明显缺点外（工业领域中大光圈也有缺点，即景深太浅），慢的快门和高的ISO都有明显的缺点。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;快门太慢&lt;/strong&gt;：拍的照片容易模糊，例如快门是0.5秒，就像这样。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/j7npqBhzcotlMO2.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;这是因为，被拍的人是动的，你的手也是抖的，在0.5秒的时间里面已经足够它俩抖来抖去了。相机记录的是这0.5秒内所有的光线信息，而并不是0.5秒的最后末尾的那一瞬间的光线信息。&lt;br&gt;
+&lt;br/&gt;如果你的快门足够快，例如1/500秒，那么，你的手抖动和被拍者的抖动在这么短的时间内可以认为基本没有移动多少，因此拍出来的照片是清晰的，就像这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/GNjTJl5vPXcrRxC.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;至于高ISO产生高噪点的缺点在上文已经提及。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;如果我们想要一张尽可能清晰、画质高、噪点少、曝光合适的照片，应该怎么办呢？&lt;br&gt;
+&lt;br/&gt;必须要高速快门、低ISO，但是如果快门太快，ISO太低，那么曝光量就会不足，怎么办呢？只有用大光圈！！&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;如果光圈开到最大也不行呢？那么这样还能实现清晰、画质高、噪点少、曝光合适的效果吗？不能！&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/7fV2RN9oIW4UMmq.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;所以我们需要取舍，要么把快门变慢一点，要么把ISO调高一点，当然这些都是以降低照片质量为代价的。&lt;br&gt;
+&lt;br/&gt;知道为什么大光圈镜头这么贵了吧？&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;三脚架存在的意义：&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;我们在上文说过，当光圈开到最大但曝光还不够的话，我们就需要取舍，要么把快门变慢一点增加曝光时间，要么把ISO调高一点增加感光度，当然这些在手持相机拍摄的时候都会降低照片质量。&lt;br&gt;
+&lt;br/&gt;事实上，增加ISO（感光度）一定会降低画质，但是把快门变慢却未必，我们说将快门变慢主要是可能会使照片模糊，因为被摄者和人的手都是都是移动（抖动）的。&lt;br&gt;
+那么如果把相机放在三脚架上，而且被拍的物体是不动的呢？那么这时候就不会产生抖动了。这就是三脚架存在的意义。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/nKVQsHx65oOI38y.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;事实上，就算你拍人或者动物的话，把相机放在三脚架上也会比手持画质要好，因为它至少避免了你手的抖动。&lt;br&gt;
+&lt;br/&gt;当相机放在三脚架上拍静物的时候，无论快门速度为多少，都不会模糊，哪怕是曝光几个小时。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;焦距：&lt;/strong&gt;&lt;br&gt;
+为了简单起见，我们选择一个简单的定义：焦距就是透镜中心到焦点的距离。为了形象便于理解一点，你可以这样理解，焦距越长通常镜头也就越长。&lt;br&gt;
+&lt;br/&gt;通常说焦距，我们会涉及两个概念：广角和长焦。&lt;br&gt;
+&lt;br/&gt;广角一般是等效焦距在35mm及以下的焦距，等效焦距小于等于24mm的就是超广角；&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/epzKCdw6LZvMoEy.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;而长焦一般指85mm以上的焦距，如果在300mm以上则称为超长焦。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/fiWR7dX6MVE9YP1.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;广角的视野广；&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;长焦的视野窄，但是可以拉近物体。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;下图是焦距和视角（视野宽还是窄）的对应关系图：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/WaXvMRpYQk6drLN.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;例如广角镜头可以拍这样的照片：（宽广辽阔的壮观）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/8uXoCpcRH5leTLO.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;长焦镜头可以拍这样的照片：（适合&lt;strong&gt;局部特写&lt;/strong&gt;，百米之外如在眼前，长焦视觉上可以压缩空间）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/duPYpbl5sINqcTH.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;我必须说的是，好的广角镜头和长焦镜头都很贵。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;其实我主要是谈光圈、快门、ISO这个三个参数，为什么这里又要谈到焦距这个参数呢？这是因为我即将谈到的一个名词，叫做“安全快门”，而安全快门和等效焦距密切相关。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;数码相机的快门时间如果低于某个值 ，便很容易因为手的晃动，而让画面变得很模糊。这个快门值就是我们说的安全快门。&lt;strong&gt;安全快门一般是等效焦距的倒数。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;有一句很重要的话：&lt;strong&gt;等效焦距越长，抖动产生的影响就会越大，影像就会越模糊。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;原因分析如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/83lkDWnCEMKochL.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt;以某等效焦距为25mm — 750mm的普通数码相机为例：&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;当你使用25mm焦距的时候，手持拍摄时快门应不慢于1/25秒，当使用750mm的焦距时，手持拍摄时的快门应不低于1/750秒。当然，如果用三脚架的话，就没有快门的限制了。&lt;/p&gt;
+&lt;p&gt;但是，一旦你为了消除抖动的影响而使用了高速快门，这时就算你使用最大的光圈，曝光量可能还是不足，这时相机只有强行使用极高的ISO，例如ISO 3200或者ISO 6400，这时画质就会变得非常糟糕。&lt;br&gt;
+&lt;br/&gt;解决这个矛盾的方法通常有两个：&lt;strong&gt;一个是使用三脚架杜绝抖动，另一个是使用防抖镜头以使用较慢的快门就可以有效减轻抖动的影响。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;但是……&lt;br&gt;
+防抖镜头是很贵的。&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;看这两个镜头，基本区别就是一个防抖一个不防抖，结果防抖的贵了近4000块钱。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/IUQPXtzDxgoAdby.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;最后要谈的一个名词叫做“景深”。&lt;br&gt;
+&lt;br/&gt;&lt;strong&gt;景深：在聚焦完成后，在焦点前后的范围内都能形成清晰的像，这一前一后的距离范围，便叫做景深。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/eA9sEtGxF3oqLdV.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;景深通常和“虚化”这个词联系在一起，&lt;strong&gt;景深浅即虚化强，景深深即虚化弱。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;&lt;br/&gt;浅景深的照片：（蜜蜂和花朵主体清晰，后面的绿叶几乎完全虚掉了）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/95Xnc8PdGrsQyfp.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;深景深的照片：（无论是主体石狮子还是后面的太和殿都很清晰）&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/qek2AjKorlPFg1t.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;那么要获得浅的景深一般需要满足什么条件呢？&lt;br&gt;
+&lt;strong&gt;1、大光圈；&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;2、实际焦距较长；&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;3、镜头离被摄者近，而背景离被摄者远。&lt;/strong&gt;&lt;br&gt;
+&lt;br/&gt;&lt;/p&gt;
+&lt;p&gt;注：为了避免过于复杂，对于上文中的“等效焦距”和“实际焦距”的区别在此我不详述了。&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;再补充一张经典的图吧：光圈、快门、ISO、景深&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2024/08/20/12YAlgjaq5XdWFu.jpg"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;</description></item><item><title>电脑内外网路由配置</title><link>https://MorningCigarette.github.io/p/routesetter/</link><pubDate>Tue, 13 Aug 2024 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/routesetter/</guid><description>&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;route print
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;​route delete
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;​route  add 172.0.0.0 mask 255.0.0.0 172.17.140.1 -p
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>HTTP and HTTPS</title><link>https://MorningCigarette.github.io/p/http_and_https/</link><pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/http_and_https/</guid><description>&lt;p&gt;HTTP与HTTPS作为互联网数据传输的核心协议，其通信机制与安全特性深刻影响着现代网络应用的可靠性与用户体验。本文将解析两者的通信流程、安全机制及核心差异。&lt;/p&gt;
+&lt;h3 id="http的通信机制"&gt;HTTP的通信机制
+&lt;/h3&gt;&lt;p&gt;先来看看HTTP是什么吧。&lt;/p&gt;
+&lt;p&gt;HTTP基于TCP/IP协议栈，采用经典客户端-服务器模型：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;TCP连接建立&lt;/strong&gt;&lt;br&gt;
+通过三次握手创建可靠传输通道（源IP:端口 ↔ 目标IP:端口），默认端口80。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;请求-响应交互&lt;/strong&gt;&lt;br&gt;
+浏览器发起到服务器的 TCP 连接。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GET /index.html HTTP/1.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host: www.baidu.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start="3"&gt;
+&lt;li&gt;&lt;strong&gt;服务器处理与响应&lt;/strong&gt;&lt;br&gt;
+服务器接收来自浏览器的 TCP 连接。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;HTTP/1.1 200 OK
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Content-Type: text/html
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Content-Length: 1234
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;html&amp;gt;...&amp;lt;/html&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start="4"&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;交换信息&lt;/strong&gt;&lt;br&gt;
+浏览器（HTTP 客户端）与 Web 服务器（HTTP 服务器）交换 HTTP 消息。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;连接终止&lt;/strong&gt;&lt;br&gt;
+完成传输后通过四次挥手断开连接，关闭 TCP 连接。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="https的进化"&gt;HTTPS的进化
+&lt;/h3&gt;&lt;p&gt;HTTPS在HTTP与TCP层之间插入SSL/TLS加密层，通过三重防护机制应对安全威胁：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;安全威胁&lt;/th&gt;
+&lt;th&gt;防护机制&lt;/th&gt;
+&lt;th&gt;实现方式&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;数据窃听&lt;/td&gt;
+&lt;td&gt;AES-256等对称加密&lt;/td&gt;
+&lt;td&gt;会话密钥动态协商&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;数据篡改&lt;/td&gt;
+&lt;td&gt;SHA-256摘要算法&lt;/td&gt;
+&lt;td&gt;数字签名验证数据完整性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;身份伪造&lt;/td&gt;
+&lt;td&gt;X.509数字证书体系&lt;/td&gt;
+&lt;td&gt;CA机构签发服务器身份证书&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;那么，SSL 和 TLS 的区别是什么呢？&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;总的来说，SSL 和 TLS 没有太大的区别。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;SSL 指安全套接字协议（Secure Sockets Layer），首次发布与 1996 年。SSL 的首次发布其实已经是他的 3.0 版本，SSL 1.0 从未面世，SSL 2.0 则具有较大的缺陷（DROWN 缺陷——Decrypting RSA with Obsolete and Weakened eNcryption）。很快，在 1999 年，SSL 3.0 进一步升级，&lt;strong&gt;新版本被命名为 TLS 1.0&lt;/strong&gt;。因此，TLS 是基于 SSL 之上的，但由于习惯叫法，通常把 HTTPS 中的核心加密协议混称为 SSL/TLS。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;HTTPS握手流程&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Client Hello：客户端发送支持的加密套件+随机数&lt;/li&gt;
+&lt;li&gt;Server Hello：服务器选择加密套件+证书+随机数&lt;/li&gt;
+&lt;li&gt;密钥交换：ECDHE算法生成预主密钥&lt;/li&gt;
+&lt;li&gt;会话密钥：通过HKDF算法生成加密密钥&lt;/li&gt;
+&lt;li&gt;加密通信：应用层数据使用对称加密传输&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如下图所示，以TLS层为例。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/02/28/hJE9ryjIOMg5i3m.png"
+loading="lazy"
+alt="image-20250228134041895"
+&gt;&lt;/p&gt;
+&lt;h3 id="http与https的不同"&gt;HTTP与HTTPS的不同
+&lt;/h3&gt;&lt;p&gt;在协议层看看它们有什么不同。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;对比维度&lt;/th&gt;
+&lt;th&gt;HTTP&lt;/th&gt;
+&lt;th&gt;HTTPS&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;传输加密&lt;/td&gt;
+&lt;td&gt;明文传输&lt;/td&gt;
+&lt;td&gt;SSL/TLS加密传输&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;端口号&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;证书要求&lt;/td&gt;
+&lt;td&gt;无需证书&lt;/td&gt;
+&lt;td&gt;需CA签发数字证书&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;响应速度&lt;/td&gt;
+&lt;td&gt;RTT 3次&lt;/td&gt;
+&lt;td&gt;RTT 5-7次（支持会话恢复）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;头部结构&lt;/td&gt;
+&lt;td&gt;无加密标识&lt;/td&gt;
+&lt;td&gt;包含加密协议版本等安全参数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;资源消耗&lt;/td&gt;
+&lt;td&gt;低&lt;/td&gt;
+&lt;td&gt;增加15-20% CPU负载&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="https安全机制解析"&gt;HTTPS安全机制解析
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;混合加密体系&lt;/strong&gt;&lt;br&gt;
+结合非对称加密（RSA/ECC）的安全密钥交换与对称加密（AES）的高效数据加密，兼顾安全与性能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;证书链验证&lt;/strong&gt;&lt;br&gt;
+通过根证书→中间证书→服务器证书的信任链验证，防止中间人攻击。OCSP协议实时检查证书吊销状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;HSTS策略&lt;/strong&gt;&lt;br&gt;
+强制浏览器使用HTTPS连接，防范SSL剥离攻击。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="总结"&gt;总结
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;端口号&lt;/strong&gt;：HTTP 默认是 80，HTTPS 默认是 443。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;URL 前缀&lt;/strong&gt;：HTTP 的 URL 前缀是 &lt;code&gt;http://&lt;/code&gt;，HTTPS 的 URL 前缀是 &lt;code&gt;https://&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全性和资源消耗&lt;/strong&gt;：HTTP协议基于TCP协议构建，其传输的数据均为明文形式，且通信双方无法验证彼此身份。而HTTPS作为HTTP的安全演进版本，其通信架构分为两层：底层通过SSL/TLS协议与TCP建立安全通道，上层则承载经过加密处理的HTTP通信。该加密体系采用混合加密机制，即使用服务器数字证书中的公钥对对称会话密钥进行非对称加密传输，实际数据传输阶段则采用高效对称加密算法。相较于HTTP，HTTPS通过双重加密机制显著提升了安全性，但同时也因加解密运算增加了服务器的计算负载。&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

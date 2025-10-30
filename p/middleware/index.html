@@ -1,0 +1,503 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="\n简介 中间件（Middleware） 是 ASP.NET Core 的核心组件，用于处理 HTTP 请求和响应的管道机制。它是基于管道模型的轻量级、模块化设计，允许开发者在请求处理过程中插入自定义逻辑。中间件广泛应用于日志记录、认证授权、异常处理、路由等场景。\n"><title>C#.NET 中间件详解</title><link rel=canonical href=https://MorningCigarette.github.io/p/middleware/><link rel=stylesheet href=/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css><meta property='og:title' content="C#.NET 中间件详解"><meta property='og:description' content="\n简介 中间件（Middleware） 是 ASP.NET Core 的核心组件，用于处理 HTTP 请求和响应的管道机制。它是基于管道模型的轻量级、模块化设计，允许开发者在请求处理过程中插入自定义逻辑。中间件广泛应用于日志记录、认证授权、异常处理、路由等场景。\n"><meta property='og:url' content='https://MorningCigarette.github.io/p/middleware/'><meta property='og:site_name' content='Sutra Library'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2025-10-27T00:00:00+00:00'><meta property='article:modified_time' content='2025-10-27T00:00:00+00:00'><meta name=twitter:title content="C#.NET 中间件详解"><meta name=twitter:description content="\n简介 中间件（Middleware） 是 ASP.NET Core 的核心组件，用于处理 HTTP 请求和响应的管道机制。它是基于管道模型的轻量级、模块化设计，允许开发者在请求处理过程中插入自定义逻辑。中间件广泛应用于日志记录、认证授权、异常处理、路由等场景。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_5ab8cc3a8e310b0d.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Sutra Library</a></h1><h2 class=site-description>Love is the one thing we’re capable of perceiving that transcends time and space.</h2></div></header><ol class=menu-social><li><a href=https://github.com/MorningCigarette target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>about</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><ol><li><a href=#简介>简介</a></li><li><a href=#请求管道request-pipeline>请求管道（Request Pipeline）</a></li><li><a href=#请求委托requestdelegate>请求委托（RequestDelegate）</a></li><li><a href=#短路short-circuiting>短路（Short-Circuiting）</a></li><li><a href=#中间件的注册与类型>中间件的注册与类型</a><ol><li><a href=#注册方式>注册方式</a></li><li><a href=#生命周期管理>生命周期管理</a></li></ol></li><li><a href=#自定义中间件实现>自定义中间件实现</a><ol><li><a href=#基本模板>基本模板</a></li><li><a href=#扩展方法>扩展方法</a></li></ol></li><li><a href=#内置中间件概览>内置中间件概览</a></li><li><a href=#注册顺序与注意事项>注册顺序与注意事项</a></li><li><a href=#终结点与分支>终结点与分支</a></li><li><a href=#进阶用法>进阶用法</a><ol><li><a href=#条件执行>条件执行</a></li><li><a href=#中间件短路>中间件短路</a></li><li><a href=#捕获并处理异常>捕获并处理异常</a></li><li><a href=#分支中间件mapmapwhen>分支中间件（Map/MapWhen）</a></li><li><a href=#终结点中间件run>终结点中间件（Run）</a></li><li><a href=#中间件与依赖注入一>中间件与依赖注入一</a></li><li><a href=#带配置的中间件>带配置的中间件</a></li><li><a href=#中间件工厂-imiddlewarefactory>中间件工厂 (IMiddlewareFactory)</a></li><li><a href=#中间件依赖注入二>中间件依赖注入二</a></li></ol></li><li><a href=#内置中间件>内置中间件</a><ol><li><a href=#内置中间件-1>内置中间件</a></li><li><a href=#异常处理中间件>异常处理中间件</a></li><li><a href=#静态文件中间件>静态文件中间件</a></li></ol></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/c%23/>C#</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/middleware/>C#.NET 中间件详解</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Oct 27, 2025</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 5 分钟</time></div></footer></div></header><section class=article-content><p><img src=https://s2.loli.net/2025/10/27/B1HjQYskyg3Wx7I.png loading=lazy alt=image-20251027155921066></p><h3 id=简介>简介</h3><p>中间件（<code>Middleware</code>） 是 <code>ASP.NET Core</code> 的核心组件，用于处理 <code>HTTP</code> 请求和响应的管道机制。它是基于管道模型的轻量级、模块化设计，允许开发者在请求处理过程中插入自定义逻辑。中间件广泛应用于日志记录、认证授权、异常处理、路由等场景。</p><ul><li>定义：中间件是处理 <code>HTTP</code> 请求和响应的组件，位于服务器接收到请求到最终返回响应之间的“管道”中。</li><li>作用：可用于身份认证、授权、日志、静态文件、异常处理、<code>CORS</code>、压缩、路由等横切关注点。</li><li>职责链：请求依次经过每个中间件，执行“前置逻辑”→调用下一个中间件→执行“后置逻辑”，最终形成责任链。</li></ul><h3 id=请求管道request-pipeline>请求管道（Request Pipeline）</h3><ul><li>构建：在 <code>Startup.Configure(IApplicationBuilder app)</code> 中，通过 <code>app.UseXXX()、app.Run()</code> 等方法，按注册顺序构建一条 <code>RequestDelegate</code> 链。</li><li>执行：框架在收到 <code>HTTP</code> 请求时，从管道头部（第一个中间件）开始执行，直到找到终结点（<code>UseEndpoints/Run</code>）或管道结束。</li><li>短路：中间件可以选择不调用 <code>next()</code>，直接生成响应，阻断后续中间件。</li><li>请求流程：Client → Middleware1 → Middleware2 → &mldr; → Endpoint</li><li>响应流程：Endpoint → &mldr; → Middleware2 → Middleware1 → Client</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>HTTP → [Middleware A] → [Middleware B] → [Middleware C] → Response
+</span></span><span class=line><span class=cl>               ↑                ↓
+</span></span><span class=line><span class=cl>         前置逻辑 A        后置逻辑 B
+</span></span></code></pre></td></tr></table></div></div><h3 id=请求委托requestdelegate>请求委托（RequestDelegate）</h3><p>每个中间件通过 <code>RequestDelegate</code> 封装处理逻辑，接收 <code>HttpContext</code> 并异步执行操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    // 预处理请求
+</span></span><span class=line><span class=cl>    await next(context); // 调用下一个中间件
+</span></span><span class=line><span class=cl>    // 后处理响应
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h3 id=短路short-circuiting>短路（Short-Circuiting）</h3><p>中间件可通过不调用 <code>next()</code> 终止管道，直接返回响应（如静态文件中间件找到文件时）</p><h3 id=中间件的注册与类型>中间件的注册与类型</h3><h4 id=注册方式>注册方式</h4><p>通过 <code>IApplicationBuilder</code> 在 <code>Program.cs</code> 或 <code>Startup.Configure</code> 中注册，顺序决定执行优先级</p><div class=table-wrapper><table><thead><tr><th>方法</th><th>方法</th><th>示例</th></tr></thead><tbody><tr><td><code>Use</code></td><td>添加可调用下一个中间件的组件</td><td><code>app.Use(async (ctx, next) => { ... await next(); ... })</code></td></tr><tr><td><code>Run</code></td><td>添加终端中间件（强制短路）</td><td><code>app.Run(ctx => ctx.Response.WriteAsync("End"))</code></td></tr><tr><td><code>Map</code></td><td>根据路径分支管道</td><td><code>app.Map("/admin", branch => { ... })</code></td></tr><tr><td><code>MapWhen</code></td><td>按条件分支管道</td><td><code>app.MapWhen(ctx => ctx.Request.Query.ContainsKey("log"), branch => ...)</code></td></tr></tbody></table></div><h4 id=生命周期管理>生命周期管理</h4><ul><li>单例构造：中间件类在应用启动时实例化（构造函数仅执行一次）</li><li>按请求执行：<code>Invoke</code> 或 <code>InvokeAsync</code> 方法对每个请求调用一次</li></ul><h3 id=自定义中间件实现>自定义中间件实现</h3><h4 id=基本模板>基本模板</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public class MyMiddleware
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    private readonly RequestDelegate _next;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    public MyMiddleware(RequestDelegate next)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        _next = next;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    public async Task InvokeAsync(HttpContext context)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        // 前置逻辑
+</span></span><span class=line><span class=cl>        // e.g. 日志：Console.WriteLine(&#34;Request start: &#34; + context.Request.Path);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        await _next(context);  // 调用下一个中间件
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        // 后置逻辑
+</span></span><span class=line><span class=cl>        // e.g. 日志：Console.WriteLine(&#34;Request end: &#34; + context.Response.StatusCode);
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h4 id=扩展方法>扩展方法</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public static class MyMiddlewareExtensions
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    public static IApplicationBuilder UseMyMiddleware(this IApplicationBuilder app)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        return app.UseMiddleware&lt;MyMiddleware&gt;();
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>在 <code>Startup.Configure</code> 或 <code>Program</code> 中调用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.UseMyMiddleware();
+</span></span></code></pre></td></tr></table></div></div><h3 id=内置中间件概览>内置中间件概览</h3><div class=table-wrapper><table><thead><tr><th>中间件</th><th>功能</th></tr></thead><tbody><tr><td><code>UseRouting</code> / <code>UseEndpoints</code></td><td>路由匹配与终结点执行</td></tr><tr><td><code>UseStaticFiles</code></td><td>提供静态文件服务</td></tr><tr><td><code>UseAuthentication</code></td><td>验证用户身份</td></tr><tr><td><code>UseAuthorization</code></td><td>授权策略检查</td></tr><tr><td><code>UseCors</code></td><td>跨域请求支持</td></tr><tr><td><code>UseResponseCompression</code></td><td>响应内容压缩</td></tr><tr><td><code>UseSession</code></td><td>会话状态管理</td></tr><tr><td><code>UseExceptionHandler</code> / <code>UseDeveloperExceptionPage</code></td><td>全局异常捕获与开发环境错误页</td></tr><tr><td><code>UseHttpsRedirection</code></td><td>HTTP 自动重定向到 HTTPS</td></tr><tr><td><code>UseForwardedHeaders</code></td><td>X-Forwarded-For / X-Forwarded-Proto 处理</td></tr></tbody></table></div><p>典型的注册顺序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.UseExceptionHandler(&#34;/Error&#34;);      // 异常处理（最先）
+</span></span><span class=line><span class=cl>app.UseHttpsRedirection();             // HTTPS 重定向
+</span></span><span class=line><span class=cl>app.UseStaticFiles();                  // 静态文件
+</span></span><span class=line><span class=cl>app.UseRouting();                      // 路由
+</span></span><span class=line><span class=cl>app.UseAuthentication();               // 认证
+</span></span><span class=line><span class=cl>app.UseAuthorization();                // 授权
+</span></span><span class=line><span class=cl>app.UseEndpoints(endpoints =&gt; {        // 端点处理（最后）
+</span></span><span class=line><span class=cl>    endpoints.MapControllers();
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h3 id=注册顺序与注意事项>注册顺序与注意事项</h3><ul><li><p>异常处理：</p><ul><li><code>UseDeveloperExceptionPage</code>（开发环境）或 <code>UseExceptionHandler</code> 应放在最前面，捕获后续所有异常。</li></ul></li><li><p><code>HTTPS</code> 重定向：</p><ul><li><code>UseHttpsRedirection</code> 需在路由、静态文件之前。</li></ul></li><li><p>静态文件：</p><ul><li>若站点静态资源较多，应尽早调用 <code>UseStaticFiles</code>，避免无谓路由匹配。</li></ul></li><li><p>路由与终结点：</p><ul><li>必须在 <code>UseRouting</code> 后调用 <code>UseAuthentication/UseAuthorization</code>，再调用 <code>UseEndpoints</code>。</li></ul></li></ul><p>示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    if (env.IsDevelopment())
+</span></span><span class=line><span class=cl>        app.UseDeveloperExceptionPage();
+</span></span><span class=line><span class=cl>    else
+</span></span><span class=line><span class=cl>        app.UseExceptionHandler(&#34;/Home/Error&#34;);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    app.UseHttpsRedirection();
+</span></span><span class=line><span class=cl>    app.UseStaticFiles();
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    app.UseRouting();
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    app.UseAuthentication();
+</span></span><span class=line><span class=cl>    app.UseAuthorization();
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    app.UseEndpoints(endpoints =&gt;
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        endpoints.MapControllers();
+</span></span><span class=line><span class=cl>        endpoints.MapRazorPages();
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h3 id=终结点与分支>终结点与分支</h3><ul><li><p>终结点（<code>Endpoint</code>）：<code>UseEndpoints</code> 中注册具体的请求处理，如 <code>MVC</code> 控制器、<code>Razor</code> 页面、<code>SignalR、gRPC</code>。</p></li><li><p>分支管道：<code>app.Map("/path", branch => { /* branch.UseXXX() */ })</code>;</p><ul><li>根据路径或条件，将请求“分流”到不同的子管道。</li></ul></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.Map(&#34;/api&#34;, apiApp =&gt;
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    apiApp.UseRouting();
+</span></span><span class=line><span class=cl>    apiApp.UseAuthorization();
+</span></span><span class=line><span class=cl>    apiApp.UseEndpoints(endpoints =&gt; endpoints.MapControllers());
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h3 id=进阶用法>进阶用法</h3><h4 id=条件执行>条件执行</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.UseWhen(ctx =&gt; ctx.Request.Path.StartsWithSegments(&#34;/mobile&#34;), mobileApp =&gt;
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    mobileApp.UseMiddleware&lt;MobileSpecificMiddleware&gt;();
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h4 id=中间件短路>中间件短路</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.Use(async (ctx, next) =&gt;
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    if (ctx.Request.Path == &#34;/health&#34;)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        ctx.Response.StatusCode = 200;
+</span></span><span class=line><span class=cl>        await ctx.Response.WriteAsync(&#34;OK&#34;);
+</span></span><span class=line><span class=cl>        return;  // 不调用 next，直接返回
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    await next();
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h4 id=捕获并处理异常>捕获并处理异常</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public class ErrorHandlingMiddleware
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    private readonly RequestDelegate _next;
+</span></span><span class=line><span class=cl>    public ErrorHandlingMiddleware(RequestDelegate next) =&gt; _next = next;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    public async Task InvokeAsync(HttpContext ctx)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        try
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            await _next(ctx);
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>        catch (Exception ex)
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            ctx.Response.StatusCode = 500;
+</span></span><span class=line><span class=cl>            await ctx.Response.WriteAsync(&#34;Internal Server Error&#34;);
+</span></span><span class=line><span class=cl>            // TODO: 日志记录 ex
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h4 id=分支中间件mapmapwhen>分支中间件（Map/MapWhen）</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// 基于路径分支
+</span></span><span class=line><span class=cl>app.Map(&#34;/api&#34;, apiApp =&gt; {
+</span></span><span class=line><span class=cl>    apiApp.UseAuthentication();
+</span></span><span class=line><span class=cl>    apiApp.UseEndpoints(endpoints =&gt; {
+</span></span><span class=line><span class=cl>        endpoints.MapControllers();
+</span></span><span class=line><span class=cl>    });
+</span></span><span class=line><span class=cl>});
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 基于条件分支
+</span></span><span class=line><span class=cl>app.MapWhen(context =&gt; context.Request.Query.ContainsKey(&#34;debug&#34;), debugApp =&gt; {
+</span></span><span class=line><span class=cl>    debugApp.UseMiddleware&lt;DebugLoggingMiddleware&gt;();
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h4 id=终结点中间件run>终结点中间件（Run）</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>// 直接终止请求管道，不调用后续中间件
+</span></span><span class=line><span class=cl>app.Run(async context =&gt; {
+</span></span><span class=line><span class=cl>    await context.Response.WriteAsync(&#34;Hello from terminal middleware!&#34;);
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h4 id=中间件与依赖注入一>中间件与依赖注入一</h4><ul><li>在中间件中使用服务</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>AuthenticationMiddleware</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>private</span> <span class=n>readonly</span> <span class=n>RequestDelegate</span> <span class=n>_next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>private</span> <span class=n>readonly</span> <span class=n>IAuthService</span> <span class=n>_authService</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>AuthenticationMiddleware</span><span class=p>(</span><span class=n>RequestDelegate</span> <span class=n>next</span><span class=p>,</span> <span class=n>IAuthService</span> <span class=n>authService</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>_next</span> <span class=o>=</span> <span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>_authService</span> <span class=o>=</span> <span class=n>authService</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>async</span> <span class=n>Task</span> <span class=n>InvokeAsync</span><span class=p>(</span><span class=n>HttpContext</span> <span class=n>context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>token</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Request</span><span class=o>.</span><span class=n>Headers</span><span class=p>[</span><span class=s2>&#34;Authorization&#34;</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>user</span> <span class=o>=</span> <span class=n>await</span> <span class=n>_authService</span><span class=o>.</span><span class=n>ValidateToken</span><span class=p>(</span><span class=n>token</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>context</span><span class=o>.</span><span class=n>User</span> <span class=o>=</span> <span class=n>user</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>await</span> <span class=n>_next</span><span class=p>(</span><span class=n>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>作用域服务注入</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>public</span> <span class=n>async</span> <span class=n>Task</span> <span class=n>InvokeAsync</span><span class=p>(</span><span class=n>HttpContext</span> <span class=n>context</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>手动解析作用域服务</span>
+</span></span><span class=line><span class=cl>    <span class=n>using</span> <span class=p>(</span><span class=k>var</span> <span class=n>scope</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>RequestServices</span><span class=o>.</span><span class=n>CreateScope</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>scopedService</span> <span class=o>=</span> <span class=n>scope</span><span class=o>.</span><span class=n>ServiceProvider</span><span class=o>.</span><span class=n>GetRequiredService</span><span class=o>&lt;</span><span class=n>IScopedService</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>await</span> <span class=n>scopedService</span><span class=o>.</span><span class=n>ProcessRequest</span><span class=p>(</span><span class=n>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>await</span> <span class=n>_next</span><span class=p>(</span><span class=n>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=带配置的中间件>带配置的中间件</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public class CustomHeaderMiddleware
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    private readonly RequestDelegate _next;
+</span></span><span class=line><span class=cl>    private readonly string _headerValue;
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    public CustomHeaderMiddleware(
+</span></span><span class=line><span class=cl>        RequestDelegate next, 
+</span></span><span class=line><span class=cl>        string headerValue) // 配置参数
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        _next = next;
+</span></span><span class=line><span class=cl>        _headerValue = headerValue;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    public async Task Invoke(HttpContext context)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        context.Response.Headers[&#34;X-Custom&#34;] = _headerValue;
+</span></span><span class=line><span class=cl>        await _next(context);
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 注册时传递配置
+</span></span><span class=line><span class=cl>app.UseMiddleware&lt;CustomHeaderMiddleware&gt;(&#34;MyValue&#34;);
+</span></span></code></pre></td></tr></table></div></div><h4 id=中间件工厂-imiddlewarefactory>中间件工厂 (IMiddlewareFactory)</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public class CustomMiddlewareFactory : IMiddlewareFactory
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    public IMiddleware Create(Type middlewareType)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        return ActivatorUtilities.CreateInstance(_serviceProvider, middlewareType) as IMiddleware;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    public void Release(IMiddleware middleware) =&gt; (middleware as IDisposable)?.Dispose();
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// 注册工厂
+</span></span><span class=line><span class=cl>builder.Services.AddSingleton&lt;IMiddlewareFactory, CustomMiddlewareFactory&gt;();
+</span></span></code></pre></td></tr></table></div></div><h4 id=中间件依赖注入二>中间件依赖注入二</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>MyMiddleware</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>private</span> <span class=n>readonly</span> <span class=n>RequestDelegate</span> <span class=n>_next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>private</span> <span class=n>readonly</span> <span class=n>IUserService</span> <span class=n>_userService</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>MyMiddleware</span><span class=p>(</span><span class=n>RequestDelegate</span> <span class=n>next</span><span class=p>,</span> <span class=n>IUserService</span> <span class=n>userService</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>_next</span> <span class=o>=</span> <span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>_userService</span> <span class=o>=</span> <span class=n>userService</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>async</span> <span class=n>Task</span> <span class=n>InvokeAsync</span><span class=p>(</span><span class=n>HttpContext</span> <span class=n>context</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>userName</span> <span class=o>=</span> <span class=n>_userService</span><span class=o>.</span><span class=n>GetUserName</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>await</span> <span class=n>context</span><span class=o>.</span><span class=n>Response</span><span class=o>.</span><span class=n>WriteAsync</span><span class=p>(</span><span class=o>$</span><span class=s2>&#34;User: {userName}&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>await</span> <span class=n>_next</span><span class=p>(</span><span class=n>context</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>public</span> <span class=k>static</span> <span class=k>class</span> <span class=n>MyMiddlewareExtensions</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=k>static</span> <span class=n>IApplicationBuilder</span> <span class=n>UseMyMiddleware</span><span class=p>(</span><span class=n>this</span> <span class=n>IApplicationBuilder</span> <span class=n>builder</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>builder</span><span class=o>.</span><span class=n>UseMiddleware</span><span class=o>&lt;</span><span class=n>MyMiddleware</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span> <span class=err>注册服务</span>
+</span></span><span class=line><span class=cl><span class=n>builder</span><span class=o>.</span><span class=n>Services</span><span class=o>.</span><span class=n>AddScoped</span><span class=o>&lt;</span><span class=n>IUserService</span><span class=p>,</span> <span class=n>UserService</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=n>app</span><span class=o>.</span><span class=n>UseMyMiddleware</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=内置中间件>内置中间件</h3><h4 id=内置中间件-1>内置中间件</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.UseRouting(); // 路由匹配
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>app.UseEndpoints(endpoints =&gt;
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    endpoints.MapControllers(); // API控制器
+</span></span><span class=line><span class=cl>    endpoints.MapRazorPages();  // Razor页面
+</span></span><span class=line><span class=cl>    endpoints.MapHub&lt;ChatHub&gt;(&#34;/chat&#34;); // SignalR
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div><h4 id=异常处理中间件>异常处理中间件</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>app</span><span class=o>.</span><span class=n>UseExceptionHandler</span><span class=p>(</span><span class=n>errorApp</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>errorApp</span><span class=o>.</span><span class=n>Run</span><span class=p>(</span><span class=n>async</span> <span class=n>context</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>exceptionHandler</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Features</span><span class=o>.</span><span class=n>Get</span><span class=o>&lt;</span><span class=n>IExceptionHandlerFeature</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=o>//</span> <span class=err>记录异常</span>
+</span></span><span class=line><span class=cl>        <span class=n>await</span> <span class=n>context</span><span class=o>.</span><span class=n>Response</span><span class=o>.</span><span class=n>WriteAsJsonAsync</span><span class=p>(</span><span class=n>new</span> 
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>Error</span> <span class=o>=</span> <span class=n>exceptionHandler</span><span class=o>.</span><span class=n>Error</span><span class=o>.</span><span class=n>Message</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=静态文件中间件>静态文件中间件</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>app.UseStaticFiles(new StaticFileOptions 
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    FileProvider = new PhysicalFileProvider(
+</span></span><span class=line><span class=cl>        Path.Combine(builder.Environment.ContentRootPath, &#34;Assets&#34;)),
+</span></span><span class=line><span class=cl>    RequestPath = &#34;/static&#34;,
+</span></span><span class=line><span class=cl>    OnPrepareResponse = ctx =&gt; 
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        ctx.Context.Response.Headers.Append(&#34;Cache-Control&#34;, &#34;public,max-age=3600&#34;);
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>});
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/c%23test/><div class=article-details><h2 class=article-title>C#高频面试题</h2></div></a></article><article><a href=/p/pyandcsharp/><div class=article-details><h2 class=article-title>Python 的 self 和 C# 的 this</h2></div></a></article><article><a href=/p/serializationinrestsharp/><div class=article-details><h2 class=article-title>System.Text.Json 和 Newtonsoft.Json 默认序列化时的大小写行为差异</h2></div></a></article><article><a href=/p/asyncawait/><div class=article-details><h2 class=article-title>最容易踩坑的6个async/await 使用错误</h2></div></a></article><article><a href=/p/basic_data_types/><div class=article-details><h2 class=article-title>基本数据类型</h2></div></a></article></div></div></aside><script src=https://giscus.app/client.js data-repo=MorningCigarette/MorningCigarette.github.io data-repo-id=R_kgDOMfZTRw data-category=Announcements data-category-id=DIC_kwDOMfZTR84ChaA8 data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en crossorigin=anonymous async></script><script>function setGiscusTheme(e){let t=document.querySelector("iframe.giscus-frame");t&&t.contentWindow.postMessage({giscus:{setConfig:{theme:e}}},"https://giscus.app")}(function(){addEventListener("message",t=>{if(event.origin!=="https://giscus.app")return;e()}),window.addEventListener("onColorSchemeChange",e);function e(){setGiscusTheme(document.documentElement.dataset.scheme==="light"?"light":"dark")}})()</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Sutra Library</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

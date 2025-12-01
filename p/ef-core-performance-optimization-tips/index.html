@@ -1,0 +1,589 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="使用实例池 EFCore2.0 为DbContext引入新的注册方式：透明地注册了 DbContext实例池，使用这种方式可以避免始终创建新的实例，EF Core 将重置其状态并将其存储在内部池中；当下次请求新的实例时，将返回该共用实例，而不是设置新的实例\n"><title>EF Core性能优化技巧</title><link rel=canonical href=https://MorningCigarette.github.io/p/ef-core-performance-optimization-tips/><link rel=stylesheet href=/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css><meta property='og:title' content="EF Core性能优化技巧"><meta property='og:description' content="使用实例池 EFCore2.0 为DbContext引入新的注册方式：透明地注册了 DbContext实例池，使用这种方式可以避免始终创建新的实例，EF Core 将重置其状态并将其存储在内部池中；当下次请求新的实例时，将返回该共用实例，而不是设置新的实例\n"><meta property='og:url' content='https://MorningCigarette.github.io/p/ef-core-performance-optimization-tips/'><meta property='og:site_name' content='Sutra Library'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2024-08-06T00:00:00+00:00'><meta property='article:modified_time' content='2024-08-06T00:00:00+00:00'><meta name=twitter:title content="EF Core性能优化技巧"><meta name=twitter:description content="使用实例池 EFCore2.0 为DbContext引入新的注册方式：透明地注册了 DbContext实例池，使用这种方式可以避免始终创建新的实例，EF Core 将重置其状态并将其存储在内部池中；当下次请求新的实例时，将返回该共用实例，而不是设置新的实例\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_5ab8cc3a8e310b0d.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Sutra Library</a></h1><h2 class=site-description>Love is the one thing we’re capable of perceiving that transcends time and space.</h2></div></header><ol class=menu-social><li><a href=https://github.com/MorningCigarette target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>about</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#使用实例池>使用实例池</a></li><li><a href=#使用拆分查询>使用拆分查询</a></li><li><a href=#使用批处理语句>使用批处理语句</a><ol><li><a href=#批量删除>批量删除</a></li><li><a href=#批量更新>批量更新</a></li></ol></li><li><a href=#使用非跟踪查询>使用非跟踪查询</a></li><li><a href=#仅投影需要的字段>仅投影需要的字段</a></li><li><a href=#尽量使用异步方法>尽量使用异步方法</a></li><li><a href=#使用find查找单个目标数据>使用Find查找单个目标数据</a></li><li><a href=#使用any判断数据内容>使用Any判断数据内容</a></li><li><a href=#使用流式处理>使用流式处理</a></li><li><a href=#使用sql查询>使用SQL查询</a><ol><li><a href=#基本查询实体>基本查询(实体)</a></li><li><a href=#标量查询非实体>标量查询(非实体)</a></li><li><a href=#执行非查询sql>执行非查询SQL</a></li><li><a href=#sql参数>SQL参数</a></li></ol></li><li><a href=#其他关联性优化>其他关联性优化</a></li><li><a href=#总结>总结</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/efcore/>EFCore</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/ef-core-performance-optimization-tips/>EF Core性能优化技巧</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Aug 06, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 10 分钟</time></div></footer></div></header><section class=article-content><h2 id=使用实例池>使用实例池</h2><p>EFCore2.0 为DbContext引入新的注册方式：透明地注册了 DbContext实例池，使用这种方式可以避免始终创建新的实例，EF Core 将重置其状态并将其存储在内部池中；当下次请求新的实例时，将返回该共用实例，而不是设置新的实例</p><p>使用示例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=n>services</span><span class=p>.</span><span class=n>AddDbContext</span><span class=p>&lt;</span><span class=n>HandshakesWebDBContext</span><span class=p>&gt;(</span><span class=n>options</span> <span class=p>=&gt;</span> <span class=n>options</span><span class=p>.</span><span class=n>UseSqlServer</span><span class=p>(</span><span class=n>connectionConfiguration</span><span class=p>.</span><span class=n>WebDBConnection</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><p>替换为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=n>builder</span><span class=p>.</span><span class=n>Services</span><span class=p>.</span><span class=n>AddDbContextPool</span><span class=p>&lt;</span><span class=n>HandshakesWebDBContext</span><span class=p>&gt;(</span><span class=n>options</span> <span class=p>=&gt;</span> <span class=n>options</span><span class=p>.</span><span class=n>UseSqlServer</span><span class=p>(</span><span class=n>connectionConfiguration</span><span class=p>.</span><span class=n>WebDBConnection</span><span class=p>),</span> <span class=n>poolSize</span><span class=p>:</span> <span class=m>80</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>//注意设置最大连接数，一旦超过默认配置的连接池最大数量，会回退到按需创建实例的行为</span>
+</span></span></code></pre></td></tr></table></div></div><p>基准测试(官方) <a class=link href=https://github.com/dotnet/EntityFramework.Docs/blob/main/samples/core/Benchmarks/ContextPooling.cs target=_blank rel=noopener>测试代码</a>：</p><div class=table-wrapper><table><thead><tr><th>方法</th><th>数量</th><th>平均值</th><th>错误</th><th>标准偏差</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>已分配</th></tr></thead><tbody><tr><td>WithoutContextPooling</td><td>1</td><td>701.6 us</td><td>26.62 us</td><td>78.48 us</td><td>11.7188</td><td>-</td><td>-</td><td>50.38 KB</td></tr><tr><td>WithContextPooling</td><td>1</td><td>350.1 us</td><td>6.80 us</td><td>14.64 us</td><td>0.9766</td><td>-</td><td>-</td><td>4.63 KB</td></tr></tbody></table></div><blockquote><p>注意事项：虽然在大部分情况下这种做法对性能的提升可能并不是非常明显，但是这是一种好的实践方式，避免资源浪费的同时对性能带来一定的提升。</p></blockquote><h2 id=使用拆分查询>使用拆分查询</h2><p>了解什么是 <a class=link href=https://www.wikiwand.com/en/Cartesian_product target=_blank rel=noopener>笛尔卡乘积</a> ?</p><p>通俗地来讲指的是从两个集合(Set)中的元素组成新的配对集合 以麦当劳套餐来比喻,门店将汉堡线和饮品线上的每个产品集合组成一个新的套餐会有多少种套餐</p><p>在数据库中的表现形式正是联表查(join)操作 两个表在数据量不是很大的情况下查询来讲可能对性能影响模棱两可 但是对于一些因业务需求日益增加列的大宽表以及数据存量过大的表来讲就会产生查询过慢以及数据冗余的问题<br>尤其适合一对多且子表数据量较大的场景。</p><p>看一段Linq代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=n>var</span><span class=w> </span><span class=k>data</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>ctx</span><span class=p>.</span><span class=k>As</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>Include</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>Bs</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>Include</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>Cs</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ThenInclude</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>D1s</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>Include</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>Cs</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ThenIncude</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>C1s</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ThenInclude</span><span class=p>(</span><span class=n>x</span><span class=o>=&gt;</span><span class=n>x</span><span class=p>.</span><span class=n>D2s</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ToList</span><span class=p>();</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>监控查看生成的Sql语句：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>A</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>A</span><span class=p>].[</span><span class=n>Name</span><span class=p>],</span><span class=w> 
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=p>[</span><span class=n>B</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>B</span><span class=p>].[</span><span class=n>AId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>B</span><span class=p>].[</span><span class=n>Name</span><span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=p>[</span><span class=k>C</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=k>C</span><span class=p>].[</span><span class=n>AId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=k>C</span><span class=p>].[</span><span class=n>Name</span><span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=p>[</span><span class=n>D1</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>D1</span><span class=p>].[</span><span class=n>CId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>D1</span><span class=p>].[</span><span class=n>Name</span><span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=p>[</span><span class=n>C1</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>C1</span><span class=p>].[</span><span class=n>CId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>C1</span><span class=p>].[</span><span class=n>Name</span><span class=p>],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=p>[</span><span class=n>D2</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>D2</span><span class=p>].[</span><span class=n>C1Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>D2</span><span class=p>].[</span><span class=n>Name</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>A</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>LEFT</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>Bs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>B</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>A</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>B</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>LEFT</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>Cs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=k>C</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>A</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=k>C</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>LEFT</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>D1s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>D1</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=k>C</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>D1</span><span class=p>].[</span><span class=n>CId</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>LEFT</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>C1s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>C1</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=k>C</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>C1</span><span class=p>].[</span><span class=n>CId</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>LEFT</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>D2s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>D2</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>C1</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>D2</span><span class=p>].[</span><span class=n>C1Id</span><span class=p>]</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>毫无疑问，这一段糟糕的sql语句，假设每张表的数据量都很大的情况下，这对查询无疑是一种很大的负担，如果条件再复杂一点，对整个语句的分析也是很糟糕的。<a class=link href=https://cloud.tencent.com/developer/article/2051064 target=_blank rel=noopener>关于阿里开发规范中定义超过3张表的join查询是被禁止的 (未查证)</a>，这个可能只是为了开发规范和管理，从技术角度出发，其实是没有这样的原则性问题的。</p><p>解决方案：使用SplitQuery，从字面意义就可以理解，即将这些join查询拆分成单个查询来执行</p><p>示例代码（推荐）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=n>var</span><span class=w> </span><span class=k>data</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>ctx</span><span class=p>.</span><span class=k>As</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>Include</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>Bs</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>Include</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>Cs</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ThenInclude</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>D1s</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>Include</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>Cs</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ThenIncude</span><span class=p>(</span><span class=n>x</span><span class=w> </span><span class=o>=&gt;</span><span class=w> </span><span class=n>x</span><span class=p>.</span><span class=n>C1s</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ThenInclude</span><span class=p>(</span><span class=n>x</span><span class=o>=&gt;</span><span class=n>x</span><span class=p>.</span><span class=n>D2s</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>AsSplitQuery</span><span class=p>()</span><span class=w> </span><span class=o>//</span><span class=err>设置为拆分查询</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>.</span><span class=n>ToList</span><span class=p>();</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>当然也可以在全局进行配置 (但是一般不推荐这样做，最好根据每个查询的实际情况，使用上面推荐的方式)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=n>builder</span><span class=p>.</span><span class=n>Services</span><span class=p>.</span><span class=n>AddDbContext</span><span class=p>&lt;</span><span class=n>CRSGEntityDbContext</span><span class=p>&gt;(</span><span class=n>options</span> <span class=p>=&gt;</span> <span class=n>options</span><span class=p>.</span><span class=n>UseSqlServer</span><span class=p>(</span><span class=n>builder</span><span class=p>.</span><span class=n>Configuration</span><span class=p>[</span><span class=s>&#34;ConnectionStrings:FiinGroupDB&#34;</span><span class=p>],</span> <span class=n>o</span> <span class=p>=&gt;</span> <span class=n>o</span><span class=p>.</span><span class=n>UseQuerySplittingBehavior</span><span class=p>(</span><span class=n>QuerySplittingBehavior</span><span class=p>.</span><span class=n>SplitQuery</span><span class=p>)));</span>
+</span></span></code></pre></td></tr></table></div></div><p>生成的sql</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>OtherColumns</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>b</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>b</span><span class=p>].[</span><span class=n>AId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>b</span><span class=p>].[</span><span class=n>OtherColumns</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=n>Bs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>b</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>INNER</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>b</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>AId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>OtherColumns</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=n>Cs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>INNER</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>d1</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>d1</span><span class=p>].[</span><span class=n>CId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>d1</span><span class=p>].[</span><span class=n>OtherColumns</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=n>D1s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>d1</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>INNER</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>Cs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>d1</span><span class=p>].[</span><span class=n>CId</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>WHERE</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w> </span><span class=k>IN</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>])</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>].[</span><span class=n>CId</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>].[</span><span class=n>OtherColumns</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=n>C1s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>INNER</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>Cs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>].[</span><span class=n>CId</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>WHERE</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w> </span><span class=k>IN</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>])</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>d2</span><span class=p>].[</span><span class=n>Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>d2</span><span class=p>].[</span><span class=n>C1Id</span><span class=p>],</span><span class=w> </span><span class=p>[</span><span class=n>d2</span><span class=p>].[</span><span class=n>OtherColumns</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=n>D2s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>d2</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>INNER</span><span class=w> </span><span class=k>JOIN</span><span class=w> </span><span class=p>[</span><span class=n>C1s</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>]</span><span class=w> </span><span class=k>ON</span><span class=w> </span><span class=p>[</span><span class=n>d2</span><span class=p>].[</span><span class=n>C1Id</span><span class=p>]</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>WHERE</span><span class=w> </span><span class=p>[</span><span class=n>c1</span><span class=p>].[</span><span class=n>CId</span><span class=p>]</span><span class=w> </span><span class=k>IN</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=n>Cs</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>]</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=p>[</span><span class=k>c</span><span class=p>].[</span><span class=n>AId</span><span class=p>]</span><span class=w> </span><span class=k>IN</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>].[</span><span class=n>Id</span><span class=p>]</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=p>[</span><span class=k>As</span><span class=p>]</span><span class=w> </span><span class=k>AS</span><span class=w> </span><span class=p>[</span><span class=n>a</span><span class=p>]))</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>可以看到查询被拆分成了独立的语句，逻辑更加清晰，对于数据库来说执行效率也会更好。</p><blockquote><p>注意事项：虽然拆分查询可以通过避免笛尔卡爆炸带来的性能问题，但是也需要根据实际的查询场景来决定是否使用，例如，需要对数据进行排序，分页，分组等操作的时候，为了保证查询结果的正确性，就需要考虑是否要使用拆分查询</p></blockquote><p>关联话题：关于懒加载，其实懒加载的问题原因就等同于在循环中执行sql语句，示例代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=c1>//在没有显示加载的情况下，直接循环查询子对象</span>
+</span></span><span class=line><span class=cl><span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>blog</span> <span class=k>in</span> <span class=n>context</span><span class=p>.</span><span class=n>Blogs</span><span class=p>.</span><span class=n>ToList</span><span class=p>())</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>post</span> <span class=k>in</span> <span class=n>blog</span><span class=p>.</span><span class=n>Posts</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;Blog {blog.Url}, Post: {post.Title}&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>观察sql日志：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+</span></span><span class=line><span class=cl>      Executed DbCommand (1ms) [Parameters=[], CommandType=&#39;Text&#39;, CommandTimeout=&#39;30&#39;]
+</span></span><span class=line><span class=cl>      SELECT [b].[BlogId], [b].[Rating], [b].[Url]
+</span></span><span class=line><span class=cl>      FROM [Blogs] AS [b]
+</span></span><span class=line><span class=cl>info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+</span></span><span class=line><span class=cl>      Executed DbCommand (5ms) [Parameters=[@__p_0=&#39;1&#39;], CommandType=&#39;Text&#39;, CommandTimeout=&#39;30&#39;]
+</span></span><span class=line><span class=cl>      SELECT [p].[PostId], [p].[BlogId], [p].[Content], [p].[Title]
+</span></span><span class=line><span class=cl>      FROM [Post] AS [p]
+</span></span><span class=line><span class=cl>      WHERE [p].[BlogId] = @__p_0
+</span></span><span class=line><span class=cl>info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+</span></span><span class=line><span class=cl>      Executed DbCommand (1ms) [Parameters=[@__p_0=&#39;2&#39;], CommandType=&#39;Text&#39;, CommandTimeout=&#39;30&#39;]
+</span></span><span class=line><span class=cl>      SELECT [p].[PostId], [p].[BlogId], [p].[Content], [p].[Title]
+</span></span><span class=line><span class=cl>      FROM [Post] AS [p]
+</span></span><span class=line><span class=cl>      WHERE [p].[BlogId] = @__p_0
+</span></span><span class=line><span class=cl>info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+</span></span><span class=line><span class=cl>      Executed DbCommand (1ms) [Parameters=[@__p_0=&#39;3&#39;], CommandType=&#39;Text&#39;, CommandTimeout=&#39;30&#39;]
+</span></span><span class=line><span class=cl>      SELECT [p].[PostId], [p].[BlogId], [p].[Content], [p].[Title]
+</span></span><span class=line><span class=cl>      FROM [Post] AS [p]
+</span></span><span class=line><span class=cl>      WHERE [p].[BlogId] = @__p_0
+</span></span><span class=line><span class=cl>... and so on
+</span></span></code></pre></td></tr></table></div></div><p>正确的做法即使用Include或者Load显示加载数据。</p><h2 id=使用批处理语句>使用批处理语句</h2><p>批处理语句是EFCore7 版本中更新的重要功能，解决了以往版本需要借助第三方库来实现数据的批量更新，删除操作，而且在性能上带来了更大的提升</p><h3 id=批量删除>批量删除</h3><p>之前版本的做法（不借助第三方库）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>blog</span> <span class=k>in</span> <span class=n>context</span><span class=p>.</span><span class=n>Blogs</span><span class=p>.</span><span class=n>Where</span><span class=p>(</span><span class=n>b</span> <span class=p>=&gt;</span> <span class=n>b</span><span class=p>.</span><span class=n>Rating</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>context</span><span class=p>.</span><span class=n>Blogs</span><span class=p>.</span><span class=n>Remove</span><span class=p>(</span><span class=n>blog</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>context</span><span class=p>.</span><span class=n>SaveChanges</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用ExecuteDelete，无论是从语法上还是性能上，批处理操作都优于前者。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>context.Blogs.Where(b =&gt; b.Rating &lt; 3).ExecuteDelete();
+</span></span></code></pre></td></tr></table></div></div><p>如果是EFCore版本低于7.0，也可以使用直接执行sql语句 ExecuteSqlRaw 的方式来进行操作</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>context.Database.ExecuteSqlRaw(&#34;DELETE FROM [Blogs] WHERE [Rating] &lt; 3&#34;);
+</span></span></code></pre></td></tr></table></div></div><h3 id=批量更新>批量更新</h3><p>用法与Delete 基本相同</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>context.Blogs
+</span></span><span class=line><span class=cl>    .Where(b =&gt; b.Rating &lt; 3)
+</span></span><span class=line><span class=cl>    .ExecuteUpdate(setters =&gt; setters.SetProperty(b =&gt; b.IsVisible, false));
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注意事项：目前仅支持关系型数据库，而且需要由于是及时发送上下文请求，所以如果要支持事务，需要使用显示事务来与其他代码组合</p></blockquote><h2 id=使用非跟踪查询>使用非跟踪查询</h2><p>这个比较简单，在你不需要对查询结果进行任何更新操作的场景下，尽量使用非跟踪查询</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=k>var</span> <span class=n>blogs</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>AsNoTracking</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>或者</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>context</span><span class=o>.</span><span class=n>ChangeTracker</span><span class=o>.</span><span class=n>QueryTrackingBehavior</span> <span class=o>=</span> <span class=n>QueryTrackingBehavior</span><span class=o>.</span><span class=n>NoTracking</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>blogs</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Blogs</span><span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>测试代码</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>//代码执行前已对数据库进行预热处理
+</span></span><span class=line><span class=cl>//执行5次
+</span></span><span class=line><span class=cl>double elapsedTime4 = MeasureTime(() =&gt; context.Blogs.FirstOrDefault(x =&gt; x.Id == 1), 5);
+</span></span><span class=line><span class=cl>double elapsedTime5 = MeasureTime(() =&gt; context.Blogs.AsNoTracking().FirstOrDefault(x =&gt; x.Id == 1), 5);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;Tracked time took : {elapsedTime4} ms&#34;);
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;AsNoTracking() time took : {elapsedTime5} ms&#34;);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//Consoles:
+</span></span><span class=line><span class=cl>//Tracked time took : 318.26 ms
+</span></span><span class=line><span class=cl>//AsNoTracking() time took : 229.86 ms
+</span></span></code></pre></td></tr></table></div></div><h2 id=仅投影需要的字段>仅投影需要的字段</h2><p>严格意义上来讲这是一个意识问题，大多数情况下，为了节省代码量，可以直接使用DataSet 定义的对象来直接进行查询，或者使用Include加载关联表数据，但是在遇到大量数据查询或大量的表连接查询的时候，精准的属性投影对性能就会起到很大的影响</p><p>示例代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=k>var</span> <span class=n>data</span> <span class=o>=</span> <span class=n>ctx</span><span class=o>.</span><span class=n>As</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>x</span> <span class=o>=&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>Name</span><span class=o>.</span><span class=n>StartWith</span><span class=p>(</span><span class=s2>&#34;xxx&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>foreach</span> <span class=p>(</span><span class=k>var</span> <span class=n>item</span> <span class=ow>in</span> <span class=n>data</span><span class=o>.</span><span class=n>Bs</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Console</span><span class=o>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=o>$</span><span class=s2>&#34;Name :{item.Name},Id: {item.Id}&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>上述代码中，我们仅需要查询主表及子表的id和name信息，但是却加载了所有的相关的主表和子表字段，这对性能是一种浪费</p><p>解决方案：通过Select投影需要查询的字段</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=k>var</span> <span class=n>data</span> <span class=o>=</span> <span class=n>ctx</span><span class=o>.</span><span class=n>As</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>x</span> <span class=o>=&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>Id</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>Select</span><span class=p>(</span><span class=n>x</span> <span class=o>=&gt;</span> <span class=n>new</span> <span class=p>{</span><span class=n>x</span><span class=o>.</span><span class=n>Id</span><span class=p>,</span> <span class=n>x</span><span class=o>.</span><span class=n>Name</span><span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>个人习惯性做法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>//</span><span class=mi>1</span><span class=err>，不依赖于数据库外键的设置</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>query</span> <span class=o>=</span> <span class=n>from</span> <span class=n>b</span> <span class=ow>in</span> <span class=n>context</span><span class=o>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>            <span class=n>join</span> <span class=n>c</span> <span class=ow>in</span> <span class=n>context</span><span class=o>.</span><span class=n>Comments</span> <span class=n>on</span> <span class=n>b</span><span class=o>.</span><span class=n>blogId</span> <span class=n>equals</span> <span class=n>c</span><span class=o>.</span><span class=n>blogId</span>
+</span></span><span class=line><span class=cl>            <span class=n>join</span> <span class=n>d</span> <span class=ow>in</span> <span class=n>context</span><span class=o>.</span><span class=n>Posts</span> <span class=n>on</span> <span class=n>d</span><span class=o>.</span><span class=n>commentId</span> <span class=n>equals</span> <span class=n>c</span><span class=o>.</span><span class=n>commentId</span>
+</span></span><span class=line><span class=cl>            <span class=n>select</span> <span class=n>new</span> <span class=n>A</span><span class=p>{</span><span class=n>blogId</span> <span class=o>=</span> <span class=n>b</span><span class=o>.</span><span class=n>blogId</span><span class=p>,</span><span class=n>postId</span> <span class=o>=</span> <span class=n>d</span><span class=o>.</span><span class=n>postId</span><span class=p>,</span><span class=n>postValue</span> <span class=o>=</span> <span class=n>d</span><span class=o>.</span><span class=n>postValue</span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>这种做法对多表联查和大数据量的查询很有用 ,但需要注意的是这种做法并不适合需要更新数据的场景，因为 EF 的更改跟踪仅适用于实体实例。</p></blockquote><h2 id=尽量使用异步方法>尽量使用异步方法</h2><p>EFCore 基本上对所有同步操作方法都提供了对应的异步方法，尽量使用他们避免阻塞，减少对线程的需要和必须发生的线程上下文切换的次数，从而提升性能。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>//</span><span class=n>ToListAsync</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>data</span> <span class=o>=</span> <span class=n>await</span> <span class=n>context</span><span class=o>.</span><span class=n>blogs</span><span class=o>.</span><span class=n>ToListAsync</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=o>//</span><span class=n>FirstOrDefaultAsync</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>item</span> <span class=o>=</span> <span class=n>await</span> <span class=n>context</span><span class=o>.</span><span class=n>blogs</span><span class=o>.</span><span class=n>FirstOrDefaultAsync</span><span class=p>(</span><span class=n>it</span> <span class=o>=&gt;</span> <span class=n>it</span><span class=o>.</span><span class=n>Id</span> <span class=o>==</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>item</span><span class=o>.</span><span class=n>point</span><span class=o>=</span><span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=o>//</span><span class=n>SaveChangesAsync</span>
+</span></span><span class=line><span class=cl><span class=n>await</span> <span class=n>context</span><span class=o>.</span><span class=n>SaveChangesAsync</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=o>//</span><span class=n>AsAsyncEnumerable</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>groupedHighlyRatedBlogs</span> <span class=o>=</span> <span class=n>await</span> <span class=n>context</span><span class=o>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>AsQueryable</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>b</span> <span class=o>=&gt;</span> <span class=n>b</span><span class=o>.</span><span class=n>Rating</span> <span class=o>&gt;</span> <span class=mi>3</span><span class=p>)</span> <span class=o>//</span> <span class=n>server</span><span class=o>-</span><span class=n>evaluated</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>AsAsyncEnumerable</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>GroupBy</span><span class=p>(</span><span class=n>b</span> <span class=o>=&gt;</span> <span class=n>b</span><span class=o>.</span><span class=n>Rating</span><span class=p>)</span> <span class=o>//</span> <span class=n>client</span><span class=o>-</span><span class=n>evaluated</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>ToListAsync</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>异步编程在efcore中在大多数情况被推荐使用，但是需要注意避免使用异步方法查询文本或二进制数据类型的内容，这样反而会引起性能问题(<a class=link href=https://github.com/dotnet/SqlClient target=_blank rel=noopener>sqlclient</a>的问题)，issue报告: <a class=link href=https://github.com/dotnet/efcore/issues/21147 target=_blank rel=noopener>EF Core - Memory and performance issues with async methods</a> <a class=link href=https://github.com/dotnet/SqlClient/issues/593 target=_blank rel=noopener>Reading large data (binary, text) asynchronously is extremely slow</a></p></blockquote><blockquote><p>避免混合使用同步和异步方法，当你的程序请求量较大的时候，很可能导致连接池耗尽，从而引起的性能问题。</p></blockquote><h2 id=使用find查找单个目标数据>使用Find查找单个目标数据</h2><p>设计为在已知主键时高效查找单个实体。 Find 首先检查实体是否已被跟踪，如果是，则立即返回该实体。 只有当未在本地跟踪实体时，才执行数据库查询，而First/FirstOrDefault会立即查询数据库。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>//代码执行前已对数据库进行预热处理
+</span></span><span class=line><span class=cl>double elapsedTime4 = MeasureTime(() =&gt; context.blogs.Find(1);
+</span></span><span class=line><span class=cl>double elapsedTime5 = MeasureTime(() =&gt; context.blogs.Find(1);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;Find() first time took : {elapsedTime4} ms&#34;);
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;Find() second time took : {elapsedTime5} ms&#34;);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//Consoles:
+</span></span><span class=line><span class=cl>//Find() first time took : 268.41 ms
+</span></span><span class=line><span class=cl>//Find() second time took : 0.16 ms
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注意，只能通过键查询的时候可以用。</p></blockquote><h2 id=使用any判断数据内容>使用Any判断数据内容</h2><p>在检查某些数据是否存在的时候，优先使用Any，这样在匹配到第一条数据后，查询就会停止，First因为需要返回数据，增加了数据传输和对象实例化的开销，Count则需要扫描表</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>double elapsedTime1 = MeasureTime(() =&gt; context.Blogs.Any(it =&gt; it.Id == 1));
+</span></span><span class=line><span class=cl>double elapsedTime2 = MeasureTime(() =&gt; context.Blogs.Count(it =&gt; it.Id == 1), 1);
+</span></span><span class=line><span class=cl>double elapsedTime3 = MeasureTime(() =&gt; context.Blogs.FirstOrDefault(it =&gt; it.Id == 1), 1);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;Any() time took: {elapsedTime1} ms&#34;);
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;Count() time took: {elapsedTime2} ms&#34;);
+</span></span><span class=line><span class=cl>Console.WriteLine($&#34;FirstOrDefault() time took: {elapsedTime3} ms&#34;);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//Consoles:
+</span></span><span class=line><span class=cl>//Any() time took: 237.42 ms
+</span></span><span class=line><span class=cl>//Count() time took: 239.69 ms
+</span></span><span class=line><span class=cl>//FirstOrDefault() time took: 258.28 ms
+</span></span></code></pre></td></tr></table></div></div><h2 id=使用流式处理>使用流式处理</h2><p>首先了解什么是缓冲和流式处理</p><ul><li>缓冲：将需要的数据全部加载到内存中，用于后续的业务逻辑处理</li><li>流式处理：按需获取需要的数据并应用到后续的逻辑处理中</li></ul><p>形象的理解，缓冲用水桶把水挑起来，然后倒进缸里，流式处理就是用一根水管把水抽到缸里</p><p>原则上，流式处理查询的内存要求是固定的：无论查询返回 1 行还是 1000 行，内存要求都相同。另一方面，返回的行数越多，缓冲查询需要的内存越多。 对于产生大型结果集的查询，这可能是一个重要的性能因素。 反之，如果你的查询结果量很小，那么使用缓冲的效果可能返回会更好。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>//</span><span class=err>一次性将数据加载出来</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>blogsList</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Posts</span><span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>p</span> <span class=o>=&gt;</span> <span class=n>p</span><span class=o>.</span><span class=n>Title</span><span class=o>.</span><span class=n>StartsWith</span><span class=p>(</span><span class=s2>&#34;A&#34;</span><span class=p>))</span><span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>blogsArray</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Posts</span><span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>p</span> <span class=o>=&gt;</span> <span class=n>p</span><span class=o>.</span><span class=n>Title</span><span class=o>.</span><span class=n>StartsWith</span><span class=p>(</span><span class=s2>&#34;A&#34;</span><span class=p>))</span><span class=o>.</span><span class=n>ToArray</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span><span class=err>使用流式处理，每次处理一行</span>
+</span></span><span class=line><span class=cl><span class=n>foreach</span> <span class=p>(</span><span class=k>var</span> <span class=n>blog</span> <span class=ow>in</span> <span class=n>context</span><span class=o>.</span><span class=n>Posts</span><span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>p</span> <span class=o>=&gt;</span> <span class=n>p</span><span class=o>.</span><span class=n>Title</span><span class=o>.</span><span class=n>StartsWith</span><span class=p>(</span><span class=s2>&#34;A&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span><span class=k>do</span> <span class=n>some</span> <span class=n>things</span><span class=o>...</span>
+</span></span><span class=line><span class=cl>    <span class=n>SomeDotNetMethod</span><span class=p>(</span><span class=n>blog</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span> <span class=err>也可以使用</span><span class=n>AsEnumerable实现</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>doubleFilteredBlogs</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Posts</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>p</span> <span class=o>=&gt;</span> <span class=n>p</span><span class=o>.</span><span class=n>Title</span><span class=o>.</span><span class=n>StartsWith</span><span class=p>(</span><span class=s2>&#34;A&#34;</span><span class=p>))</span> <span class=o>//</span> <span class=err>执行数据库查询</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>AsEnumerable</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>Where</span><span class=p>(</span><span class=n>p</span> <span class=o>=&gt;</span> <span class=n>SomeDotNetMethod</span><span class=p>(</span><span class=n>p</span><span class=p>));</span> <span class=o>//</span><span class=err>执行客户端操作</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>流式处理适合处理大量数据需要进行某些业务逻辑的加工或执行，但是数据库又无法支持响应的方法或函数，这个时候可以适用流式处理来进行操作。</p></blockquote><h2 id=使用sql查询>使用SQL查询</h2><p>在某些特殊的情况下，例如一些复杂的sql查询，无法直接使用linq语法来实现的，EFCore也支持直接使用SQL语句进行查询或数据更新操作</p><h3 id=基本查询实体>基本查询(实体)</h3><p>场景：最终返回的结果与Dataset中定义的实体一致</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>//</span><span class=err>使用</span><span class=n>FromSql</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span><span class=err>执行表查询</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>blogs</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>FromSql</span><span class=p>(</span><span class=o>$</span><span class=s2>&#34;SELECT * FROM dbo.Blogs&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span><span class=err>执行存储过程查询返回实体</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>blogs</span> <span class=o>=</span> <span class=n>context</span><span class=o>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>FromSql</span><span class=p>(</span><span class=o>$</span><span class=s2>&#34;EXECUTE dbo.GetMostPopularBlogs&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=标量查询非实体>标量查询(非实体)</h3><p>场景：最终返回的结果为自定义结构，而非数据库实体</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=c1>//使用SqlQuery</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//执行查询，返回单个字段</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>ids</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>Database</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>SqlQuery</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;(</span><span class=s>$&#34;SELECT [BlogId] FROM [Blogs]&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//执行查询，返回自定义数据结构</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>comments</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>Database</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>SqlQuery</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;(</span><span class=s>$&#34;SELECT b.[BlogId],c.[CommnetContent] FROM [Blogs] b JOIN [Comments] c on b.BlogId = c.BlogId&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=k>class</span> <span class=nc>CustomBlog</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>int</span> <span class=n>BlogId</span>
+</span></span><span class=line><span class=cl>    <span class=kd>public</span> <span class=kt>string</span> <span class=n>CommnetContent</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=执行非查询sql>执行非查询SQL</h3><p>场景：提交更新，删除等操作，不关注返回结果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>//使用ExecuteSql
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>//执行更新
+</span></span><span class=line><span class=cl>context.Database.ExecuteSql($&#34;UPDATE [Blogs] SET [Url] = NULL WHERE Id =1&#34;);
+</span></span><span class=line><span class=cl>//执行删除
+</span></span><span class=line><span class=cl>context.Database.ExecuteSql($&#34;DELETE FROM [Blogs] WHERE Id =1&#34;);
+</span></span></code></pre></td></tr></table></div></div><h3 id=sql参数>SQL参数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=c1>//使用FromSql</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//此代码无效，因为数据库不允许将列名（或架构的任何其他部分）参数化</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>propertyName</span> <span class=p>=</span> <span class=s>&#34;User&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>propertyValue</span> <span class=p>=</span> <span class=s>&#34;johndoe&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>blogs</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>FromSql</span><span class=p>(</span><span class=s>$&#34;SELECT * FROM [Blogs] WHERE {propertyName} = {propertyValue}&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//正确姿势：使用 FromSqlRaw</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>columnName</span> <span class=p>=</span> <span class=s>&#34;Url&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>columnValue</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SqlParameter</span><span class=p>(</span><span class=s>&#34;columnValue&#34;</span><span class=p>,</span> <span class=s>&#34;http://SomeURL&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>blogs</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>Blogs</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>FromSqlRaw</span><span class=p>(</span><span class=s>$&#34;SELECT * FROM [Blogs] WHERE {columnName} = @columnValue&#34;</span><span class=p>,</span> <span class=n>columnValue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=n>ToList</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=其他关联性优化>其他关联性优化</h2><p>除了针对EFCore本身的一些优化技巧之外，还有一些技巧可以帮助我们提升数据查询的效率,我们可以利用vs的调试工具帮助我们监听内存使用,CPU占用率等指标，查找瓶颈，总结主要从以下几个方面进行优化</p><ol><li>尽量避免循环内查询，分析实际的业务逻辑，尽可能的一次性从数据库加载所有需要的数据，再进行循环处理</li><li>分片处理条件数据,例如使用Chunk，使用流式处理大批量的数据集的运算</li><li>使用合理的数据结构，例如在不关注数据顺序的场景下使用Dictionary或HashSet代替List等</li><li>使用缓存减少热点数据的访问（按需设计）</li><li>使用数据表索引及物化视图（数据库）</li><li>采用分库分表，读写分离，使用ES进行检索（架构级优化）</li><li>利用多线程并发提升效率（不到万不得已，慎用）</li></ol><h2 id=总结>总结</h2><p>EFCore的优化主要是从几个方面来进行：<br>1.减少数据库的交互，通过连接复用，上下文缓存等<br>2.减少内存的使用，例如使用流式处理，分页查询等<br>3.降低查询复杂度，尽量在程序中处理复杂的逻辑</p><p>保持良好的编码习惯，使用正确的数据结构和处理逻辑，优化应该是渐进式的，先正确的满足需求，在遇到性能问题的时候借助代码或工具去分析瓶颈，再去进行针对性的优化，不要为了优化而牺牲需求和浪费工作量。</p><p>最后留给大家一段问题代码示例，感兴趣的童鞋可以尝试利用上述手段优化这段代码，看看效率提升有多少：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=kt>var</span> <span class=n>configuration</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConfigurationBuilder</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>SetBasePath</span><span class=p>(</span><span class=n>AppDomain</span><span class=p>.</span><span class=n>CurrentDomain</span><span class=p>.</span><span class=n>BaseDirectory</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>AddUserSecrets</span><span class=p>&lt;</span><span class=n>Program</span><span class=p>&gt;()</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>AddJsonFile</span><span class=p>(</span><span class=s>&#34;appsettings.json&#34;</span><span class=p>,</span> <span class=n>optional</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span> <span class=n>reloadOnChange</span><span class=p>:</span> <span class=kc>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>Build</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>serviceProvider</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ServiceCollection</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>AddDbContext</span><span class=p>&lt;</span><span class=n>YouContext</span><span class=p>&gt;(</span><span class=n>options</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=n>options</span><span class=p>.</span><span class=n>UseSqlServer</span><span class=p>(</span><span class=n>configuration</span><span class=p>[</span><span class=s>&#34;ConnectionStrings:YourContext&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>                        <span class=p>.</span><span class=n>EnableSensitiveDataLogging</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                        <span class=p>.</span><span class=n>UseLoggerFactory</span><span class=p>(</span><span class=n>LoggerFactory</span><span class=p>.</span><span class=n>Create</span><span class=p>(</span><span class=n>builder</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>                            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                                <span class=n>builder</span><span class=p>.</span><span class=n>AddConsole</span><span class=p>().</span><span class=n>AddFilter</span><span class=p>((</span><span class=n>category</span><span class=p>,</span> <span class=n>level</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=n>category</span> <span class=p>==</span> <span class=n>DbLoggerCategory</span><span class=p>.</span><span class=n>Database</span><span class=p>.</span><span class=n>Command</span><span class=p>.</span><span class=n>Name</span> <span class=p>&amp;&amp;</span> <span class=n>level</span> <span class=p>==</span> <span class=n>LogLevel</span><span class=p>.</span><span class=n>Information</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                            <span class=p>})))</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>BuildServiceProvider</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>using</span> <span class=p>(</span><span class=kt>var</span> <span class=n>scope</span> <span class=p>=</span> <span class=n>serviceProvider</span><span class=p>.</span><span class=n>CreateScope</span><span class=p>())</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>context</span> <span class=p>=</span> <span class=n>scope</span><span class=p>.</span><span class=n>ServiceProvider</span><span class=p>.</span><span class=n>GetRequiredService</span><span class=p>&lt;</span><span class=n>YourContext</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=n>context</span><span class=p>.</span><span class=n>Database</span><span class=p>.</span><span class=n>SetCommandTimeout</span><span class=p>(</span><span class=m>999</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kt>var</span> <span class=n>data</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>RELATIONSHIP</span><span class=p>.</span><span class=n>Where</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span><span class=p>.</span><span class=n>workflow_state</span> <span class=p>==</span> <span class=m>3</span><span class=p>).</span><span class=n>OrderBy</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>.</span><span class=n>relationship_guid</span><span class=p>).</span><span class=n>Take</span><span class=p>(</span><span class=m>100000</span><span class=p>).</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=kt>var</span> <span class=n>tempData</span> <span class=p>=</span> <span class=n>data</span><span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=k>new</span> <span class=n>Temp</span> <span class=p>{</span> <span class=n>aId</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>entity_from_guid</span><span class=p>,</span> <span class=n>bId</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>entity_to_guid</span><span class=p>,</span> <span class=n>deg</span> <span class=p>=</span> <span class=m>0</span> <span class=p>}).</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>item</span> <span class=k>in</span> <span class=n>tempData</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>item</span><span class=p>.</span><span class=n>deg</span> <span class=p>=</span> <span class=n>GetInterConnectResult</span><span class=p>(</span><span class=n>item</span><span class=p>.</span><span class=n>aId</span><span class=p>,</span> <span class=n>item</span><span class=p>.</span><span class=n>bId</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>GetInterConnectResult</span><span class=p>(</span><span class=n>Guid</span> <span class=n>aId</span><span class=p>,</span> <span class=n>Guid</span> <span class=n>bId</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>HashSet</span><span class=p>&lt;</span><span class=n>Bo</span><span class=p>&gt;</span> <span class=n>boData</span> <span class=p>=</span> <span class=k>new</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>boData</span><span class=p>.</span><span class=n>Any</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>.</span><span class=n>guid</span> <span class=p>==</span> <span class=n>bId</span><span class=p>))</span> <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=kt>var</span> <span class=n>addIds</span> <span class=p>=</span> <span class=n>boData</span><span class=p>.</span><span class=n>Where</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>.</span><span class=n>deg</span> <span class=p>==</span> <span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>).</span><span class=n>Select</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>.</span><span class=n>guid</span><span class=p>).</span><span class=n>Distinct</span><span class=p>().</span><span class=n>ToList</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=kt>var</span> <span class=n>addRelationships</span> <span class=p>=</span> <span class=n>context</span><span class=p>.</span><span class=n>Table1</span><span class=p>.</span><span class=n>Where</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>addIds</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=n>it</span><span class=p>.</span><span class=n>aid</span><span class=p>)</span> <span class=p>||</span> <span class=n>addIds</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=n>it</span><span class=p>.</span><span class=n>bid</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=kt>var</span> <span class=n>addDegEntities</span> <span class=p>=</span> <span class=n>addRelationships</span><span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=k>new</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>efguid</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>aid</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=n>etguid</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>bid</span>
+</span></span><span class=line><span class=cl>            <span class=p>}).</span><span class=n>Union</span><span class=p>(</span><span class=n>addRelationships</span><span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=k>new</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>efguid</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>bid</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=n>etguid</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>aid</span>
+</span></span><span class=line><span class=cl>            <span class=p>}))</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=k>new</span> <span class=n>Bo</span> <span class=p>{</span> <span class=n>guid</span> <span class=p>=</span> <span class=n>it</span><span class=p>.</span><span class=n>etguid</span><span class=p>,</span> <span class=n>deg</span> <span class=p>=</span> <span class=n>i</span> <span class=p>})</span>
+</span></span><span class=line><span class=cl>            <span class=p>.</span><span class=n>ToHashSet</span><span class=p>()</span> <span class=p>??</span> <span class=k>new</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=n>boData</span><span class=p>.</span><span class=n>UnionWith</span><span class=p>(</span><span class=n>addDegEntities</span> <span class=p>??</span> <span class=k>new</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>boData</span><span class=p>?.</span><span class=n>OrderByDescending</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>.</span><span class=n>deg</span><span class=p>)?.</span><span class=n>FirstOrDefault</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>.</span><span class=n>guid</span><span class=p>.</span><span class=n>Equals</span><span class=p>(</span><span class=n>bId</span><span class=p>))?.</span><span class=n>deg</span> <span class=p>??</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/efcore/><div class=article-details><h2 class=article-title>EFcore</h2></div></a></article><article><a href=/p/efcore-notice/><div class=article-details><h2 class=article-title>Efcore Update-Database显示证书链是由不受信任</h2></div></a></article></div></div></aside><script src=https://giscus.app/client.js data-repo=MorningCigarette/MorningCigarette.github.io data-repo-id=R_kgDOMfZTRw data-category=Announcements data-category-id=DIC_kwDOMfZTR84ChaA8 data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en crossorigin=anonymous async></script><script>function setGiscusTheme(e){let t=document.querySelector("iframe.giscus-frame");t&&t.contentWindow.postMessage({giscus:{setConfig:{theme:e}}},"https://giscus.app")}(function(){addEventListener("message",t=>{if(event.origin!=="https://giscus.app")return;e()}),window.addEventListener("onColorSchemeChange",e);function e(){setGiscusTheme(document.documentElement.dataset.scheme==="light"?"light":"dark")}})()</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Sutra Library</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

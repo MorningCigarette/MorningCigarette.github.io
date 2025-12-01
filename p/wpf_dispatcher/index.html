@@ -1,0 +1,309 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="本文告诉大家几个不同的方法在 WPF 里，使用多线程修改或创建 ObservableCollection 列表的数据\n需要明确的是 WPF 框架下，非 UI 线程直接或间接访问 UI 是不合法的，设计如此。如此设计可以极大规避新手使用多线程造成的多线程安全问题，由于多线程安全的问题难以定位，以及解决多线程问题需要较多的专业知识。一个优秀的框架从设计上，一定需要满足不同层次开发者接入的需求。大部分微软出品的库和框架都是十分照顾到初学者的，因此默认只开单线程模型的 WPF 框架，将在开发者没有经过 Dispatcher 调度器而直接或间接访问或修改 UI 时，抛出异常\n"><title>WPF多线程下跨线程处理ObservableCollection数据</title><link rel=canonical href=https://MorningCigarette.github.io/p/wpf_dispatcher/><link rel=stylesheet href=/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css><meta property='og:title' content="WPF多线程下跨线程处理ObservableCollection数据"><meta property='og:description' content="本文告诉大家几个不同的方法在 WPF 里，使用多线程修改或创建 ObservableCollection 列表的数据\n需要明确的是 WPF 框架下，非 UI 线程直接或间接访问 UI 是不合法的，设计如此。如此设计可以极大规避新手使用多线程造成的多线程安全问题，由于多线程安全的问题难以定位，以及解决多线程问题需要较多的专业知识。一个优秀的框架从设计上，一定需要满足不同层次开发者接入的需求。大部分微软出品的库和框架都是十分照顾到初学者的，因此默认只开单线程模型的 WPF 框架，将在开发者没有经过 Dispatcher 调度器而直接或间接访问或修改 UI 时，抛出异常\n"><meta property='og:url' content='https://MorningCigarette.github.io/p/wpf_dispatcher/'><meta property='og:site_name' content='Sutra Library'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:published_time' content='2023-12-19T00:00:00+00:00'><meta property='article:modified_time' content='2023-12-19T00:00:00+00:00'><meta name=twitter:title content="WPF多线程下跨线程处理ObservableCollection数据"><meta name=twitter:description content="本文告诉大家几个不同的方法在 WPF 里，使用多线程修改或创建 ObservableCollection 列表的数据\n需要明确的是 WPF 框架下，非 UI 线程直接或间接访问 UI 是不合法的，设计如此。如此设计可以极大规避新手使用多线程造成的多线程安全问题，由于多线程安全的问题难以定位，以及解决多线程问题需要较多的专业知识。一个优秀的框架从设计上，一定需要满足不同层次开发者接入的需求。大部分微软出品的库和框架都是十分照顾到初学者的，因此默认只开单线程模型的 WPF 框架，将在开发者没有经过 Dispatcher 调度器而直接或间接访问或修改 UI 时，抛出异常\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_5ab8cc3a8e310b0d.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Sutra Library</a></h1><h2 class=site-description>Love is the one thing we’re capable of perceiving that transcends time and space.</h2></div></header><ol class=menu-social><li><a href=https://github.com/MorningCigarette target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>about</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/wpfmvvm/>WPF&&amp;MVVM</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/wpf_dispatcher/>WPF多线程下跨线程处理ObservableCollection数据</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 19, 2023</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 6 分钟</time></div></footer></div></header><section class=article-content><p>本文告诉大家几个不同的方法在 WPF 里，使用多线程修改或创建 ObservableCollection 列表的数据</p><p>需要明确的是 WPF 框架下，非 UI 线程直接或间接访问 UI 是不合法的，设计如此。如此设计可以极大规避新手使用多线程造成的多线程安全问题，由于多线程安全的问题难以定位，以及解决多线程问题需要较多的专业知识。一个优秀的框架从设计上，一定需要满足不同层次开发者接入的需求。大部分微软出品的库和框架都是十分照顾到初学者的，因此默认只开单线程模型的 WPF 框架，将在开发者没有经过 Dispatcher 调度器而直接或间接访问或修改 UI 时，抛出异常</p><p>理解了以上这一点，也就了解了为什么跨线程处理 ObservableCollection 数据，大多数时候都会抛出 <code>System.NotSupportedException:“该类型的 CollectionView 不支持从调度程序线程以外的线程对其 SourceCollection 进行的更改。”</code> 等异常</p><p>在开始之前，还需要理清另一个概念，那就是 ObservableCollection 是非线程安全的。非线程安全与是否不允许非 UI 线程访问 UI 元素是完全两回事。非线程安全的类型，推荐是单一的时刻，仅有单个线程进行处理，也就是单个线程进行读写等。而 非 UI 线程访问 UI 元素是限制只有 UI 线程才能合法访问 UI 线程创建的元素。具体来说就是 ObservableCollection 是可以在任意线程创建和修改的，但是由于 ObservableCollection 是非线程安全的，因此推荐是单一的时刻，仅有单个线程进行处理。如果 ObservableCollection 被 UI 元素捕获，例如加入到 ItemsSource 里面，那么此时的 ObservableCollection 不仅只能被单一线程处理，还要求这个线程是 UI 线程</p><p>根据以上描述，可以了解到，在 WPF 里面，如果有较多数据量，想要多线程处理 ObservableCollection 集合，可以采用在非 UI 的后台线程创建 ObservableCollection 对象和修改或添加数据，完成之后再加入到 UI 线程</p><p>为了方便说明，本文新建了一个项目，本文的所有代码都可以在本文后面找到获取方法</p><p>添加一个简单的界面来方便说明，代码如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>        &lt;Grid&gt;
+</span></span><span class=line><span class=cl>        &lt;Grid.RowDefinitions&gt;
+</span></span><span class=line><span class=cl>            &lt;RowDefinition&gt;&lt;/RowDefinition&gt;
+</span></span><span class=line><span class=cl>            &lt;RowDefinition Height=&#34;Auto&#34;&gt;&lt;/RowDefinition&gt;
+</span></span><span class=line><span class=cl>        &lt;/Grid.RowDefinitions&gt;
+</span></span><span class=line><span class=cl>        &lt;Grid&gt;
+</span></span><span class=line><span class=cl>            &lt;ListView x:Name=&#34;ListView&#34;&gt;
+</span></span><span class=line><span class=cl>                &lt;ListView.ItemTemplate&gt;
+</span></span><span class=line><span class=cl>                    &lt;DataTemplate&gt;
+</span></span><span class=line><span class=cl>                        &lt;TextBlock Margin=&#34;10,10,10,10&#34; Text=&#34;{Binding}&#34;&gt;&lt;/TextBlock&gt;
+</span></span><span class=line><span class=cl>                    &lt;/DataTemplate&gt;
+</span></span><span class=line><span class=cl>                &lt;/ListView.ItemTemplate&gt;
+</span></span><span class=line><span class=cl>            &lt;/ListView&gt;
+</span></span><span class=line><span class=cl>        &lt;/Grid&gt;
+</span></span><span class=line><span class=cl>        &lt;StackPanel Grid.Row=&#34;1&#34; Orientation=&#34;Horizontal&#34;&gt;
+</span></span><span class=line><span class=cl>            &lt;Button x:Name=&#34;Button1&#34; Margin=&#34;10,10,10,10&#34; Click=&#34;Button1_Click&#34;&gt;方式一&lt;/Button&gt;
+</span></span><span class=line><span class=cl>            &lt;Button x:Name=&#34;Button2&#34; Margin=&#34;10,10,10,10&#34; Click=&#34;Button2_Click&#34;&gt;方式二&lt;/Button&gt;
+</span></span><span class=line><span class=cl>            &lt;Button x:Name=&#34;Button3&#34; Margin=&#34;10,10,10,10&#34; Click=&#34;Button3_Click&#34;&gt;方式三&lt;/Button&gt;
+</span></span><span class=line><span class=cl>        &lt;/StackPanel&gt;
+</span></span><span class=line><span class=cl>    &lt;/Grid&gt;
+</span></span></code></pre></td></tr></table></div></div><p>以上的每个按钮分别代表不同的方法，第一个按钮就是对应开始说的第一个方法。先在后台线程创建 ObservableCollection 对象，然后在后台线程完成处理逻辑，最后赋值给 ListView 的 ItemsSource 属性，实现更新界面逻辑</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl>        <span class=n>private</span> <span class=n>async</span> <span class=n>void</span> <span class=n>Button1_Click</span><span class=p>(</span><span class=n>object</span> <span class=n>sender</span><span class=p>,</span> <span class=n>RoutedEventArgs</span> <span class=n>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>list</span> <span class=o>=</span> <span class=n>await</span> <span class=n>Task</span><span class=o>.</span><span class=n>Run</span><span class=p>(()</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>ObservableCollection</span><span class=o>&lt;</span><span class=n>string</span><span class=o>&gt;</span> <span class=n>data</span> <span class=o>=</span> <span class=n>new</span> <span class=n>ObservableCollection</span><span class=o>&lt;</span><span class=n>string</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=k>for</span> <span class=p>(</span><span class=ne>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>100</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>data</span><span class=o>.</span><span class=n>Add</span><span class=p>(</span><span class=n>Random</span><span class=o>.</span><span class=n>Shared</span><span class=o>.</span><span class=n>Next</span><span class=p>(</span><span class=mi>1000</span><span class=p>)</span><span class=o>.</span><span class=n>ToString</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=o>//</span> <span class=err>以上代码使用</span> <span class=n>await</span> <span class=err>等待，可以自动切回主线程</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>ListView</span><span class=o>.</span><span class=n>ItemsSource</span> <span class=o>=</span> <span class=n>list</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如以上代码，在按钮点击时，进入按钮点击的是 UI 线程。此时在 UI 线程里面，通过 Task.Run 来切换到后台线程，在后台线程完成 list 变量的初始化逻辑。然后再赋值给 ListView 的 ItemsSource 属性</p><p>上面代码符合了上文说的逻辑条件，首先 ObservableCollection 非线程安全，单一的时刻，只有一个线程进行访问。上面代码先是后台线程创建和处理 ObservableCollection 对象，接下来后台线程执行完成，通过 await 自动依靠同步上下文调度到主线程，将后台线程创建的 ObservableCollection 对象赋值给 list 变量，此时的后台线程退出对 ObservableCollection 对象的任何访问，也就是在此单一的时刻，只有后台线程一个线程在访问。接下来进入 <code>ListView.ItemsSource = list</code> 也就是将 list 交给 UI 线程，在此单一的时刻，也只有 UI 线程，一个线程在访问</p><p>在将 ObservableCollection 关联到 UI 线程之前，对 ObservableCollection 的任何处理都不会涉及到访问 UI 元素，因此也就没有了非 UI 线程不能访问 UI 元素的限制。只有在调用 <code>ListView.ItemsSource = list</code> 代码之后，才将 ObservableCollection 关联到 UI 线程。在此代码执行之后，就不能通过后台线程去修改 list 变量对应的对象了，因为此时的修改将会间接在后台线程访问到 UI 元素</p><p>那如果期望是在后台线程处理原有 UI 线程关联的 ObservableCollection 呢？这就是本文的第二个方法。读取 ObservableCollection 的列表元素内容，不会涉及到访问 UI 元素，因此可以在后台线程进行读取列表元素，读取列表元素也就是等于可以对原有的列表拷贝一份</p><p>这里需要再次说明 ObservableCollection 非线程安全，单一的时刻，只有一个线程进行访问才是安全的。换句话说，虽然代码层面上，可以在后台线程拷贝和 UI 线程关联的 ObservableCollection 的列表元素内容，但是此时毕竟 UI 线程和后台线程都拥有访问相同的一个 ObservableCollection 列表的能力，必须从业务上确保只有后台线程在访问，而 UI 线程不会对 ObservableCollection 列表进行任何的改动</p><p>在确保 UI 线程不会改动到 ObservableCollection 列表的时候，可以采用如下方法，在后台线程拷贝一份作为新的 ObservableCollection 对象，然后对此新的对象进行处理。完成之后，再将新的 ObservableCollection 对象赋值给到 UI 进行绑定</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl>        <span class=n>private</span> <span class=n>async</span> <span class=n>void</span> <span class=n>Button2_Click</span><span class=p>(</span><span class=n>object</span> <span class=n>sender</span><span class=p>,</span> <span class=n>RoutedEventArgs</span> <span class=n>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=o>//</span> <span class=err>假定</span> <span class=n>ListView</span><span class=o>.</span><span class=n>ItemsSource</span> <span class=err>存在源了</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>ListView</span><span class=o>.</span><span class=n>ItemsSource</span> <span class=n>is</span> <span class=ow>not</span> <span class=n>ObservableCollection</span><span class=o>&lt;</span><span class=n>string</span><span class=o>&gt;</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=o>//</span> <span class=err>如果假设失败，强行给一个源</span>
+</span></span><span class=line><span class=cl>            <span class=n>list</span> <span class=o>=</span> <span class=n>new</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=n>ListView</span><span class=o>.</span><span class=n>ItemsSource</span> <span class=o>=</span> <span class=n>list</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>newList</span> <span class=o>=</span> <span class=n>await</span> <span class=n>Task</span><span class=o>.</span><span class=n>Run</span><span class=p>(()</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>var</span> <span class=n>data</span> <span class=o>=</span> <span class=n>new</span> <span class=n>ObservableCollection</span><span class=o>&lt;</span><span class=n>string</span><span class=o>&gt;</span><span class=p>(</span><span class=n>list</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=o>//</span> <span class=err>模拟对原有的列表进行处理</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>data</span><span class=o>.</span><span class=n>Count</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>for</span> <span class=p>(</span><span class=ne>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>100</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=n>data</span><span class=o>.</span><span class=n>Move</span><span class=p>(</span><span class=n>Random</span><span class=o>.</span><span class=n>Shared</span><span class=o>.</span><span class=n>Next</span><span class=p>(</span><span class=n>data</span><span class=o>.</span><span class=n>Count</span><span class=p>),</span> <span class=n>Random</span><span class=o>.</span><span class=n>Shared</span><span class=o>.</span><span class=n>Next</span><span class=p>(</span><span class=n>data</span><span class=o>.</span><span class=n>Count</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>ListView</span><span class=o>.</span><span class=n>ItemsSource</span> <span class=o>=</span> <span class=n>newList</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>以上方法可以实现在后台线程对现有的和 UI 绑定的 ObservableCollection 的更改，由于是放在后台线程执行，基本上不需要担心拷贝的耗时</p><p>第三个方法是自己实现一个类似 ObservableCollection 的类型。在 WPF 里面，只要一个集合类型的对象继承了 INotifyCollectionChanged 接口，即可在集合变更的时候，通过 WPF 框架监听 CollectionChanged 事件重新更新 UI 元素，自己实现的代码大概如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>FooList</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span> <span class=p>:</span> <span class=n>Collection</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span><span class=p>,</span> <span class=n>INotifyCollectionChanged</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>void</span> <span class=n>InsertItem</span><span class=p>(</span><span class=ne>int</span> <span class=n>index</span><span class=p>,</span> <span class=n>T</span> <span class=n>item</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>base</span><span class=o>.</span><span class=n>InsertItem</span><span class=p>(</span><span class=n>index</span><span class=p>,</span> <span class=n>item</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>Application</span><span class=o>.</span><span class=n>Current</span><span class=o>.</span><span class=n>Dispatcher</span><span class=o>.</span><span class=n>InvokeAsync</span><span class=p>(()</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>CollectionChanged</span><span class=err>?</span><span class=o>.</span><span class=n>Invoke</span><span class=p>(</span><span class=n>this</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          <span class=n>new</span> <span class=n>NotifyCollectionChangedEventArgs</span><span class=p>(</span><span class=n>NotifyCollectionChangedAction</span><span class=o>.</span><span class=n>Add</span><span class=p>,</span> <span class=n>item</span><span class=p>,</span> <span class=n>index</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>void</span> <span class=n>RemoveItem</span><span class=p>(</span><span class=ne>int</span> <span class=n>index</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>item</span> <span class=o>=</span> <span class=n>this</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>base</span><span class=o>.</span><span class=n>RemoveItem</span><span class=p>(</span><span class=n>index</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>Application</span><span class=o>.</span><span class=n>Current</span><span class=o>.</span><span class=n>Dispatcher</span><span class=o>.</span><span class=n>InvokeAsync</span><span class=p>(()</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>CollectionChanged</span><span class=err>?</span><span class=o>.</span><span class=n>Invoke</span><span class=p>(</span><span class=n>this</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          <span class=n>new</span> <span class=n>NotifyCollectionChangedEventArgs</span><span class=p>(</span><span class=n>NotifyCollectionChangedAction</span><span class=o>.</span><span class=n>Remove</span><span class=p>,</span> <span class=n>item</span><span class=p>,</span> <span class=n>index</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>void</span> <span class=n>SetItem</span><span class=p>(</span><span class=ne>int</span> <span class=n>index</span><span class=p>,</span> <span class=n>T</span> <span class=n>item</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>oldItem</span> <span class=o>=</span> <span class=n>this</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=n>base</span><span class=o>.</span><span class=n>SetItem</span><span class=p>(</span><span class=n>index</span><span class=p>,</span> <span class=n>item</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>Application</span><span class=o>.</span><span class=n>Current</span><span class=o>.</span><span class=n>Dispatcher</span><span class=o>.</span><span class=n>InvokeAsync</span><span class=p>(()</span> <span class=o>=&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>CollectionChanged</span><span class=err>?</span><span class=o>.</span><span class=n>Invoke</span><span class=p>(</span><span class=n>this</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          <span class=n>new</span> <span class=n>NotifyCollectionChangedEventArgs</span><span class=p>(</span><span class=n>NotifyCollectionChangedAction</span><span class=o>.</span><span class=n>Replace</span><span class=p>,</span> <span class=n>item</span><span class=p>,</span> <span class=n>oldItem</span><span class=p>,</span> <span class=n>index</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>event</span> <span class=n>NotifyCollectionChangedEventHandler</span><span class=err>?</span> <span class=n>CollectionChanged</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如上面代码可以看到，在集合变更的代码里面，都通过 Dispatcher 调度到 UI 线程触发事件用来通知。依靠此机制可以实现在后台线程处理时，依然是让此 FooList 对应的对象是绑定在 UI 线程上</p><p>使用 FooList 的例子如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>        private async void Button3_Click(object sender, RoutedEventArgs e)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        if (ListView.ItemsSource is not FooList&lt;string&gt; list)
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            list = new FooList&lt;string&gt;();
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            ListView.ItemsSource = list;
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        await Task.Run(() =&gt;
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            for (int i = 0; i &lt; 100; i++)
+</span></span><span class=line><span class=cl>            {
+</span></span><span class=line><span class=cl>                list.Add(Random.Shared.Next(100).ToString());
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>        });
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        await Task.Delay(TimeSpan.FromSeconds(1));
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        await Task.Run(() =&gt;
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            for (int i = 0; i &lt; 10; i++)
+</span></span><span class=line><span class=cl>            {
+</span></span><span class=line><span class=cl>                list.RemoveAt(i);
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>        });
+</span></span><span class=line><span class=cl>       
+</span></span><span class=line><span class=cl>        await Task.Delay(TimeSpan.FromSeconds(1));
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        await Task.Run(() =&gt;
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            for (int i = 0; i &lt; 10; i++)
+</span></span><span class=line><span class=cl>            {
+</span></span><span class=line><span class=cl>                list[i] = i.ToString();
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>        });
+</span></span><span class=line><span class=cl>    }
+</span></span></code></pre></td></tr></table></div></div><p>以上的 FooList 只是一个例子，用于告诉大家可以使用 INotifyCollectionChanged 的方式自己实现在集合变更的时候通知主线程，而集合的处理本身可以放在其他的线程。但是这个方法在使用的时候，必须关注线程安全问题。例如以上的代码，如果没有关注线程安全，在通知 UI 线程集合变更之后，刚好 UI 线程去读取此集合新的值的时候，集合本身就被其他线程更改了内容，那么此时的逻辑就不是符合预期的</p><p>以上的代码放在 <a class=link href=https://github.com/lindexi/lindexi_gd/tree/df7d9da863047fa0a46bc97e782b054da63fc394/LeejurkawbaicarkeNayqechurcear target=_blank rel=noopener>github</a> 和 <a class=link href=https://gitee.com/lindexi/lindexi_gd/tree/df7d9da863047fa0a46bc97e782b054da63fc394/LeejurkawbaicarkeNayqechurcear target=_blank rel=noopener>gitee</a> 欢迎访问</p><p>可以通过如下方式获取本文的源代码，先创建一个空文件夹，接着使用命令行 cd 命令进入此空文件夹，在命令行里面输入以下代码，即可获取到本文的代码</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>git init
+</span></span><span class=line><span class=cl>git remote add origin https://gitee.com/lindexi/lindexi_gd.git
+</span></span><span class=line><span class=cl>git pull origin df7d9da863047fa0a46bc97e782b054da63fc394
+</span></span></code></pre></td></tr></table></div></div><p>以上使用的是 gitee 的源，如果 gitee 不能访问，请替换为 github 的源</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>git remote remove origin
+</span></span><span class=line><span class=cl>git remote add origin https://github.com/lindexi/lindexi_gd.git
+</span></span></code></pre></td></tr></table></div></div><p>获取代码之后，进入 LeejurkawbaicarkeNayqechurcear 文件夹</p></section><footer class=article-footer><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/observablecollection_and_bindinglist/><div class=article-details><h2 class=article-title>ObservableCollection和BindingList对比</h2></div></a></article><article><a href=/p/datacontentinxaml/><div class=article-details><h2 class=article-title>DataContent in Xaml</h2></div></a></article><article><a href=/p/wpf-injection/><div class=article-details><h2 class=article-title>WPF中的依赖注入方法比较</h2></div></a></article></div></div></aside><script src=https://giscus.app/client.js data-repo=MorningCigarette/MorningCigarette.github.io data-repo-id=R_kgDOMfZTRw data-category=Announcements data-category-id=DIC_kwDOMfZTR84ChaA8 data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=en crossorigin=anonymous async></script><script>function setGiscusTheme(e){let t=document.querySelector("iframe.giscus-frame");t&&t.contentWindow.postMessage({giscus:{setConfig:{theme:e}}},"https://giscus.app")}(function(){addEventListener("message",t=>{if(event.origin!=="https://giscus.app")return;e()}),window.addEventListener("onColorSchemeChange",e);function e(){setGiscusTheme(document.documentElement.dataset.scheme==="light"?"light":"dark")}})()</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Sutra Library</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

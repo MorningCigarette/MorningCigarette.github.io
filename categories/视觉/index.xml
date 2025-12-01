@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>视觉 on Sutra Library</title><link>https://MorningCigarette.github.io/categories/%E8%A7%86%E8%A7%89/</link><description>Recent content in 视觉 on Sutra Library</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 12 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://MorningCigarette.github.io/categories/%E8%A7%86%E8%A7%89/index.xml" rel="self" type="application/rss+xml"/><item><title>Halcon基础</title><link>https://MorningCigarette.github.io/p/halcon1/</link><pubDate>Thu, 12 Jun 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/halcon1/</guid><description>&lt;h2 id="基础知识"&gt;基础知识
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;光学：几何光学，物理光学&lt;/p&gt;
+&lt;p&gt;数学：导数为主的高等数学，矩阵论&lt;/p&gt;
+&lt;h2 id="五种需求"&gt;五种需求：
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;1.识别定位&lt;/p&gt;
+&lt;p&gt;2.符号识别：一二维码，OCR&lt;/p&gt;
+&lt;p&gt;3.测量需求&lt;/p&gt;
+&lt;p&gt;4.缺陷需求（最常见，难度最大）&lt;/p&gt;
+&lt;p&gt;5.手眼标定和抓取（结合运动控制）&lt;/p&gt;
+&lt;h2 id="图像处理一般思路"&gt;图像处理一般思路
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;1.采集&lt;/p&gt;
+&lt;p&gt;2.预处理&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;拉开灰度&lt;/li&gt;
+&lt;li&gt;几何变换&lt;/li&gt;
+&lt;li&gt;去噪：中值滤波，均值滤波，高斯滤波&lt;/li&gt;
+&lt;li&gt;抠图&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;3.图像分割&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;二值化&lt;/li&gt;
+&lt;li&gt;形态学&lt;/li&gt;
+&lt;li&gt;特征选择&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ps：Halcon里区域和图像是不同概念&lt;/p&gt;
+&lt;p&gt;4.识别显示&lt;/p&gt;
+&lt;p&gt;5.通信&lt;/p&gt;
+&lt;h2 id="三大数据类型"&gt;三大数据类型
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;图像，区域，XLD&lt;/p&gt;
+&lt;h2 id="灰度直方图"&gt;灰度直方图
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;勾选“阈值”&lt;/p&gt;
+&lt;p&gt;将灰度值在”绿线和红线之间”的以选定颜色进行填充
+&lt;img src="https://s2.loli.net/2025/06/12/UCZYsDGtubjW6n7.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;勾选“缩放”&lt;/p&gt;
+&lt;p&gt;将把圈定的阈值范围内的直方图均匀拉伸释放到整个直方图轴上
+&lt;img src="https://s2.loli.net/2025/06/12/F2nKR39vsMkCZiu.png"
+loading="lazy"
+alt="img"
+&gt;
+&lt;img src="https://s2.loli.net/2025/06/12/PMOJhvNQ21KCeRd.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="数组语法"&gt;数组语法
+&lt;/h2&gt;&lt;hr&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;* Simple tuple operations
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Tuple1 := [1,2,3,4,5]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Number := |Tuple1|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;SingleElement := Tuple1[3]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Part := Tuple1[1:3]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Copy := Tuple1[0:|Tuple1| - 1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;* Simple tuple operations
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Tuple1 := [1,2,3,4,5]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Number := |Tuple1|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;SingleElement := Tuple1[3]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Part := Tuple1[1:3]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Copy := Tuple1[0:|Tuple1| - 1]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行结果
+&lt;img src="https://s2.loli.net/2025/06/12/8Mx13QkwSV7s5uZ.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;h2 id="读取图片的四种方法"&gt;读取图片的四种方法
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;文件 -&amp;gt; 读取图片&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Image Acquisition -&amp;gt; 自动检测接口（刷新设备）-&amp;gt; Direct show&lt;/code&gt;，从摄像头直接读图&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Image Acquisition -&amp;gt; 选择文件&lt;/code&gt;，从图像文件中读取&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Image Acquisition -&amp;gt; 选择路径&lt;/code&gt;，结合正则表达式读取路径下的图片&lt;/p&gt;
+&lt;p&gt;PS：用Image Acquisition读取时记得点击代码生成
+&lt;img src="https://s2.loli.net/2025/06/12/CLGzTRN4Xom6y8k.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;摄像头抓取模式：在&lt;code&gt;可视化 -&amp;gt; 更新窗口&lt;/code&gt;中调整&lt;/p&gt;
+&lt;p&gt;同步采集：实时抓取，一直抓取&lt;/p&gt;
+&lt;p&gt;异步采集：只等图片处理完后，grab_image才开始抓取&lt;/p&gt;
+&lt;p&gt;PS：更多信息包括双相机采集，可以在&lt;code&gt;案例 -&amp;gt; 方法 -&amp;gt; 图像采集设备&lt;/code&gt;中学习&lt;/p&gt;
+&lt;h2 id="roi感兴趣区域"&gt;ROI（感兴趣区域）
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/12/YxKfIQpq7ir9DFs.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;h2 id="特征检测"&gt;特征检测
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/12/jKMsyDRJ5qliunT.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;p&gt;PS：二值化之后的区域虽然不连通，但仍然认为是一个区域。需要调用connection把区域分割成独立区域，才能进行select_shape，点击特定区域，再进行特征检测，则显示特定区域的特征信息。（connection分割依据（九宫格中的八邻域））&lt;/p&gt;
+&lt;p&gt;若直方图窗口内的直方图不显示&lt;/p&gt;
+&lt;p&gt;1.将程序执行一遍（按完全执行或F5）&lt;/p&gt;
+&lt;p&gt;2.将直方图窗口纵向拉大（这个拉升方案默认把剩余显示区域留给直方图）&lt;/p&gt;
+&lt;h2 id="形态学"&gt;形态学
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;膨胀：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将模板在原图上移动，当除中心点外的模板点，与原图中像素重合时，将中心点变黑。最终结果（当然也能覆盖原图）就是新图&lt;/li&gt;
+&lt;li&gt;效果即扩大了“一圈”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;腐蚀：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将模板在原图上移动，仅有整个结构元素能全部被区域所包含时，保留中心元素点，最终结果即新图能被原图包含&lt;/li&gt;
+&lt;li&gt;效果即缩小了“一圈”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;开运算：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先腐蚀，后膨胀&lt;/li&gt;
+&lt;li&gt;效果：减少像素（弱于腐蚀），断开&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;闭运算：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先膨胀，后腐蚀&lt;/li&gt;
+&lt;li&gt;效果：增加像素（弱于膨胀），连接&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PS：以上是对二值图像而言，而对灰度图像做形态学处理是改变亮暗&lt;/p&gt;
+&lt;h2 id="代码运行事件监测"&gt;代码运行事件监测
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;使用count函数&lt;/li&gt;
+&lt;li&gt;如图使用“性能评测器”&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/12/TezxKvo8ksC7wXH.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;h2 id="结构元素模板选择"&gt;结构元素模板选择
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;要根据感兴趣的图像结构&lt;/li&gt;
+&lt;li&gt;来灵活选择结构元素模板&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;效果展示(以官方例程ball.hdve为例)：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原图
+&lt;img src="https://s2.loli.net/2025/06/12/XeOxK4ZS28Y6GdE.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/li&gt;
+&lt;li&gt;红色-&amp;gt;圆结构元素提取
+&lt;img src="https://s2.loli.net/2025/06/12/UkJFof7byRYqAiQ.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/li&gt;
+&lt;li&gt;绿色-&amp;gt;矩形结构提取
+&lt;img src="https://s2.loli.net/2025/06/12/g4w81aiMmKGZ2Ff.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以知道，想要提取圆的时候，采用圆结构元素能更好保留形态&lt;/p&gt;
+&lt;p&gt;之后采用圆度特征进行进一步的blob提取&lt;/p&gt;
+&lt;h2 id="预处理图像增强"&gt;预处理图像增强
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;一般通过如下几种方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;scale_image: g’ := g * Mult + Add&lt;/p&gt;
+&lt;p&gt;g为当前的灰度值，Mult 为所乘的系数，Add为加的偏移值，由公式可以刊出用scale_image来处理图像是个线性变化，会让黑的地方更黑，亮的地方更亮。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;图像形态学&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;gray_opening&lt;/p&gt;
+&lt;p&gt;结构元素在图像中滑，灰度值最高的值作为新值，有使图像变亮的作用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;gray_closing&lt;/p&gt;
+&lt;p&gt;结构元素在图像中滑，灰度值最低的值作为新值，有使图像变暗的作用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;gray_range_rect&lt;/p&gt;
+&lt;p&gt;用一个矩形结构元素在图像中滑动，新值=(矩形中最大的)灰度值-(矩形中最大的)最小的灰度值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;emphasize: res := round((orig - mean) * Factor) + orig&lt;/p&gt;
+&lt;p&gt;mean代表先对原图进行mean_image后的图像对应的灰度值，&lt;/p&gt;
+&lt;p&gt;orig 代表每幅图对应的灰阶值 ，res代表输出图像的灰阶值&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="凸性"&gt;凸性
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;凸性：图形内任意两点相连，图像上所有的点相连的的线进行点填充&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;函数：shape_trans(Region, RegionTrans, &amp;#39;convex&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;外接矩形：不赘述&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;函数：shape_trans(Region, RegionTrans, &amp;#39;rectangle1&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;PS：rectangle1为平行于窗口的正矩形，rectangle2为斜外接矩形，详见官方手册&lt;/p&gt;
+&lt;p&gt;以下图为例，凸形和外接矩形分别如下&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/12/v4Neal3FsBbHow6.png"
+loading="lazy"
+alt="img"
+&gt; &lt;img src="https://s2.loli.net/2025/06/12/tn5Olj7T8U9zD2Q.png"
+loading="lazy"
+alt="img"
+&gt; &lt;img src="https://s2.loli.net/2025/06/12/wTlHv4dY5PiLAgn.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;h2 id="定位方法"&gt;定位方法
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;Blob分析&lt;/li&gt;
+&lt;li&gt;模板匹配
+&lt;ul&gt;
+&lt;li&gt;通过mark点或特征找出兴趣区域&lt;/li&gt;
+&lt;li&gt;仿射变换到标准位置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="仿射变换"&gt;仿射变换
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;以官方例程check_blister.hdev介绍&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/12/Qn3Xu2B5vPoMOR8.png"
+loading="lazy"
+alt="img"
+&gt; &lt;img src="https://s2.loli.net/2025/06/12/wlnkZrcIdt4O7yx.png"
+loading="lazy"
+alt="img"
+&gt; &lt;img src="https://s2.loli.net/2025/06/12/s2GovKnrytRgSVe.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_update_window&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;off&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;停止更新窗体&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_close_window&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;关闭窗体&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;read_image&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;blister/blister_reference&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_open_window_fit_image&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;WindowHandle&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;窗口大小适应图片&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;access_channel&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Image1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;通道&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;R图&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;threshold&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Image1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Region&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;二值化，灰度直方图工具&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;shape_trans&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Region&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Blister&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;convex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;凸包，内部都被填充&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;orientation_region&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Blister&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;区域方向，获得角度值&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="err"&gt;，范围&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="err"&gt;Π&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;Π&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;area_center&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Blister&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Area1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;获得面积、质心坐标&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;vector_angle_to_rigid&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;HomMat2D&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="err"&gt;获得仿射变换矩阵&lt;/span&gt;&lt;span class="n"&gt;HomMat2D&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;affine_trans_image&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Image2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;HomMat2D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;constant&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;false&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;对图像进行仿射变换，插值算法&lt;/span&gt;&lt;span class="n"&gt;constant&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_update_window&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;on&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;更新窗体&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_update_window&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;off&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;停止更新窗体&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_close_window&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;关闭窗体&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;read_image&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;blister/blister_reference&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_open_window_fit_image&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;WindowHandle&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;窗口大小适应图片&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;access_channel&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Image1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;通道&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="n"&gt;R图&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;threshold&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Image1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Region&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;二值化，灰度直方图工具&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;shape_trans&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Region&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Blister&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;convex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;凸包，内部都被填充&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;orientation_region&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Blister&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;区域方向，获得角度值&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="err"&gt;，范围&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="err"&gt;Π&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="err"&gt;Π&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;area_center&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Blister&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Area1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;获得面积、质心坐标&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;vector_angle_to_rigid&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Column&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;HomMat2D&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="err"&gt;获得仿射变换矩阵&lt;/span&gt;&lt;span class="n"&gt;HomMat2D&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;affine_trans_image&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ImageOrig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Image2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;HomMat2D&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;constant&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;false&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;对图像进行仿射变换，插值算法&lt;/span&gt;&lt;span class="n"&gt;constant&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dev_update_window&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;on&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="err"&gt;更新窗体&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="测量助手"&gt;测量助手
+&lt;/h2&gt;&lt;hr&gt;
+&lt;p&gt;打开方法： &lt;code&gt;助手 -&amp;gt; 打开新的Measure&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/12/lXqBbeMdak6ouKH.png"
+loading="lazy"
+alt="img"
+&gt; &lt;img src="https://s2.loli.net/2025/06/12/lyCx2AbK9LMshJu.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;h2 id="ocr流程"&gt;OCR流程
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;采集&lt;/li&gt;
+&lt;li&gt;预处理，校正&lt;/li&gt;
+&lt;li&gt;分割成独立连通域
+&lt;img src="https://s2.loli.net/2025/06/12/JWKbH92TwgDNpmA.png"
+loading="lazy"
+alt="img"
+&gt;
+如果每个字没有形成独立连通域（如上图），需要使用形态学，使每个汉字的各笔画在各自的一个连通域内，不同的汉字的各笔画在不同的连通域内。如“明≠日月”的关系&lt;/li&gt;
+&lt;li&gt;使用现成的，或训练
+&lt;ul&gt;
+&lt;li&gt;trf文件：文本与字符的关联文件，只是对应关系。可被OCR助手和OCR读取函数读取&lt;/li&gt;
+&lt;li&gt;omc文件：为训练后的文件，可用于识别。不能被OCR助手读取，只能被orc读取函数读取&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;识别&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="色彩识别"&gt;色彩识别
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;RGB转HSV&lt;/p&gt;
+&lt;p&gt;色调（H），饱和度（S），明度（V）&lt;/p&gt;
+&lt;p&gt;主要分析H，S分量
+&lt;img src="https://s2.loli.net/2025/06/12/NdvZfQGreTAU9iF.png"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分类器（另外详细介绍）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="对比度相关算子"&gt;对比度相关算子
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;scale_image&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;emphasize&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gray_range_rect&lt;/code&gt;等（灰度图的形态学变换）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;equ_histo_image&lt;/code&gt;直方图均衡化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="几大门派总结"&gt;几大“门派”总结
+&lt;/h2&gt;&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;基础理论&lt;/li&gt;
+&lt;li&gt;灰度变换&lt;/li&gt;
+&lt;li&gt;增强&lt;/li&gt;
+&lt;li&gt;几何变换&lt;/li&gt;
+&lt;li&gt;分割&lt;/li&gt;
+&lt;li&gt;频域处理&lt;/li&gt;
+&lt;li&gt;形态学&lt;/li&gt;
+&lt;li&gt;复原&lt;/li&gt;
+&lt;li&gt;运动图像&lt;/li&gt;
+&lt;li&gt;图像配准&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>摄像头标定（相机标定）及张正友标定法（张氏标定法）</title><link>https://MorningCigarette.github.io/p/camera_calibration/</link><pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/camera_calibration/</guid><description>&lt;h2 id="标定目的"&gt;标定目的
+&lt;/h2&gt;&lt;p&gt;首先，我们必须要明确一个问题：&lt;strong&gt;为什么需要对摄像头进行标定？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在计算机视觉领域，我们是将三维物体转换到二维平面，这就需要确定&lt;strong&gt;空间物体表面某点的三维几何位置与其在二维图像中对应点之间的相互关系&lt;/strong&gt;，这又需要建立摄像头成像的几何模型，而这些几何模型的参数就是摄像头参数，包括内参、外参、畸变参数等。&lt;/p&gt;
+&lt;p&gt;而我们进行&lt;strong&gt;标定的目的：求出摄像头的内、外参数，以及畸变参数，进而可以建立摄像头成像的几何模型。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;总之，就是寻找图像和现实的数学转换关系，从而可以从图像中测量出实际数据，而在标定完成之后，一般会做两件事：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;由于每个镜头的畸变程度不同，导致成像时的图像会内凹或者外凸，通过标定可以矫正这种镜头畸变，让摄像头能够正确生成矫正后的图像&lt;/li&gt;
+&lt;li&gt;根据获得的图像重构三维场景，即三维重建，使用同一成像几何模型下的多视角二维图像来拟合出三维信息，可以认为是标定的逆过程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么，是不是所有的摄像头都需要标定呢？答案是否。简单来说，像自动驾驶感知摄像头都是需要标定的，因为算法需要提取图像中的信息（物体类别、物体尺寸等）并将该信息参与计算，如果不进行标定工作，那么得到的视野信息就会有误，无法对物体、距离进行准确的判断，而类似于RVM摄像头（倒车影像）、监控摄像头这种类型的摄像头，它的作用仅仅是用于显示图像给人观察，图像信息并不会参与后续的计算，所以无需标定。&lt;/p&gt;
+&lt;p&gt;在介绍标定原理前，我们先介绍摄像头成像原理、四个坐标系、摄像头参数。&lt;/p&gt;
+&lt;h2 id="标定原理"&gt;标定原理
+&lt;/h2&gt;&lt;h3 id="成像原理"&gt;成像原理
+&lt;/h3&gt;&lt;p&gt;我们以最常见的相机为例，相机的成像原理就是小孔成像原理，后续的所有公式推导均是基于该原理进行的。通过该原理我们可以建立模型——针孔模型，如下图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/ApO3kHfuv2o4UEd.jpg"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;p&gt;左侧是相机坐标系，右侧是图像平面，相机所在位置为原点，也是成像小孔所在位置，图像平面与小孔的距离为焦距 f ，焦距的物理意义是：当图像平面与相机距离为 f 时，成像最清晰。 Z 轴为光轴，它垂直于相机平面和图像平面，与图像平面的交点叫主点(&lt;em&gt;Principle point)&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;以针孔模型为基础的坐标变换示意图如下，涉及到四个坐标系：像素坐标系、图像坐标系、相机坐标系、世界坐标系。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/YeqD8UcHhwWkrya.jpg"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;总之，相机成像的原理本质上就是三维空间坐标到二维空间坐标的变换。&lt;strong&gt;所以&lt;/strong&gt;标定的目的&lt;/strong&gt;就是**确定空间物体表面某点的三维几何位置与其在图像中对应点之间的相互关系，建立摄像头成像的几何模型，这些几何模型参数就是摄像头参数。**所以求出摄像头的参数，我们也就基本完成了标定过程。接下来我们介绍4个坐标系。&lt;/p&gt;
+&lt;h3 id="四个坐标系"&gt;四个坐标系
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;像素坐标系$(u,v)$&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;下图便是像素坐标系，像素的坐标就是像素在图像中的位置，水平方向为 $u$ 轴，垂直方向为 $v$ 轴，左上角为顶点 $Op$ ，也被称为远点。像素坐标系反映了摄像头/相机的感光元件（CCD/CMOS）中像素的排列情况，坐标轴单位为像素（Pixel），可以认为一个小方格就代表一块像素。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/WHp5ec7ZUIK4lXm.jpg"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;p&gt;在像素坐标系中，任意一个像素坐标可以表示为 $(u_i,v_i)$ 。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;图像坐标系&lt;/strong&gt;$(x,y)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;像素坐标系下，每个像素的坐标是由像素表示的，但是这种表示方法不能反应图像物体的尺度大小，所以我们需要将像素坐标转换为图像坐标，方法如下：&lt;/p&gt;
+&lt;p&gt;将像素坐标系的原点平移到图像中心，并将中心位置定位图像坐标系的原点 $O_i$ （即图像中心点），图像坐标系的 x 轴与像素坐标系的 u 轴平行且同向， y 轴与 v 轴平行且同向。我们一般描述像素点都是几行几列，所以二者的转换关系为：其中dx和dy表示每一行和每一列分别代表多少mm，即1 pixel=dx mm。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/LDi1e3Z2syxGqwh.jpg"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;摄像头坐标系（相机坐标系）&lt;/strong&gt;$(x_c,y_c,z_c)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;摄像头坐标系也叫相机坐标系，以摄像头的光轴为 z 轴，光线在摄像头光学系统的中心位置（镜头的光心处）就是原点 Oc，相机坐标系的水平轴 xc 和垂直轴 yc 分别和图像坐标系的 x 轴和 y 轴平行，如下图所示，可以发现，相机坐标系是三维坐标系，之前的像素、图像坐标系均为二维坐标系。其中，相机坐标系的原点 Oc 与图像坐标系原点 Oi 连线距离 $O_cO_i=f$ ，也就是摄像头焦距。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/gICQBRWZGVc56JE.jpg"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;世界坐标系&lt;/strong&gt;$(X_w,Y_w,Z_w)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;世界坐标系表达了图像和现实中的真实物体之间的一个映射关系，以此为基准可以描述相机与物体的空间位置，通过世界坐标系转换，我们可以将物体映射在图像中。对于单目视觉而言，就是真实物体尺寸和图像尺寸的映射关系。对于多目视觉而言，就需要明确各个摄像头之间的位置关系，然后将其转换在同一个坐标系下进行计算。世界坐标系如下图所示，原点为 Ow 。&lt;/p&gt;
+&lt;p&gt;当确定唯一且不变的世界坐标系后，后续所有的坐标系都可以通过坐标变换来获得，而当平移或旋转世界坐标系后，通过转换关系可以迅速得到图像在其他坐标系下的信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/uRrXIgMfC2xBWQ9.jpg"
+loading="lazy"
+alt="img"
+&gt;&lt;/p&gt;
+&lt;p&gt;图12 世界坐标系&lt;/p&gt;
+&lt;p&gt;注意： $X_w,Y_w,Z_w$ 轴并不是和其他坐标系的坐标轴平行，而是存在一定的角度和平移关系。&lt;/p&gt;
+&lt;p&gt;从世界坐标系变换到相机坐标系属于刚体变换，即物体不会发生形变，只需要对坐标系进行&lt;strong&gt;平移和旋转&lt;/strong&gt;，当对相机坐标系设定一定的参数，分别绕着 X,Y,Z 轴做平移和旋转后，就可以得到在世界坐标系的坐标。&lt;/p&gt;
+&lt;h2 id="阅读原文"&gt;阅读原文
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://zhuanlan.zhihu.com/p/668358597" target="_blank" rel="noopener"
+&gt;https://zhuanlan.zhihu.com/p/668358597&lt;/a&gt;&lt;/p&gt;</description></item><item><title>小孔成像</title><link>https://MorningCigarette.github.io/p/%E5%B0%8F%E5%AD%94%E6%88%90%E5%83%8F/</link><pubDate>Mon, 09 Jun 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/%E5%B0%8F%E5%AD%94%E6%88%90%E5%83%8F/</guid><description>&lt;h2 id="胶片摄影与数码摄影"&gt;胶片摄影与数码摄影
+&lt;/h2&gt;&lt;p&gt;胶片摄影是把光学镜头的光信号投射到胶片上，
+数码摄影是把光学镜头的光信号投射到&lt;a class="link" href="https://so.csdn.net/so/search?q=%e4%bc%a0%e6%84%9f%e5%99%a8&amp;amp;spm=1001.2101.3001.7020" target="_blank" rel="noopener"
+&gt;传感器&lt;/a&gt;上，传感器把光信号依次处理为电信号和数字信号，片上计算机再把数字信号进行处理
+&lt;img src="https://s2.loli.net/2025/06/09/zTUWDyO8pr3L2kl.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/ois9EQMwhdezcBm.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;h2 id="相机的组成"&gt;相机的组成
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/KbycgqdZQxWSw6i.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;h3 id="只有传感器相机的成像"&gt;只有传感器相机的成像
+&lt;/h3&gt;&lt;p&gt;一棵树所有的点发出的光照射到图像传感器上，最后所成的像为
+&lt;img src="https://s2.loli.net/2025/06/09/lQF3YRcwTXNUr2h.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/MatZFHBj2dJLK6m.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;h2 id="小孔成像"&gt;小孔成像
+&lt;/h2&gt;&lt;p&gt;如果在树和传感器之间放置一个有小孔的挡板呢，只有几束光线可以穿过小孔，所成的像如下，
+&lt;img src="https://s2.loli.net/2025/06/09/hEdIxt4Sfq1BlHN.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;
+有小孔的挡板相当于相机中的挡板，小孔相当于光圈，
+&lt;img src="https://s2.loli.net/2025/06/09/nYkaQvlywe8B4jC.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;h3 id="小孔相机的参数和成像结果"&gt;小孔相机的参数和成像结果
+&lt;/h3&gt;&lt;p&gt;挡板和图像传感器之间的距离为焦距，
+&lt;img src="https://s2.loli.net/2025/06/09/kAosPrz9cyFduGU.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;将成像位置移动到小孔与物体的一侧，便于理解小孔成像的几何模型&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/4BDukZEmPA8CpVJ.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;
+可以把上面的图转成下面的光路图，其中 X X&lt;/p&gt;
+&lt;p&gt;X是真实物体的一个点，相机中心是小孔，小孔与虚拟像平面的距离是焦距，主光轴是小孔与虚拟像平面的垂直线，
+&lt;img src="https://s2.loli.net/2025/06/09/6xWEbGmrfYJwtz9.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;p&gt;也可以把上面的光路图转成下面的形式，其中&lt;/p&gt;
+&lt;p&gt;X是真实物体的点到像圈（小孔）的距离，&lt;/p&gt;
+&lt;p&gt;Y是真实物体的点到主光轴的距离，&lt;/p&gt;
+&lt;p&gt;f是焦距，所以能得出所成像的大小与焦距成正比例关系，&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/GzuKvMSF21lPrb4.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;p&gt;对焦距离减半时，成像尺寸减半，如下图所示，&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/Di4IH2v6yuwKEr7.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;h3 id="关于小孔成像的两个问题"&gt;关于小孔成像的两个问题
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Q1：成像尺寸与对焦距离的关系是什么？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;成像尺寸与对焦距离成正比&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Q2：成像质量与小孔尺寸及对焦距离的关系是什么？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;小孔尺寸增大，图像变模糊&lt;/li&gt;
+&lt;li&gt;小孔尺寸过小，产生衍射模糊&lt;/li&gt;
+&lt;li&gt;小孔尺寸过小，图像变暗&lt;/li&gt;
+&lt;li&gt;只有合适的小孔尺寸，才能得到最高质量的图像&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;越小的孔，意味着越大的傅里叶频谱，也意味着更多的衍射&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/DobiFNYvOZhIMeq.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/gDuNoRWe6q32nF1.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;缩小小孔还会影响光效 – 单位面积传感器的曝光量&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/t8DWQIXepknUvoZ.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;h3 id="小孔成像的缺陷"&gt;小孔成像的缺陷
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://s2.loli.net/2025/06/09/eDJR1vyo2lSP9fF.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;
+&lt;p&gt;改进：
+&lt;img src="https://s2.loli.net/2025/06/09/qTj1tGRNrES89k7.png"
+loading="lazy"
+alt="在这里插入图片描述"
+&gt;&lt;/p&gt;</description></item><item><title>Halcon基础</title><link>https://MorningCigarette.github.io/p/halcon_base/</link><pubDate>Fri, 11 Apr 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/halcon_base/</guid><description>&lt;h2 id="如何在halcon中进行图像配准"&gt;如何在Halcon中进行图像配准？
+&lt;/h2&gt;&lt;p&gt;在 Halcon 中图像配准通常使用 &lt;code&gt;FindShapeModel&lt;/code&gt; 函数，它通过形状匹配来定位模型的位置和角度。&lt;/p&gt;
+&lt;p&gt;首先，通过创建一个形状模型来描述待匹配的图像特征，然后使用 &lt;code&gt;FindShapeModel&lt;/code&gt; 在目标图像中查找匹配。&lt;/p&gt;
+&lt;p&gt;可以设置匹配的精度和容忍度，以提高配准的准确性。配准后，返回模型的位置信息（位置、旋转角度等），使得物体定位更加精准。&lt;/p&gt;
+&lt;h2 id="halcon-中的-region-和-image-的区别是什么"&gt;Halcon 中的 Region 和 Image 的区别是什么？
+&lt;/h2&gt;&lt;p&gt;在Halcon中 &lt;code&gt;Region&lt;/code&gt; 和 &lt;code&gt;Image&lt;/code&gt;是两种不同的数据类型。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Image&lt;/code&gt;表示原始图像数据，包含每个像素的颜色或灰度值；&lt;/p&gt;
+&lt;p&gt;而 &lt;code&gt;Region&lt;/code&gt;则表示图像中的二值化区域，即只包含前景或背景区域。&lt;/p&gt;
+&lt;p&gt;通过阈值处理、形态学操作可以将&lt;code&gt;Image&lt;/code&gt; 转换为&lt;code&gt;Region&lt;/code&gt;，进行区域分析和处理。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Region&lt;/code&gt; 更多地用于形态学、测量、分割等任务，而 &lt;code&gt;Image&lt;/code&gt; 用于图像处理和分析。&lt;/p&gt;
+&lt;h2 id="halcon-中的-reducedomain-函数如何使用"&gt;Halcon 中的 ReduceDomain 函数如何使用？
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;ReduceDomain&lt;/code&gt; 函数用于限制图像的处理区域，创建一个包含感兴趣区域（ROI）的新图像。&lt;/p&gt;
+&lt;p&gt;用户可以指定一个区域（如矩形、圆形等），然后 &lt;code&gt;ReduceDomain&lt;/code&gt;会将图像的域限制在该区域内，后续的图像处理仅在该区域内进行。&lt;/p&gt;
+&lt;p&gt;这对于加速处理和提高计算效率非常有用，特别是在大图像中只需要关注某个特定区域时。&lt;/p&gt;
+&lt;h2 id="如何在-halcon-中计算物体的面积"&gt;如何在 Halcon 中计算物体的面积
+&lt;/h2&gt;&lt;p&gt;在Halcon中，计算物体的面积可以使用 &lt;code&gt;AreaCenter&lt;/code&gt;函数。该函数不仅返回物体的面积，还返回物体的质心坐标。&lt;/p&gt;
+&lt;p&gt;面积的单位通常为像素，用户可以根据需要转换为实际物理单位（如毫米、厘米等）。面积计算通常用于物体计数、尺寸测量和质量控制等应用中。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;AreaCenter&lt;/code&gt;在处理二值图像时尤为常见，可用来计算物体、孔洞或其他感兴趣区域的面积。&lt;/p&gt;
+&lt;h2 id="如何在-halcon-中提取图像的边缘"&gt;如何在 Halcon 中提取图像的边缘？
+&lt;/h2&gt;&lt;p&gt;Halcon 提供了多个函数来提取图像的边缘，常用的函数包括&lt;code&gt;EdgeSubPix&lt;/code&gt;和 &lt;code&gt;EdgeGray&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EdgeSubPix&lt;/code&gt;用于亚像素级边缘检测，它通过更精细的像素估计来获取边缘位置，适合高精度要求的应用。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EdgeGray&lt;/code&gt;则基于图像灰度梯度进行边缘检测，适用于一般的边缘提取任务。&lt;/p&gt;
+&lt;p&gt;边缘检测在物体识别、形状分析和轮廓提取中起着重要作用。&lt;/p&gt;
+&lt;h2 id="halcon-如何处理图像的灰度变换"&gt;Halcon 如何处理图像的灰度变换？
+&lt;/h2&gt;&lt;p&gt;Halcon提供了多种灰度变换函数，如 &lt;code&gt;GammaCorrection&lt;/code&gt;、&lt;code&gt;LogTransformation&lt;/code&gt;、&lt;code&gt;PowerTransformation&lt;/code&gt;等。灰度变换用于调整图像的亮度、对比度或特定的灰度特征。&lt;/p&gt;
+&lt;p&gt;例如，&lt;code&gt;GammaCorrection&lt;/code&gt;可以调整图像的对比度，使图像更适合后续的分析。灰度变换操作通常用于图像增强、对比度调整等，帮助突出图像中的关键信息，改善图像的质量，适应不同的处理需求。&lt;/p&gt;
+&lt;h2 id="halcon-中的-findnccmodel-函数是什么"&gt;Halcon 中的 FindNccModel 函数是什么？
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;FindNccModel&lt;/code&gt;函数用于进行基于模板的图像匹配，利用归一化互相关（NCC）来比较目标图像和模板图像的相似性。&lt;/p&gt;
+&lt;p&gt;该函数在实际应用中常用于定位物体或识别特定形状，适用于模板较小、旋转角度变化较小的场景。&lt;/p&gt;
+&lt;p&gt;用户可以设置匹配精度、匹配方向和容忍度参数，以提高匹配的成功率。此函数广泛应用于工业自动化、视觉检测和质量控制等领域。&lt;/p&gt;
+&lt;h2 id="halcon-中如何使用深度学习进行缺陷检测"&gt;Halcon 中如何使用深度学习进行缺陷检测？
+&lt;/h2&gt;&lt;p&gt;在Halcon中进行缺陷检测时，通常使用深度学习模型来识别产品表面上的缺陷，如裂纹、划痕等。首先，需要收集带标签的正常与缺陷样本。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;TrainDLClassifier&lt;/code&gt;进行训练，模型将学习正常样本的特征以及缺陷样本的特征。完成训练后，使用&lt;code&gt;ClassifyDL&lt;/code&gt;算子对新图像进行缺陷检测。&lt;/p&gt;
+&lt;p&gt;深度学习模型通过学习不同的缺陷类型，能够准确识别并分类缺陷，提高工业生产线上的检测效率。&lt;/p&gt;
+&lt;h2 id="halcon-中如何进行目标检测模型的训练与优化"&gt;Halcon 中如何进行目标检测模型的训练与优化？
+&lt;/h2&gt;&lt;p&gt;在Halcon中，目标检测模型的训练涉及多种数据处理技术。&lt;/p&gt;
+&lt;p&gt;首先，需要准备大量带有标签的训练图像，包括每个物体的边界坐标。Halcon提供&lt;code&gt;TrainObjectDetection&lt;/code&gt;算子进行训练。&lt;/p&gt;
+&lt;p&gt;训练过程中，通过调整学习率、批次大小、训练次数等参数来优化模型。在优化过程中，可以通过验证集上的损失值来判断模型的表现。如果模型过拟合或欠拟合，需调整网络结构、数据增强方法或优化器。&lt;/p&gt;
+&lt;h2 id="halcon-中的目标检测与分类的区别是什么"&gt;Halcon 中的目标检测与分类的区别是什么？
+&lt;/h2&gt;&lt;p&gt;目标检测和分类是计算机视觉中的两个不同任务。目标检测不仅要求分类物体，还需要定位物体的位置（即生成边界）。&lt;/p&gt;
+&lt;p&gt;而分类任务仅需要识别图像中的物体类别。Halcon中的目标检测使用深度学习模型（如YOLO）进行位置和类别的双重预测，而分类任务则使用单一的类别标签。&lt;/p&gt;
+&lt;p&gt;分类关注整体的图像类别，而目标检测注重图像中所有物体的位置与类别。&lt;/p&gt;
+&lt;h2 id="halcon-中的异常检测是如何实现的"&gt;Halcon 中的异常检测是如何实现的？
+&lt;/h2&gt;&lt;p&gt;异常检测（Anomaly Detection）在Halcon中通常使用无监督学习方法来检测图像中的异常模式。&lt;/p&gt;
+&lt;p&gt;在训练阶段，系统会学习到正常样本的特征，并通过计算图像的特征向量来与训练数据中的正常样本进行对比。使用深度学习模型或其他传统的机器学习方法（如支持向量机（SVM））来构建异常检测模型。&lt;/p&gt;
+&lt;p&gt;Halcon中的&lt;code&gt;DetectAnomalies&lt;/code&gt;算子可以帮助快速进行异常检测。该技术广泛应用于工业生产线上的缺陷检测。&lt;/p&gt;
+&lt;h2 id="halcon-中的形态学操作有什么作用如何使用它们进行图像分析"&gt;Halcon 中的形态学操作有什么作用，如何使用它们进行图像分析？
+&lt;/h2&gt;&lt;p&gt;形态学操作主要用于图像的结构分析，常见操作包括膨胀、腐蚀、开运算和闭运算等。&lt;/p&gt;
+&lt;p&gt;在Halcon中，形态学操作用于去噪、连接物体、提取轮廓等任务。膨胀和腐蚀算子主要用于对图像的结构进行调整，开闭运算可以帮助去除噪声或填补空洞。&lt;/p&gt;
+&lt;p&gt;通过组合这些操作，能够从复杂的图像中提取出所需的特征并进行后续分析。&lt;/p&gt;
+&lt;h2 id="halcon-如何处理非规则物体的测量"&gt;Halcon 如何处理非规则物体的测量？
+&lt;/h2&gt;&lt;p&gt;对于非规则物体的测量，Halcon可以使用轮廓分析和形态学操作。&lt;/p&gt;
+&lt;p&gt;通过提取物体的边缘信息，并使用拟合算子（如拟合曲线、拟合圆等），可以从不规则形状中提取出关键信息。对于复杂的非规则物体，通常需要多步骤处理，如先通过边缘检测提取大致形状，再通过细化算法提取物体的精细特征，最后进行尺寸计算。&lt;/p&gt;
+&lt;h2 id="在halcon中如何处理噪声"&gt;在Halcon中如何处理噪声？
+&lt;/h2&gt;&lt;p&gt;Halcon提供多种去噪手段，包括中值滤波、高斯滤波等。中值滤波适用于去除椒盐噪声，而高斯滤波则适用于去除高斯噪声。&lt;/p&gt;
+&lt;p&gt;对于复杂的噪声，可以使用形态学滤波算子，如开运算和闭运算，这有助于去除小的噪点或连接分离的物体。&lt;/p&gt;
+&lt;p&gt;此外，Halcon还提供了图像质量评估工具，用于分析图像中的噪声类型和程度，从而选择合适的去噪方法。&lt;/p&gt;
+&lt;h2 id="halcon-中如何进行颜色检测与分析"&gt;Halcon 中如何进行颜色检测与分析？
+&lt;/h2&gt;&lt;p&gt;在Halcon中，颜色检测通常需要先进行颜色空间转换（例如从RGB到HSV或Lab颜色空间），然后通过颜色分割来提取感兴趣区域。&lt;/p&gt;
+&lt;p&gt;常用的颜色分割算子如&lt;code&gt;Thresho1d&lt;/code&gt;可以根据指定的颜色范围来提取目标区域。此外，Halcon还提供了颜色直方图分析、颜色匹配和颜色区域分析等功能，可以帮助在复杂背景下进行准确的颜色识别。&lt;/p&gt;
+&lt;h2 id="halcon-如何通过模板匹配进行物体定位"&gt;Halcon 如何通过模板匹配进行物体定位？
+&lt;/h2&gt;&lt;p&gt;在Halcon中，模板匹配是一种通过已知模板图像定位物体的技术。使用FindShapeMode1算子，可以通过图像中的形状特征匹配来定位目标物体。&lt;/p&gt;
+&lt;p&gt;模板匹配的基本步骤包括：首先，创建模板图像（可以是目标物体的二维图像），然后，通过图像处理算法提取出该模板的形状特征。&lt;/p&gt;
+&lt;p&gt;匹配过程中，Halcon会根据这些特征在待检测图像中找到相似的区域，并返回匹配的位置、角度和尺度信息。&lt;/p&gt;
+&lt;h2 id="在halcon中如何进行物体的角度测量"&gt;在Halcon中如何进行物体的角度测量？
+&lt;/h2&gt;&lt;p&gt;Halcon中进行角度测量通常需要首先通过边缘检测或拟合算子提取物体的边缘或特征。然后，可以使用&lt;code&gt;Ang1e&lt;/code&gt;算子来计算两条边缘或两条拟合直线之间的角度。该角度的单位可以设置为度或弧度。&lt;/p&gt;
+&lt;p&gt;通过多点拟合方法，可以更精确地获取物体的角度，特别是在物体存在旋转或倾斜的情况下。&lt;/p&gt;
+&lt;h2 id="在halcon中如何实现直线拟合"&gt;在Halcon中如何实现直线拟合？
+&lt;/h2&gt;&lt;p&gt;在Halcon中，直线拟合通过算子FitLine来实现。该算子可以根据给定的点集拟合出最佳拟合直线。&lt;/p&gt;
+&lt;p&gt;具体步骤包括：首先通过边缘检测或阈值分割得到一系列点，然后使用FitLine算法根据这些点的坐 标信息来计算最佳拟合直线。拟合结果包括直线的斜率、截距以及拟合的误差。Halcon还提供了不同的拟合精度选项，可以根据需求调整。&lt;/p&gt;
+&lt;h2 id="halcon中的边缘检测算法有哪几种"&gt;Halcon中的边缘检测算法有哪几种？
+&lt;/h2&gt;&lt;p&gt;Halcon提供多种边缘检测算法，以适应不同的图像和应用场景。常见的边缘检测算法包括&lt;code&gt;Sobel&lt;/code&gt;、&lt;code&gt;Prewitt&lt;/code&gt;、&lt;code&gt;Canny&lt;/code&gt;和&lt;code&gt;Laplacian&lt;/code&gt;等。&lt;/p&gt;
+&lt;p&gt;每种算法的原理不同，&lt;code&gt;Sobel&lt;/code&gt;和&lt;code&gt;Prewitt&lt;/code&gt;算子主要用于检测图像中的梯度变化，适合检测较为明显的边缘；&lt;code&gt;Canny&lt;/code&gt;算子则是一种多阶段算法，能够检测到更精细的边缘，且不易受噪声影响。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Laplacian&lt;/code&gt;算子则可以用于检测图像中的二阶导数变化，适合用于细节检测。&lt;/p&gt;
+&lt;h2 id="halcon如何进行二维码条形码的读取"&gt;Halcon如何进行二维码/条形码的读取？
+&lt;/h2&gt;&lt;p&gt;在Halcon中，读取二维码和条形码非常直接。使用相关的条形码读取算子，如&lt;code&gt;FindBarcode&lt;/code&gt;和 &lt;code&gt;FindQRCode&lt;/code&gt;，它们可以快速地从图像中检测到条形码或二维码。&lt;/p&gt;
+&lt;p&gt;读取过程中，Halcon会首先定位条形码的边界，进行解码，并返回编码信息。为了提高读取的准确性，图像预处理步骤（如对比度增强或去噪）通常是必须的，尤其在图像质量较差的情况下。&lt;/p&gt;</description></item><item><title>手眼标定</title><link>https://MorningCigarette.github.io/p/eye_to_handle/</link><pubDate>Tue, 04 Mar 2025 00:00:00 +0000</pubDate><guid>https://MorningCigarette.github.io/p/eye_to_handle/</guid><description>&lt;h1 id="手眼标定原理"&gt;手眼标定原理
+&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;手眼标定&lt;/strong&gt;是指求解出工业机器人的末端坐标系与相机坐标系之间的坐标变换关系，或者工业机器人的基底坐标系与相机坐标系之间的坐标变换关系。手眼标定有两种情形：第一种是相机（眼）固定在机器臂（手）的末端，相机相对于机器臂末端是固定的，相机跟随机器臂移动，这种方式的手眼标定成为 Eye-in-hand；第二种是相机（眼）和机器臂（手）分离，相机相对于工业机器人的基座是固定的，机器臂的运动对相机没有影响, 这种方式的手眼标定成为 Eye-to-hand。&lt;/p&gt;
+&lt;h2 id="眼在手上的手眼标定"&gt;眼在手上的手眼标定
+&lt;/h2&gt;&lt;p&gt;对于 Eye-in-hand 手眼标定方式，需要求解工业机器人的末端坐标系与相机坐标系之间的坐标转换关系。 Eye-in-hand 手眼标定的原理示意图如图 1所示。这其中有几个坐标系， 基础坐标系（用 base 表示） 是机器臂的基底坐标系，末端坐标系（用 end 表示） 是机器臂的末端坐标系， 相机坐标系（用 cam 表示） 是固定在机器臂上面的相机自身坐标系，标定物坐标系（用 cal 表示）是标定板所在的坐标系。任意移动两次机器臂，由于标定板和机器臂的基底是不动的，因此对于某个世界点，其在 base 坐标系和 cal 坐标系下的坐标值不变，在 end 坐标系和 cam 坐标系下的坐标值随着机器臂的运动而改变。根据这一关系，可以求解出end坐标系和 cam 坐标系之间的转换矩阵。具体求解过程如下。&lt;br&gt;
+&lt;img src="https://s2.loli.net/2025/03/04/1hId8cwuoa7U9iB.png"
+loading="lazy"
+alt="image-20250304160944670"
+&gt;&lt;/p&gt;
+&lt;p&gt;对于手眼标定矩阵的求解，即求解出 end 坐标系和 cam 坐标系之间的转换矩阵，目前有许多方法，基本原理都是根据上述约束关系来求解的。 cal 坐标系下的某个点 P&lt;del&gt;0&lt;/del&gt; ，根据已知的相机外参（转换矩阵T &lt;del&gt;1&lt;/del&gt;）能够转换到 cam 坐标系下点 P&lt;del&gt;1&lt;/del&gt;,再根据待求的手眼标定矩阵（转换矩阵 X ）能够转换到 end 坐标系下点 P&lt;del&gt;2&lt;/del&gt;，然后根据已知的机器人自身参数（转换矩阵T&lt;del&gt;3&lt;/del&gt;）能够转换到 base 坐标系下点 P&lt;del&gt;3&lt;/del&gt;。因此能够得到关系式如下：
+$$
+T_3XT_1P_0=P_3
+$$
+移动机器臂，对于同一点，P&lt;del&gt;0&lt;/del&gt; 和P&lt;del&gt;3&lt;/del&gt;的坐标值不变，只是P&lt;del&gt;1&lt;/del&gt; 和P&lt;del&gt;2&lt;/del&gt; 的坐标值改变了，上述关系式变为如下形式：
+$$
+T_3^\prime XT_1^\prime P_0=P_3
+$$
+上式中$ T_3^\prime $和$ T_1^\prime$同样是第二次测量的已知参数。联立(1)和(2)式可以得到如下关系式
+$$
+T_3XT_1=T3^\prime XT_1^\prime
+$$&lt;/p&gt;
+&lt;p&gt;对式(3)变换一下，得：
+$$
+T_3^ {\prime-1}T_3X=XT_1^\prime T_1^{-1}
+$$
+上式可以看成$ A X = X B $方程形式，且矩阵$ A=T_3^{\prime-1}T_3 $和$ B=T_1^\prime T_1^{-1} $都是已知的。对手眼标定方程$ A X = X B $求解，即可得到手眼转换矩阵X的值&lt;/p&gt;</description></item></channel></rss>
